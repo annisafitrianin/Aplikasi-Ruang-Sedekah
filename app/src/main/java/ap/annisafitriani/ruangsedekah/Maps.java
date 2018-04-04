@@ -21,6 +21,8 @@ public class Maps extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+
+        //TODO: masukin map kedalam xml dan buat basic logic untuk dapetin marker.pake tutorial awal
         View view = inflater.inflate(R.layout.fragment_maps, container, false);
         return view;
     }
