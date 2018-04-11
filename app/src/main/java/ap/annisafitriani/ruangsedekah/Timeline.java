@@ -2,30 +2,37 @@ package ap.annisafitriani.ruangsedekah;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class Timeline extends Fragment{
+import java.util.ArrayList;
 
-    public Timeline() {
-        // Required empty public constructor
-    }
+
+public class Timeline extends AppCompatActivity {
+    private RecyclerView rvCategory;
+    private ArrayList<Marker>list;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.fragment_timeline);
+        rvCategory = (RecyclerView)findViewById(R.id.rv_category);
+        rvCategory.setHasFixedSize(true);
+
+        list = new ArrayList<>();
+        list.addAll(MarkerModel.getListData());
+
+        showRecyclerList();
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        /*TODO: buat item-row dan data model(pojo) dulu. kalau bisa langsung implementasikan.
-           sumbernya dicodingg
-        */
-        View view = inflater.inflate(R.layout.fragment_timeline, container, false);
-        return view;
+    private void showRecyclerList(){
+        rvCategory.setLayoutManager(new LinearLayoutManager(this));
+        ListMarkAdapter listMarkAdapter= new ListMarkAdapter(this);
+        listMarkAdapter.setListPresident(list);
+        rvCategory.setAdapter(listMarkAdapter);
     }
-
 }

@@ -10,6 +10,6 @@ public class RegistrationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
 
-        //TODO: pindahin layout registrasi ke layout activity_registration
+
     }
 }
