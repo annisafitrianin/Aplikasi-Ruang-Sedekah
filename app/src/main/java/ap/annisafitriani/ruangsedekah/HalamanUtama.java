@@ -50,6 +50,7 @@ public class HalamanUtama extends AppCompatActivity {
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new Maps(), "MAPS");
+        //TODO: harusnya Timeline itu fragment bukan activity
         adapter.addFragment(new Timeline(), "TIMELINE");
         adapter.addFragment(new Notification(), "NOTIFICATION");
         viewPager.setAdapter(adapter);

@@ -31,7 +31,7 @@ public class Timeline extends AppCompatActivity {
 
     private void showRecyclerList(){
         rvCategory.setLayoutManager(new LinearLayoutManager(this));
-        ListMarkAdapter listMarkAdapter= new ListMarkAdapter(this);
+        ListMarkerAdapter listMarkAdapter= new ListMarkerAdapter(this);
         listMarkAdapter.setListPresident(list);
         rvCategory.setAdapter(listMarkAdapter);
     }

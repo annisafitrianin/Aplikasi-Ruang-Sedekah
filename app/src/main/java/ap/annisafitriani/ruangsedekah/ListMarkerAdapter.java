@@ -42,6 +42,7 @@ public class ListMarkerAdapter extends RecyclerView.Adapter<ListMarkerAdapter.Ca
         holder.tvName.setText(getListPresident().get(position).getName());
         holder.tvRemarks.setText(getListPresident().get(position).getRemarks());
 
+        //TODO tambahin library Glide
         Glide.with(context)
                 .load(getListPresident().get(position).getPhoto())
                 .override(55, 55)
