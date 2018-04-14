@@ -7,6 +7,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 
 
@@ -16,9 +18,13 @@ import java.util.List;
 
 public class HalamanUtama extends AppCompatActivity {
 
+    private RecyclerView rvCategory;
+    private ArrayList<Marker>list;
+
     private Toolbar toolbar;
     private TabLayout tabLayout;
     private ViewPager viewPager;
+    private ViewPagerAdapter adapter;
     private int[] tabIcons = {
             R.drawable.ic_maps,
             R.drawable.ic_timeline,
@@ -39,7 +45,12 @@ public class HalamanUtama extends AppCompatActivity {
 
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
+        adapter = new ViewPagerAdapter(getSupportFragmentManager());
         setupTabIcons();
+
+
+        //TODO: pindahin codingan dibawah kedalam frgamennt timeline dan notificati0n
+
     }
     private void setupTabIcons() {
         tabLayout.getTabAt(0).setIcon(tabIcons[0]);
@@ -50,8 +61,7 @@ public class HalamanUtama extends AppCompatActivity {
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new Maps(), "MAPS");
-        //TODO: harusnya Timeline itu fragment bukan activity
-        adapter.addFragment(new Timeline(), "TIMELINE");
+        adapter.addFragment(new TimelineFragment(), "TIMELINE");
         adapter.addFragment(new Notification(), "NOTIFICATION");
         viewPager.setAdapter(adapter);
     }
@@ -84,4 +94,5 @@ public class HalamanUtama extends AppCompatActivity {
             return mFragmentTitleList.get(position);
         }
     }
+
 }

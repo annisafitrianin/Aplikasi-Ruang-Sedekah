@@ -51,7 +51,4 @@ public class HalamanAwal extends AppCompatActivity{
         });
     }
 
-    //TODO : ubah method atau hapus method yang sama, done
-
-
 }

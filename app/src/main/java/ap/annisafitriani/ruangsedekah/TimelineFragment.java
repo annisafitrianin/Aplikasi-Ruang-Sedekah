@@ -1,5 +1,6 @@
 package ap.annisafitriani.ruangsedekah;
 
+
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,12 +11,16 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
-public class Notification extends Fragment{
 
+/**
+ * A simple {@link Fragment} subclass.
+ */
+public class TimelineFragment extends Fragment {
 
     private RecyclerView rvCategory;
     private ArrayList<Marker> list;
-    public Notification() {
+
+    public TimelineFragment() {
         // Required empty public constructor
     }
 
@@ -23,13 +28,11 @@ public class Notification extends Fragment{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_notification, container, false);
+        View view = inflater.inflate(R.layout.fragment_timeline2, container, false);
 
         rvCategory = (RecyclerView) view.findViewById(R.id.rv_category);
         ListMarkerAdapter markerAdapter = new ListMarkerAdapter(getContext(),list);
