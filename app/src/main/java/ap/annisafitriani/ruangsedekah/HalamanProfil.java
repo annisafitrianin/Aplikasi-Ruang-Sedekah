@@ -44,7 +44,6 @@ public class HalamanProfil extends AppCompatActivity {
     private void setupViewPager(ViewPager viewPager) {
         HalamanUtama.ViewPagerAdapter adapter = new HalamanUtama.ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new Beranda(), "BERANDA");
-        adapter.addFragment(new Histori(), "HISTORI");
         viewPager.setAdapter(adapter);
     }
 

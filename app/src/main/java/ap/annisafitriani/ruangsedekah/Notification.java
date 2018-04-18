@@ -15,7 +15,7 @@ public class Notification extends Fragment {
 
 
     private RecyclerView rvCategory;
-    private ArrayList<President> list;
+    private ArrayList<Kegiatan> list;
 
     public Notification() {
         // Required empty public constructor
@@ -25,16 +25,16 @@ public class Notification extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         list = new ArrayList<>();
-        list.addAll(PresidentData.getListData());
+        list.addAll(KegiatanData.getListData());
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_notification2, container, false);
+        View view = inflater.inflate(R.layout.fragment_notification, container, false);
         rvCategory = (RecyclerView) view.findViewById(R.id.rv_category);
-        ListPresidentAdapter2 listPresidentAdapter = new ListPresidentAdapter2(getContext());
+        ListNotifAdapter listNotifAdapter= new ListNotifAdapter(getContext());
         rvCategory.setLayoutManager(new LinearLayoutManager(getActivity()));
-        rvCategory.setAdapter(listPresidentAdapter);
+        rvCategory.setAdapter(listNotifAdapter);
         return view;
     }
 }
