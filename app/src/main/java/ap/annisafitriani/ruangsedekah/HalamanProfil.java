@@ -34,7 +34,7 @@ public class HalamanProfil extends AppCompatActivity {
 
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
-        adapter = new HalamanProfil().ViewPagerAdapter(getSupportFragmentManager());
+        adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
 
 
@@ -42,7 +42,7 @@ public class HalamanProfil extends AppCompatActivity {
 
 
     private void setupViewPager(ViewPager viewPager) {
-        HalamanUtama.ViewPagerAdapter adapter = new HalamanProfil().ViewPagerAdapter(getSupportFragmentManager());
+        HalamanUtama.ViewPagerAdapter adapter = new HalamanUtama.ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new Beranda(), "BERANDA");
         adapter.addFragment(new Histori(), "HISTORI");
         viewPager.setAdapter(adapter);

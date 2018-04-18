@@ -34,9 +34,12 @@ public class TimelineFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_timeline2, container, false);
 
-        rvCategory = (RecyclerView) view.findViewById(R.id.rv_category);
+        //salah id recyclerview
+        //list juga masih kosong
+        list = new ArrayList<>();
+        rvCategory = view.findViewById(R.id.list_item);
         ListMarkerAdapter markerAdapter = new ListMarkerAdapter(getContext(),list);
-        rvCategory.setLayoutManager(new LinearLayoutManager(getActivity()));
+        rvCategory.setLayoutManager(new LinearLayoutManager(getContext()));
         rvCategory.setAdapter(markerAdapter);
 
         return view;

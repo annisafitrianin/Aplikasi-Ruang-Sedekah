@@ -19,9 +19,9 @@ import java.util.List;
 
 public class ListMarkerAdapter extends RecyclerView.Adapter<ListMarkerAdapter.CategoryViewHolder> {
     private Context context;
-    private List<Marker> mMarker;
+    //private List<Marker> mMarker;
 
-    public ArrayList<Marker> getListPresident() {
+    private ArrayList<Marker> getListPresident() {
         return listMarker;
     }
 
@@ -31,18 +31,17 @@ public class ListMarkerAdapter extends RecyclerView.Adapter<ListMarkerAdapter.Ca
 
     private ArrayList<Marker> listMarker;
 
-    public ListMarkerAdapter(Context context, List<Marker> mMarker)
+    ListMarkerAdapter(Context context, ArrayList<Marker> mMarker)
     {
         this.context = context;
-        this.mMarker = mMarker;
+        listMarker = mMarker;
     }
 
     @Override
     public CategoryViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view;
         view = LayoutInflater.from(context).inflate(R.layout.item_row_marker, parent, false);
-        CategoryViewHolder CatHolder = new CategoryViewHolder(view);
-        return CatHolder;
+        return new CategoryViewHolder(view);
 
     }
 
@@ -52,7 +51,6 @@ public class ListMarkerAdapter extends RecyclerView.Adapter<ListMarkerAdapter.Ca
         holder.tvName.setText(getListPresident().get(position).getName());
         holder.tvRemarks.setText(getListPresident().get(position).getRemarks());
 
-        //TODO tambahin library Glide
         Glide.with(context)
                 .load(getListPresident().get(position).getPhoto())
                 .into(holder.imgPhoto);
@@ -68,7 +66,7 @@ public class ListMarkerAdapter extends RecyclerView.Adapter<ListMarkerAdapter.Ca
         TextView tvRemarks;
         ImageView imgPhoto;
 
-        public CategoryViewHolder(View itemView) {
+        CategoryViewHolder(View itemView) {
             super(itemView);
             tvName = (TextView) itemView.findViewById(R.id.tv_item_name);
             tvRemarks = (TextView) itemView.findViewById(R.id.tv_item_remarks);

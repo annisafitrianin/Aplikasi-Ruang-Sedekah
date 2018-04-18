@@ -31,10 +31,14 @@ public class Notification extends Fragment{
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_notification, container, false);
 
-        rvCategory = (RecyclerView) view.findViewById(R.id.rv_category);
-        ListMarkerAdapter markerAdapter = new ListMarkerAdapter(getContext(),list);
-        rvCategory.setLayoutManager(new LinearLayoutManager(getActivity()));
-        rvCategory.setAdapter(markerAdapter);
+
+        //di fragment notification belum ada recyclerview
+
+        //TODO: buat recyclerview di xml nya dulu baru bikin codingan javanya
+//        rvCategory = (RecyclerView) view.findViewById(R.id.rv_category);
+//        ListMarkerAdapter markerAdapter = new ListMarkerAdapter(getContext(),list);
+//        rvCategory.setLayoutManager(new LinearLayoutManager(getActivity()));
+//        rvCategory.setAdapter(markerAdapter);
 
         return view;
 
