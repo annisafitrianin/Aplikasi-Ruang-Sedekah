@@ -18,8 +18,7 @@ import java.util.List;
 
 public class HalamanUtama extends AppCompatActivity {
 
-    private RecyclerView rvCategory;
-    private ArrayList<Marker>list;
+
 
     private Toolbar toolbar;
     private TabLayout tabLayout;

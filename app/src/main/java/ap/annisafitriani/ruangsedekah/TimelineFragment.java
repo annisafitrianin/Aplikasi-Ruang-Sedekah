@@ -2,6 +2,7 @@ package ap.annisafitriani.ruangsedekah;
 
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,32 +19,26 @@ import java.util.ArrayList;
 public class TimelineFragment extends Fragment {
 
     private RecyclerView rvCategory;
-    private ArrayList<Marker> list;
+    private ArrayList<President> list;
 
-    public TimelineFragment() {
-        // Required empty public constructor
+    public TimelineFragment(){
+
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-    }
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_timeline2, container, false);
-
-        //salah id recyclerview
-        //list juga masih kosong
         list = new ArrayList<>();
-        rvCategory = view.findViewById(R.id.list_item);
-        ListMarkerAdapter markerAdapter = new ListMarkerAdapter(getContext(),list);
-        rvCategory.setLayoutManager(new LinearLayoutManager(getContext()));
-        rvCategory.setAdapter(markerAdapter);
-
-        return view;
-
+        list.addAll(PresidentData.getListData());
     }
 
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_timeline2, container, false);
+        rvCategory = (RecyclerView) view.findViewById(R.id.rv_category);
+        ListPresidentAdapter listPresidentAdapter = new ListPresidentAdapter(getContext());
+        rvCategory.setLayoutManager(new LinearLayoutManager(getActivity()));
+        rvCategory.setAdapter(listPresidentAdapter);
+        return view;
+    }
 }

@@ -11,38 +11,31 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
- * Created by Hp on 4/9/2018.
+ * Created by Hp on 4/18/2018.
  */
 
-public class ListMarkerAdapter extends RecyclerView.Adapter<ListMarkerAdapter.CategoryViewHolder> {
+public class ListPresidentAdapter extends RecyclerView.Adapter<ListPresidentAdapter.CategoryViewHolder>{
     private Context context;
-    //private List<Marker> mMarker;
 
-    private ArrayList<Marker> getListPresident() {
-        return listMarker;
+    public ArrayList<President> getListPresident() {
+        return listPresident;
+    }
+    public void setListPresident(ArrayList<President> listPresident) {
+        this.listPresident = listPresident;
     }
 
-    public void setListPresident(ArrayList<Marker> listPresident) {
-        this.listMarker = listPresident;
-    }
+    private ArrayList<President>listPresident;
 
-    private ArrayList<Marker> listMarker;
-
-    ListMarkerAdapter(Context context, ArrayList<Marker> mMarker)
-    {
+    public ListPresidentAdapter(Context context) {
         this.context = context;
-        listMarker = mMarker;
     }
 
     @Override
     public CategoryViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view;
-        view = LayoutInflater.from(context).inflate(R.layout.item_row_marker, parent, false);
-        return new CategoryViewHolder(view);
-
+        View itemRow = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_row_marker, parent, false);
+        return new CategoryViewHolder(itemRow);
     }
 
     @Override
@@ -53,6 +46,8 @@ public class ListMarkerAdapter extends RecyclerView.Adapter<ListMarkerAdapter.Ca
 
         Glide.with(context)
                 .load(getListPresident().get(position).getPhoto())
+
+
                 .into(holder.imgPhoto);
     }
 
@@ -61,16 +56,16 @@ public class ListMarkerAdapter extends RecyclerView.Adapter<ListMarkerAdapter.Ca
         return getListPresident().size();
     }
 
-    class CategoryViewHolder extends RecyclerView.ViewHolder {
+    class CategoryViewHolder extends RecyclerView.ViewHolder{
         TextView tvName;
         TextView tvRemarks;
         ImageView imgPhoto;
 
-        CategoryViewHolder(View itemView) {
+        public CategoryViewHolder(View itemView) {
             super(itemView);
-            tvName = (TextView) itemView.findViewById(R.id.tv_item_name);
-            tvRemarks = (TextView) itemView.findViewById(R.id.tv_item_remarks);
-            imgPhoto = (ImageView) itemView.findViewById(R.id.img_item_photo);
+            tvName = (TextView)itemView.findViewById(R.id.tv_item_name);
+            tvRemarks = (TextView)itemView.findViewById(R.id.tv_item_remarks);
+            imgPhoto = (ImageView)itemView.findViewById(R.id.img_item_photo);
         }
     }
 }
