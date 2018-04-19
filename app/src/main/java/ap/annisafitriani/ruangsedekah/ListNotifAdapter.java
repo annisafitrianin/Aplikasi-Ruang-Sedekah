@@ -44,8 +44,8 @@ public class ListNotifAdapter extends RecyclerView.Adapter<ListNotifAdapter.Cate
 
 
         holder.tvName.setText(getListKegiatan().get(position).getName());
-        holder.tvTanggal.setText(getListKegiatan().get(position).getTanggal());
-        holder.tvWaktu.setText(getListKegiatan().get(position).getWaktu());
+//        holder.tvTanggal.setText(getListKegiatan().get(position).getTanggal());
+//        holder.tvWaktu.setText(getListKegiatan().get(position).getWaktu());
         holder.tvDesc.setText(getListKegiatan().get(position).getDeskripsi());
 
         Glide.with(context)

@@ -26,19 +26,18 @@ public class TimelineFragment extends Fragment {
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        list = new ArrayList<>();
-        list.addAll(KegiatanData.getListData());
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_timeline, container, false);
         rvCategory = (RecyclerView) view.findViewById(R.id.rv_category);
+
+        list = new ArrayList<>();
+        list.addAll(KegiatanData.getListData());
+
         ListTimelineAdapter listTimelineAdapter = new ListTimelineAdapter(getContext());
+        listTimelineAdapter.setListKegiatan(list);
         rvCategory.setLayoutManager(new LinearLayoutManager(getActivity()));
         rvCategory.setAdapter(listTimelineAdapter);
+
         return view;
     }
 }

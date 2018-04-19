@@ -23,6 +23,7 @@ public class ListTimelineAdapter extends RecyclerView.Adapter<ListTimelineAdapte
     public ArrayList<Kegiatan> getListKegiatan() {
         return listKegiatan;
     }
+
     public void setListKegiatan(ArrayList<Kegiatan> listKegiatan) {
         this.listKegiatan = listKegiatan;
     }
@@ -44,8 +45,8 @@ public class ListTimelineAdapter extends RecyclerView.Adapter<ListTimelineAdapte
 
 
         holder.tvName.setText(getListKegiatan().get(position).getName());
-        holder.tvTanggal.setText(getListKegiatan().get(position).getTanggal());
-        holder.tvWaktu.setText(getListKegiatan().get(position).getWaktu());
+//        holder.tvTanggal.setText(getListKegiatan().get(position).getTanggal());
+//        holder.tvWaktu.setText(getListKegiatan().get(position).getWaktu());
         holder.tvDesc.setText(getListKegiatan().get(position).getDeskripsi());
 
         Glide.with(context)

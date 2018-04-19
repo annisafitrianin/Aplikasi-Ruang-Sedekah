@@ -30,11 +30,11 @@ public class KegiatanData {
 
             list.add(kegiatan);
         }
-        for (int i = 0; i <dataInt.length; i++){
-            kegiatan = new Kegiatan();
-            kegiatan.setTanggal(dataInt[i][0]);
-            kegiatan.setWaktu(dataInt[i][1]);
-        }
+//        for (int i = 0; i <dataInt.length; i++){
+//            kegiatan = new Kegiatan();
+//            kegiatan.setTanggal(dataInt[i][0]);
+//            kegiatan.setWaktu(dataInt[i][1]);
+//        }
  //       for (int i = 0; i <dataDouble.length; i++){
  //           kegiatan = new Kegiatan();
  //           kegiatan.setLokasi(dataDouble[i][0]);
