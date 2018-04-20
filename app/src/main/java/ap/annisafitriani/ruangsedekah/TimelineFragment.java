@@ -10,6 +10,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.ArrayList;
 
 
@@ -20,6 +26,11 @@ public class TimelineFragment extends Fragment {
 
     private RecyclerView rvCategory;
     private ArrayList<Kegiatan> list;
+    FirebaseDatabase FDB;
+    DatabaseReference DBR;
+
+
+
 
     public TimelineFragment(){
 
@@ -33,11 +44,52 @@ public class TimelineFragment extends Fragment {
         list = new ArrayList<>();
         list.addAll(KegiatanData.getListData());
 
-        ListTimelineAdapter listTimelineAdapter = new ListTimelineAdapter(getContext());
-        listTimelineAdapter.setListKegiatan(list);
-        rvCategory.setLayoutManager(new LinearLayoutManager(getActivity()));
-        rvCategory.setAdapter(listTimelineAdapter);
+
+
+
+         FDB = FirebaseDatabase.getInstance();
+        GetDataFirebase();
 
         return view;
+    }
+    void GetDataFirebase(){
+
+        DBR = FDB.getReference("recyclerview");
+
+        DBR.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+
+                Kegiatan data = dataSnapshot.getValue(Kegiatan.class);
+                //Now add to ArrayList
+                list.add(data);
+                //Now Add List into Adapter/Recyclerview
+                ListTimelineAdapter listTimelineAdapter = new ListTimelineAdapter(getContext());
+                listTimelineAdapter.setListKegiatan(list);
+                rvCategory.setLayoutManager(new LinearLayoutManager(getActivity()));
+                rvCategory.setAdapter(listTimelineAdapter);
+
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 }
