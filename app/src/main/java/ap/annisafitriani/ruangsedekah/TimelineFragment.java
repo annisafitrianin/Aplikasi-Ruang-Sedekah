@@ -54,7 +54,7 @@ public class TimelineFragment extends Fragment {
     }
     void GetDataFirebase(){
 
-        DBR = FDB.getReference("recyclerview");
+        DBR = FDB.getReference("kegiatan");
 
         DBR.addChildEventListener(new ChildEventListener() {
             @Override
