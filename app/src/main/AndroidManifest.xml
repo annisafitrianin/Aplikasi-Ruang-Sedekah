@@ -35,7 +35,7 @@
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyA0RRcUqghJ2Jsl2pKMAddq3rDXal0khC0" />
 
-        <activity android:name=".HalamanAwal">
+        <activity android:name=".Activity.HalamanAwal">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -43,11 +43,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".LoginActivity"
+            android:name=".Activity.LoginActivity"
             android:label="@string/title_activity_login" />
-        <activity android:name=".RegistrationActivity" />
+        <activity android:name=".Activity.RegistrationActivity" />
         <activity
-            android:name=".HalamanUtama"
+            android:name=".Activity.HalamanUtama"
             android:theme="@style/Theme.Design.Light.NoActionBar" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -57,7 +57,8 @@
              sign the APK for publishing.
              You can define the keys for the debug and release targets in src/debug/ and src/release/.
         -->
-        <activity android:name=".HalamanProfil" />
+        <activity android:name=".Activity.HalamanProfil" />
+        <activity android:name=".Activity.CreateActivity"></activity>
     </application>
 
 </manifest>

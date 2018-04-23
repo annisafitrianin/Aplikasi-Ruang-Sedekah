@@ -1,4 +1,4 @@
-package ap.annisafitriani.ruangsedekah;
+package ap.annisafitriani.ruangsedekah.Fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,6 +10,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
+
+import ap.annisafitriani.ruangsedekah.Model.Kegiatan;
+import ap.annisafitriani.ruangsedekah.Model.KegiatanData;
+import ap.annisafitriani.ruangsedekah.Adapter.ListNotifAdapter;
+import ap.annisafitriani.ruangsedekah.R;
 
 public class Notification extends Fragment {
 

@@ -1,7 +1,6 @@
-package ap.annisafitriani.ruangsedekah;
+package ap.annisafitriani.ruangsedekah.Adapter;
 
 import android.content.Context;
-import android.location.Location;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,29 +12,33 @@ import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
+import ap.annisafitriani.ruangsedekah.Model.Kegiatan;
+import ap.annisafitriani.ruangsedekah.R;
+
 /**
  * Created by Hp on 4/18/2018.
  */
 
-public class ListNotifAdapter extends RecyclerView.Adapter<ListNotifAdapter.CategoryViewHolder>{
+public class ListTimelineAdapter extends RecyclerView.Adapter<ListTimelineAdapter.CategoryViewHolder>{
     private Context context;
 
     public ArrayList<Kegiatan> getListKegiatan() {
         return listKegiatan;
     }
+
     public void setListKegiatan(ArrayList<Kegiatan> listKegiatan) {
         this.listKegiatan = listKegiatan;
     }
 
     private ArrayList<Kegiatan>listKegiatan;
 
-    public ListNotifAdapter(Context context) {
+    public ListTimelineAdapter(Context context) {
         this.context = context;
     }
 
     @Override
     public CategoryViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemRow = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_row_notif, parent, false);
+        View itemRow = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_row_timeline, parent, false);
         return new CategoryViewHolder(itemRow);
     }
 

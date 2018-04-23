@@ -4,7 +4,7 @@
     android:id="@+id/beranda"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="ap.annisafitriani.ruangsedekah.Notification">
+    tools:context="ap.annisafitriani.ruangsedekah.Fragment.Notification">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_category"

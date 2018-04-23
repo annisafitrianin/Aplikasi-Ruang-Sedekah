@@ -1,4 +1,4 @@
-package ap.annisafitriani.ruangsedekah;
+package ap.annisafitriani.ruangsedekah.Activity;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -15,6 +15,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+
+import ap.annisafitriani.ruangsedekah.R;
 
 public class RegistrationActivity extends AppCompatActivity {
 

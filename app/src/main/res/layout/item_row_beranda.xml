@@ -14,7 +14,7 @@
             android:id="@+id/tv_item_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Name"
+            android:text="Nama Kegiatan    :"
             android:textStyle="bold"
             android:textSize="16sp"
             android:layout_marginBottom="8dp"/>
@@ -22,24 +22,44 @@
             android:id="@+id/tv_item_tanggal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Tanggal"/>
+            android:text="Tanggal    :"/>
         <TextView
             android:id="@+id/tv_item_waktu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Waktu"/>
+            android:text="Waktu    :"/>
         <TextView
             android:id="@+id/tv_item_desc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Desc"/>
+            android:text="Desc    :"/>
 
         <ImageView
             android:id="@+id/img_loc"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:src="@drawable/ic_location_on_black_24dp"
             />
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/btn_hapus"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:text="Hapus"
+            android:textSize="13sp"/>
+            <Button
+                android:id="@+id/btn_edit"
+                android:layout_width="70dp"
+                android:layout_height="wrap_content"
+                android:text="Edit"
+                android:textSize="13sp"
+                android:layout_toRightOf="@id/btn_hapus"/>
+
+
+
+        </RelativeLayout>
 
 
     </LinearLayout>

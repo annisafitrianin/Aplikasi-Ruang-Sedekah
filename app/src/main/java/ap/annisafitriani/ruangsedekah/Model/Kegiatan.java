@@ -1,4 +1,4 @@
-package ap.annisafitriani.ruangsedekah;
+package ap.annisafitriani.ruangsedekah.Model;
 
 /**
  * Created by Hp on 4/18/2018.

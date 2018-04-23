@@ -1,4 +1,4 @@
-package ap.annisafitriani.ruangsedekah;
+package ap.annisafitriani.ruangsedekah.Model;
 
 import java.util.ArrayList;
 

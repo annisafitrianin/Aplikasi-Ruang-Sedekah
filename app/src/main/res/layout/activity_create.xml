@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="ap.annisafitriani.ruangsedekah.Activity.CreateActivity">
+
+    <RelativeLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:layout_weight="3"
+        >
+        <EditText
+
+            android:id="@+id/et_result"
+            android:layout_width="210dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="date" />
+        <Button
+            android:id="@+id/btn_pickdate"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="Pick Date"
+            android:layout_toRightOf="@+id/et_result"/>
+
+</RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+
+        <ImageButton
+            android:id="@+id/ib_time"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/textInputLayout"
+            android:layout_marginLeft="43dp"
+            android:layout_marginStart="43dp"
+            android:layout_marginTop="13dp"
+            android:src="@drawable/ic_time"/>
+
+        <ImageButton
+            android:id="@+id/ib_desc"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignTop="@+id/ib_time"
+            android:layout_marginLeft="22dp"
+            android:layout_marginStart="22dp"
+            android:layout_toEndOf="@+id/ib_time"
+            android:layout_toRightOf="@+id/ib_time"
+            android:src="@drawable/ic_desc" />
+
+        <ImageButton
+            android:id="@+id/ib_loc"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignTop="@+id/ib_desc"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_toEndOf="@+id/ib_desc"
+            android:layout_toRightOf="@+id/ib_desc"
+            android:src="@drawable/ic_location" />
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textInputLayout">
+
+            <AutoCompleteTextView
+                android:id="@+id/et_namaKegiatan"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:hint="Nama Kegiatan"
+                android:inputType="textEmailAddress"
+                android:maxLines="1"
+                android:layout_gravity="center"
+                android:singleLine="true" />
+
+        </android.support.design.widget.TextInputLayout>
+
+
+
+        <EditText
+            android:id="@+id/et_desc"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/ib_time"
+            android:layout_alignStart="@+id/ib_time"
+            android:layout_below="@+id/ib_time"
+            android:layout_marginTop="28dp"
+            android:ems="10"
+            android:hint="Write your descricpion here"
+            android:inputType="textMultiLine" />
+
+
+
+        <Button
+            android:id="@+id/btn_submit"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/et_desc"
+            android:layout_alignRight="@+id/et_desc"
+            android:layout_below="@+id/et_desc"
+            android:text="Submit" />
+
+
+    </RelativeLayout>
+
+</LinearLayout>

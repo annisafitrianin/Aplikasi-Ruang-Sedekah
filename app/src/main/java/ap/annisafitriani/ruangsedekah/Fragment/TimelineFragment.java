@@ -1,4 +1,4 @@
-package ap.annisafitriani.ruangsedekah;
+package ap.annisafitriani.ruangsedekah.Fragment;
 
 
 import android.os.Bundle;
@@ -17,6 +17,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+
+import ap.annisafitriani.ruangsedekah.Model.Kegiatan;
+import ap.annisafitriani.ruangsedekah.Model.KegiatanData;
+import ap.annisafitriani.ruangsedekah.Adapter.ListTimelineAdapter;
+import ap.annisafitriani.ruangsedekah.R;
 
 
 /**
