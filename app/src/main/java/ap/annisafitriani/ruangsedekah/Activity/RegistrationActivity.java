@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -91,8 +92,8 @@ public class RegistrationActivity extends AppCompatActivity {
                                 // the auth state listener will be notified and logic to handle the
                                 // signed in user can be handled in the listener.
                                 if (!task.isSuccessful()) {
-                                    Toast.makeText(RegistrationActivity.this, "Authentication failed." + task.getException(),
-                                            Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(RegistrationActivity.this, "Authentication failed." + task.getException(), Toast.LENGTH_SHORT).show();
+                                    Log.d("registerTag",task.getException().toString());
                                 } else {
                                     startActivity(new Intent(RegistrationActivity.this, HalamanUtama.class));
                                     finish();
