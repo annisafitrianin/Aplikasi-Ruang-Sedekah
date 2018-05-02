@@ -58,30 +58,30 @@ public class CreateActivity extends AppCompatActivity {
             }
         });
     }
-    private void showDateDialog(){
+
+    private void showDateDialog() {
         Calendar newCalendar = Calendar.getInstance();
 
         datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
 
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-
-
                 Calendar newDate = Calendar.getInstance();
                 newDate.set(year, monthOfYear, dayOfMonth);
-                etResult.setText("Tanggal dipilih : "+dateFormatter.format(newDate.getTime()));
+                etResult.setText(dateFormatter.format(newDate.getTime()));
             }
 
-        },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+        }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
         datePickerDialog.show();
     }
+
     private void showTimeDialog() {
         Calendar calendar = Calendar.getInstance();
         timePickerDialog = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
 
-        }
+            }
         },
                 calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE),
 

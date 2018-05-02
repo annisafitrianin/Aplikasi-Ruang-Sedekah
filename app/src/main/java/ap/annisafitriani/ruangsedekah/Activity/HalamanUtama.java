@@ -76,10 +76,12 @@ public class HalamanUtama extends AppCompatActivity implements View.OnClickListe
         int id = item.getItemId();
 
         if (id == R.id.menu_profil) {
-            Toast.makeText(this, "menu_profil clicked", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this, HalamanProfil.class);
+            startActivity(intent);
+            finish();
         }
         if (id == R.id.menu_logout) {
-            Toast.makeText(this, "menu_profil clicked", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "menu_logout clicked", Toast.LENGTH_SHORT).show();
         }
         return super.onOptionsItemSelected(item);
 

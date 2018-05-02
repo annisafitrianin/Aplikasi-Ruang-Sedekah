@@ -57,7 +57,9 @@
              sign the APK for publishing.
              You can define the keys for the debug and release targets in src/debug/ and src/release/.
         -->
-        <activity android:name=".Activity.HalamanProfil" />
+        <activity android:name=".Activity.HalamanProfil"
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"/>
+
         <activity android:name=".Activity.CreateActivity"></activity>
     </application>
 

@@ -25,6 +25,7 @@ import ap.annisafitriani.ruangsedekah.R;
 public class LoginActivity extends AppCompatActivity{
 
     private EditText inputEmail, inputPassword;
+    //TODO: PERHATIKAN TIPE WIDGET(EDITTEXT/TEXTVIEW), JANGAN ASAL COPAS
     private FirebaseAuth auth;
     private ProgressBar progressBar;
     private Button loginBtn;
@@ -46,7 +47,8 @@ public class LoginActivity extends AppCompatActivity{
             inputPassword = (EditText) findViewById(R.id.password);
             progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
-            loginBtn = (Button) findViewById(R.id.btn_login);
+            //TODO: ID SALAH!! PERHATIKAN ID
+            loginBtn = (Button) findViewById(R.id.email_sign_in_button);
 
 
             //Get Firebase auth instance

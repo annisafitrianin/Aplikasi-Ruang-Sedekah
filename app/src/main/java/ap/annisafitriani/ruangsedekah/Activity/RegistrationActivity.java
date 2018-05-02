@@ -21,7 +21,11 @@ import ap.annisafitriani.ruangsedekah.R;
 public class RegistrationActivity extends AppCompatActivity {
 
 
-    private EditText inputEmail, inputPassword, inputNama, inputNoHp;     //hit option + enter if you on mac , for windows hit ctrl + enter
+    private EditText inputEmail,
+            inputPassword,
+            inputNama, inputNoHp;
+    //TODO: PERHATIKAN TIPE WIDGET(EDITTEXT/TEXTVIEW), JANGAN ASAL COPAS
+
     private Button btnRegistrasi;
     private ProgressBar progressBar;
     private FirebaseAuth auth;
@@ -32,9 +36,12 @@ public class RegistrationActivity extends AppCompatActivity {
 
         auth = FirebaseAuth.getInstance();
 
-        btnRegistrasi = (Button) findViewById(R.id.btn_regis);
-        inputEmail = (EditText) findViewById(R.id.email);
-        inputPassword = (EditText) findViewById(R.id.password);
+        //TODO: ID MASIH SALAH!! PERHATIKAN ID!!
+        btnRegistrasi = (Button) findViewById(R.id.email_sign_up_button);
+
+        //TODO: ID HARUS UNIK!!
+        inputEmail = (EditText) findViewById(R.id.email_register);
+        inputPassword = (EditText) findViewById(R.id.password_register);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         inputNama = (EditText) findViewById(R.id.nama);
         inputNoHp = (EditText) findViewById(R.id.no_hp);
