@@ -8,6 +8,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="@color/colorAccent"
     tools:context="ap.annisafitriani.ruangsedekah.Activity.LoginActivity">
 
     <!-- Login progress -->
@@ -109,12 +110,15 @@
             <Button
                 android:id="@+id/email_sign_up_button"
                 style="?android:textAppearanceSmall"
-                android:layout_width="140dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:layout_gravity="center"
                 android:text="Sign Up"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:background="@color/colorPrimary"
+                android:textColor="@color/colorAccent"
+                android:onClick="btnRegis"/>
             <ProgressBar
                 android:id="@+id/progressBar"
                 android:layout_width="0dp"

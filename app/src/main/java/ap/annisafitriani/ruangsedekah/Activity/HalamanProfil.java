@@ -12,7 +12,6 @@ import android.support.v7.widget.Toolbar;
 import java.util.ArrayList;
 import java.util.List;
 
-import ap.annisafitriani.ruangsedekah.Fragment.Beranda;
 import ap.annisafitriani.ruangsedekah.R;
 
 public class HalamanProfil extends AppCompatActivity {
@@ -32,8 +31,8 @@ public class HalamanProfil extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        viewPager = (ViewPager) findViewById(R.id.viewpager);
-        setupViewPager(viewPager);
+//        viewPager = (ViewPager) findViewById(R.id.viewpager);
+//        setupViewPager(viewPager);
 
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
@@ -44,11 +43,11 @@ public class HalamanProfil extends AppCompatActivity {
     }
 
 
-    private void setupViewPager(ViewPager viewPager) {
-        HalamanUtama.ViewPagerAdapter adapter = new HalamanUtama.ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new Beranda(), "BERANDA");
-        viewPager.setAdapter(adapter);
-    }
+//    private void setupViewPager(ViewPager viewPager) {
+//        HalamanUtama.ViewPagerAdapter adapter = new HalamanUtama.ViewPagerAdapter(getSupportFragmentManager());
+//        adapter.addFragment(new Beranda(), "BERANDA");
+//        viewPager.setAdapter(adapter);
+//    }
 
     class ViewPagerAdapter extends FragmentPagerAdapter {
         private final List<Fragment> mFragmentList = new ArrayList<>();

@@ -6,16 +6,34 @@ package ap.annisafitriani.ruangsedekah.Model;
 
 public class Kegiatan {
 
-    private String name, deskripsi, photo;
+    private String nama, deskripsi, photo, id;
     private int tanggal, waktu;
     private double lokasi;
 
+    public Kegiatan(String nama, String deskripsi, String id, int tanggal, int waktu, double lokasi){
+        this.nama = nama;
+        this.id = id;
+        this.deskripsi = deskripsi;
+        this.tanggal = tanggal;
+        this.waktu = waktu;
+        this.lokasi = lokasi;
+    }
+    public Kegiatan(){
+
+    }
 
     public String getName() {
-        return name;
+        return nama;
     }
-    public void setName(String name) {
-        this.name = name;
+    public void setName(String nama) {
+        this.nama = nama;
+    }
+
+    public String getId() {
+        return id;
+    }
+    public void setId(String id) {
+        this.id = id;
     }
 
     public int getTanggal() {
@@ -53,5 +71,15 @@ public class Kegiatan {
 
     public void setPhoto(String photo) {
         this.photo = photo;
+    }
+
+    @Override
+    public String toString() {
+        return "Detail{" +
+                "nama kegiatan='" + nama + '\'' +
+                ", deskripsi='" + deskripsi + '\'' +
+                ", tanggal='" + tanggal + '\'' +
+                ", waktu='" + waktu + '\'' +
+                '}';
     }
 }

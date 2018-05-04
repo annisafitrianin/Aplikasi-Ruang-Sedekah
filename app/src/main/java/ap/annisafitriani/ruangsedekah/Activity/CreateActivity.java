@@ -2,6 +2,7 @@ package ap.annisafitriani.ruangsedekah.Activity;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.format.DateFormat;
@@ -16,6 +17,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
+import ap.annisafitriani.ruangsedekah.Fragment.Maps;
 import ap.annisafitriani.ruangsedekah.R;
 
 
@@ -55,6 +57,14 @@ public class CreateActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 showTimeDialog();
+            }
+        });
+
+        ibLoc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), Maps.class);
+                startActivity(intent);
             }
         });
     }

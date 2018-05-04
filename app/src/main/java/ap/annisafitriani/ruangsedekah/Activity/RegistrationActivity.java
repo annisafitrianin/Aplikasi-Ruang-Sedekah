@@ -16,7 +16,10 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
+import ap.annisafitriani.ruangsedekah.Model.User;
 import ap.annisafitriani.ruangsedekah.R;
 
 public class RegistrationActivity extends AppCompatActivity {
@@ -30,6 +33,9 @@ public class RegistrationActivity extends AppCompatActivity {
     private Button btnRegistrasi;
     private ProgressBar progressBar;
     private FirebaseAuth auth;
+    FirebaseDatabase database;
+    DatabaseReference ref;
+    User user;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +53,9 @@ public class RegistrationActivity extends AppCompatActivity {
         inputNama = (EditText) findViewById(R.id.nama);
         inputNoHp = (EditText) findViewById(R.id.no_hp);
 
+        database = FirebaseDatabase.getInstance();
+        ref = database.getReference().child("User");
+        user = new User();
 
         btnRegistrasi.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -111,3 +120,21 @@ public class RegistrationActivity extends AppCompatActivity {
         progressBar.setVisibility(View.GONE);
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

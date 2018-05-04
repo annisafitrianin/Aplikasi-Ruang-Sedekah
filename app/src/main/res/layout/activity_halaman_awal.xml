@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorAccent"
     tools:context="ap.annisafitriani.ruangsedekah.Activity.HalamanAwal">
 
         <ImageView
@@ -21,15 +22,21 @@
             android:layout_height="50dp"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
+            android:background="@color/colorPrimary"
+            android:textColor="@color/colorAccent"
             android:text="SIGN IN" />
 
-        <Button
-            android:id="@+id/btn_regis"
-            android:layout_width="120dp"
-            android:layout_height="50dp"
-            android:layout_below="@+id/btn_login"
-            android:layout_centerHorizontal="true"
-            android:text="SIGN UP" />
+    <Button
+        android:id="@+id/btn_regis"
+        android:layout_width="120dp"
+        android:layout_height="50dp"
+        android:layout_alignLeft="@+id/btn_login"
+        android:layout_alignStart="@+id/btn_login"
+        android:layout_below="@+id/btn_login"
+        android:layout_marginTop="15dp"
+        android:background="@color/colorPrimary"
+        android:text="SIGN UP"
+        android:textColor="@color/colorAccent" />
 
         <TextView
             android:id="@+id/halaman_utama"
