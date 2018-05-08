@@ -349,7 +349,7 @@ public class Maps extends Fragment implements OnMapReadyCallback, GoogleApiClien
 
         mMap.clear();
 
-        mMap.setInfoWindowAdapter(new CustomInfoWindowAdapter(Maps.this));
+       // mMap.setInfoWindowAdapter(new CustomInfoWindowAdapter(Maps.this));
 
         if(kegiatan != null){
             try{
@@ -492,7 +492,7 @@ public class Maps extends Fragment implements OnMapReadyCallback, GoogleApiClien
 
 
 
-            //INI APA YAAA? NGGA PAHAM
+
             final AutocompletePrediction item = mPlaceAutocompleteAdapter.getItem(i);
             final String placeId = item.getPlaceId();
 
@@ -511,52 +511,38 @@ public class Maps extends Fragment implements OnMapReadyCallback, GoogleApiClien
                 places.release();
                 return;
             }
-            final Place kegiatan = places.get(0);
+            final Place mPlace = places.get(0);
 
             try{
-                mPlace = new PlaceInfo();
-                mPlace.setName(place.getName().toString());
-                Log.d(TAG, "onResult: name: " + place.getName());
-                mPlace.setAddress(place.getAddress().toString());
-                Log.d(TAG, "onResult: address: " + place.getAddress());
-//                mPlace.setAttributions(place.getAttributions().toString());
-//                Log.d(TAG, "onResult: attributions: " + place.getAttributions());
-                mPlace.setId(place.getId());
-                Log.d(TAG, "onResult: id:" + place.getId());
-                mPlace.setLatlng(place.getLatLng());
-                Log.d(TAG, "onResult: latlng: " + place.getLatLng());
-                mPlace.setRating(place.getRating());
-                Log.d(TAG, "onResult: rating: " + place.getRating());
-                mPlace.setPhoneNumber(place.getPhoneNumber().toString());
-                Log.d(TAG, "onResult: phone number: " + place.getPhoneNumber());
-                mPlace.setWebsiteUri(place.getWebsiteUri());
-                Log.d(TAG, "onResult: website uri: " + place.getWebsiteUri());
+//                places = new PlaceInfo();
+//                places.setName(mPlace.getName().toString());
+//                Log.d(TAG, "onResult: name: " + mPlace.getName());
+//                mPlace.setAddress(mPlace.getAddress().toString());
+//                Log.d(TAG, "onResult: address: " + mPlace.getAddress());
+////                mPlace.setAttributions(place.getAttributions().toString());
+////                Log.d(TAG, "onResult: attributions: " + place.getAttributions());
+//                mPlace.setId(mPlace.getId());
+//                Log.d(TAG, "onResult: id:" + mPlace.getId());
+//                mPlace.setLatlng(mPlace.getLatLng());
+//                Log.d(TAG, "onResult: latlng: " + mPlace.getLatLng());
+//                mPlace.setRating(mPlace.getRating());
+//                Log.d(TAG, "onResult: rating: " + mPlace.getRating());
+//                mPlace.setPhoneNumber(mPlace.getPhoneNumber().toString());
+//                Log.d(TAG, "onResult: phone number: " + mPlace.getPhoneNumber());
+//                mPlace.setWebsiteUri(mPlace.getWebsiteUri());
+//                Log.d(TAG, "onResult: website uri: " + mPlace.getWebsiteUri());
 
                 Log.d(TAG, "onResult: place: " + mPlace.toString());
             }catch (NullPointerException e){
                 Log.e(TAG, "onResult: NullPointerException: " + e.getMessage() );
             }
 
-            moveCamera(new LatLng(place.getViewport().getCenter().latitude,
-                    place.getViewport().getCenter().longitude), DEFAULT_ZOOM, mKegiatan);
+            moveCamera(new LatLng(mPlace.getViewport().getCenter().latitude,
+                    mPlace.getViewport().getCenter().longitude), DEFAULT_ZOOM, mKegiatan);
 
             places.release();
         }
     };
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
