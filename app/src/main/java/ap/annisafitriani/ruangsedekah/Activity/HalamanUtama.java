@@ -80,10 +80,13 @@ public class HalamanUtama extends AppCompatActivity implements View.OnClickListe
             startActivity(intent);
             finish();
         }
-        if (id == R.id.menu_logout) {
+        else if (id == R.id.menu_logout) {
             Toast.makeText(this, "menu_logout clicked", Toast.LENGTH_SHORT).show();
         }
-        return super.onOptionsItemSelected(item);
+        else if (id == R.id.home){
+            onBackPressed();
+        }
+        return true;
 
     }
 
@@ -153,5 +156,6 @@ public class HalamanUtama extends AppCompatActivity implements View.OnClickListe
             return mFragmentTitleList.get(position);
         }
     }
+
 
 }

@@ -59,7 +59,8 @@ import ap.annisafitriani.ruangsedekah.R;
 public class Maps extends Fragment implements OnMapReadyCallback,
         GoogleApiClient.OnConnectionFailedListener {
 
-    private Kegiatan mKegiatan ;
+    private Kegiatan mKegiatan;
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
 
@@ -165,15 +166,15 @@ public class Maps extends Fragment implements OnMapReadyCallback,
         Log.d(TAG, "init: initializing");
 
         if (mGoogleApiClient == null || !mGoogleApiClient.isConnected()) {
-            try{
+            try {
 
-        mGoogleApiClient = new GoogleApiClient
-                .Builder(getContext())
-                .addApi(Places.GEO_DATA_API)
-                .addApi(Places.PLACE_DETECTION_API)
-                .enableAutoManage(getActivity(), this)
-                .build();
-            }catch (Exception e){
+                mGoogleApiClient = new GoogleApiClient
+                        .Builder(getContext())
+                        .addApi(Places.GEO_DATA_API)
+                        .addApi(Places.PLACE_DETECTION_API)
+                        .enableAutoManage(getActivity(), this)
+                        .build();
+            } catch (Exception e) {
 
             }
         }
@@ -251,21 +252,21 @@ public class Maps extends Fragment implements OnMapReadyCallback,
                     }
                 });
             }
-        }catch (SecurityException e){
-            Log.e(TAG, "getDeviceLocation: SecurityException: " + e.getMessage() );
+        } catch (SecurityException e) {
+            Log.e(TAG, "getDeviceLocation: SecurityException: " + e.getMessage());
         }
     }
 
-    private void moveCamera(LatLng latLng, float zoom, Kegiatan kegiatan){
-        Log.d(TAG, "moveCamera: moving the camera to: lat: " + latLng.latitude + ", lng: " + latLng.longitude );
+    private void moveCamera(LatLng latLng, float zoom, Kegiatan kegiatan) {
+        Log.d(TAG, "moveCamera: moving the camera to: lat: " + latLng.latitude + ", lng: " + latLng.longitude);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
 
         mMap.clear();
 
-       // mMap.setInfoWindowAdapter(new CustomInfoWindowAdapter(Maps.this));
+        // mMap.setInfoWindowAdapter(new CustomInfoWindowAdapter(Maps.this));
 
-        if(kegiatan != null){
-            try{
+        if (kegiatan != null) {
+            try {
                 String snippet = "Nama Kegiatan: " + kegiatan.getName() + "\n" +
                         "Deskripsi: " + kegiatan.getDeskripsi() + "\n" +
                         "Tanggal: " + kegiatan.getTanggal() + "\n" +
@@ -278,10 +279,10 @@ public class Maps extends Fragment implements OnMapReadyCallback,
                         .snippet(snippet);
                 mMap.addMarker(options);
 
-            }catch (NullPointerException e){
-                Log.e(TAG, "moveCamera: NullPointerException: " + e.getMessage() );
+            } catch (NullPointerException e) {
+                Log.e(TAG, "moveCamera: NullPointerException: " + e.getMessage());
             }
-        }else{
+        } else {
             mMap.addMarker(new MarkerOptions().position(latLng));
 
         }
@@ -354,7 +355,7 @@ public class Maps extends Fragment implements OnMapReadyCallback,
     }
 
 
-    private void hideSoftKeyboard(){
+    private void hideSoftKeyboard() {
         this.getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
     }
 
@@ -366,8 +367,6 @@ public class Maps extends Fragment implements OnMapReadyCallback,
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
             hideSoftKeyboard();
-
-
 
 
             final AutocompletePrediction item = mPlaceAutocompleteAdapter.getItem(i);
@@ -386,14 +385,14 @@ public class Maps extends Fragment implements OnMapReadyCallback,
     private ResultCallback<PlaceBuffer> mUpdatePlaceDetailsCallback = new ResultCallback<PlaceBuffer>() {
         @Override
         public void onResult(@NonNull PlaceBuffer places) {
-            if(!places.getStatus().isSuccess()){
+            if (!places.getStatus().isSuccess()) {
                 Log.d(TAG, "onResult: Place query did not complete successfully: " + places.getStatus().toString());
                 places.release();
                 return;
             }
             final Place mPlace = places.get(0);
 
-            try{
+            try {
 //                places = new PlaceInfo();
 //                places.setName(mPlace.getName().toString());
 //                Log.d(TAG, "onResult: name: " + mPlace.getName());
@@ -413,8 +412,8 @@ public class Maps extends Fragment implements OnMapReadyCallback,
 //                Log.d(TAG, "onResult: website uri: " + mPlace.getWebsiteUri());
 
                 Log.d(TAG, "onResult: place: " + mPlace.toString());
-            }catch (NullPointerException e){
-                Log.e(TAG, "onResult: NullPointerException: " + e.getMessage() );
+            } catch (NullPointerException e) {
+                Log.e(TAG, "onResult: NullPointerException: " + e.getMessage());
             }
 
             moveCamera(new LatLng(mPlace.getViewport().getCenter().latitude,
