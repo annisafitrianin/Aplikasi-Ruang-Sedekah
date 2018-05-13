@@ -56,7 +56,8 @@ import ap.annisafitriani.ruangsedekah.Adapter.PlaceAutocompleteAdapter;
 import ap.annisafitriani.ruangsedekah.Model.Kegiatan;
 import ap.annisafitriani.ruangsedekah.R;
 
-public class Maps extends Fragment implements OnMapReadyCallback, GoogleApiClient.OnConnectionFailedListener {
+public class Maps extends Fragment implements OnMapReadyCallback,
+        GoogleApiClient.OnConnectionFailedListener {
 
     private Kegiatan mKegiatan ;
     @Override
@@ -154,8 +155,17 @@ public class Maps extends Fragment implements OnMapReadyCallback, GoogleApiClien
 
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (mGoogleApiClient != null) mGoogleApiClient.connect();
+    }
+
     private void init() {
         Log.d(TAG, "init: initializing");
+
+        if (mGoogleApiClient == null || !mGoogleApiClient.isConnected()) {
+            try{
 
         mGoogleApiClient = new GoogleApiClient
                 .Builder(getContext())
@@ -163,11 +173,13 @@ public class Maps extends Fragment implements OnMapReadyCallback, GoogleApiClien
                 .addApi(Places.PLACE_DETECTION_API)
                 .enableAutoManage(getActivity(), this)
                 .build();
+            }catch (Exception e){
 
+            }
+        }
 //        mSearchText.setOnItemClickListener(mAutocompleteClickListener);
 
-        mPlaceAutocompleteAdapter = new PlaceAutocompleteAdapter(getContext(), mGoogleApiClient,
-                LAT_LNG_BOUNDS, null);
+        mPlaceAutocompleteAdapter = new PlaceAutocompleteAdapter(getContext(), mGoogleApiClient, LAT_LNG_BOUNDS, null);
 
         mSearchText.setAdapter(mPlaceAutocompleteAdapter);
 
@@ -420,9 +432,11 @@ public class Maps extends Fragment implements OnMapReadyCallback, GoogleApiClien
     @Override
     public void onPause() {
         super.onPause();
+        if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
+            mGoogleApiClient.stopAutoManage(getActivity());
+            mGoogleApiClient.disconnect();
+        }
 
-        mGoogleApiClient.stopAutoManage(getActivity());
-        mGoogleApiClient.disconnect();
     }
 }
 

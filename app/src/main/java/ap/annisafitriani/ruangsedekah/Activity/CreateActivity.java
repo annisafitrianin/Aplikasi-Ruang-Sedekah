@@ -60,6 +60,8 @@ public class CreateActivity extends AppCompatActivity {
             }
         });
 
+
+        //TODO: coba pake placebuilder mbak
         ibLoc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
