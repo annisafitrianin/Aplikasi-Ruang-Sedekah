@@ -5,6 +5,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -13,23 +14,27 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.NotificationCompat;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import ap.annisafitriani.ruangsedekah.Fragment.Maps;
 import ap.annisafitriani.ruangsedekah.Fragment.Notification;
-import ap.annisafitriani.ruangsedekah.R;
 import ap.annisafitriani.ruangsedekah.Fragment.TimelineFragment;
+import ap.annisafitriani.ruangsedekah.R;
 
 
 public class HalamanUtama extends AppCompatActivity implements View.OnClickListener{
 
+    private static final String TAG = "HalamanUtama";
 
     private Toolbar toolbar;
     private TabLayout tabLayout;
@@ -42,6 +47,11 @@ public class HalamanUtama extends AppCompatActivity implements View.OnClickListe
     };
     private android.app.Notification myNotification;
     private NotificationManager notificationManager;
+
+    private FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener mAuthListener;
+
+
 
 
     @Override
@@ -62,7 +72,7 @@ public class HalamanUtama extends AppCompatActivity implements View.OnClickListe
         setupTabIcons();
         this.notificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
 
-
+        setupFirebaseListener();
     }
 
     @Override
@@ -81,7 +91,9 @@ public class HalamanUtama extends AppCompatActivity implements View.OnClickListe
             finish();
         }
         else if (id == R.id.menu_logout) {
-            Toast.makeText(this, "menu_logout clicked", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "menu_logout clicked", Toast.LENGTH_SHORT).show();
+            Log.d(TAG, "onClick: attempting to sign out the user.");
+            FirebaseAuth.getInstance().signOut();
         }
         else if (id == R.id.home){
             onBackPressed();
@@ -157,5 +169,39 @@ public class HalamanUtama extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    private void setupFirebaseListener() {
+        Log.d(TAG, "setupFirebaseListener: setting up the auth state listener");
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user != null) {
+                    Log.d(TAG, "onAuthStateChanged: signed in: " + user.getUid());
+                } else {
+                    Log.d(TAG, "onAuthStateChanged: signed_out");
+                    Toast.makeText(HalamanUtama.this, "Signed out", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(HalamanUtama.this, LoginActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                }
+            }
+        };
 
+
+        }
+
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        FirebaseAuth.getInstance().addAuthStateListener(mAuthListener);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if(mAuthListener != null){
+            FirebaseAuth.getInstance().removeAuthStateListener(mAuthListener);
+        }
+    }
 }

@@ -1,9 +1,9 @@
 package ap.annisafitriani.ruangsedekah.Activity;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -16,117 +16,206 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import ap.annisafitriani.ruangsedekah.Model.User;
 import ap.annisafitriani.ruangsedekah.R;
 
 public class RegistrationActivity extends AppCompatActivity {
 
+    private static final String TAG = "RegistrationActivity";
+
 
     private EditText inputEmail,
             inputPassword,
             inputNama, inputNoHp;
-    //TODO: PERHATIKAN TIPE WIDGET(EDITTEXT/TEXTVIEW), JANGAN ASAL COPAS
-
     private Button btnRegistrasi;
     private ProgressBar progressBar;
-    private FirebaseAuth auth;
-    FirebaseDatabase database;
-    DatabaseReference ref;
-    User user;
+    private String userID;
+
+    private FirebaseDatabase mFirebaseDatabase;
+    private FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener mAuthListener;
+    private DatabaseReference myRef;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
 
-        auth = FirebaseAuth.getInstance();
-
-        //TODO: ID MASIH SALAH!! PERHATIKAN ID!!
         btnRegistrasi = (Button) findViewById(R.id.email_sign_up_button);
-
-        //TODO: ID HARUS UNIK!!
         inputEmail = (EditText) findViewById(R.id.email_register);
         inputPassword = (EditText) findViewById(R.id.password_register);
-        progressBar = (ProgressBar) findViewById(R.id.progressBar);
         inputNama = (EditText) findViewById(R.id.nama);
         inputNoHp = (EditText) findViewById(R.id.no_hp);
 
-        database = FirebaseDatabase.getInstance();
-        ref = database.getReference().child("User");
-        user = new User();
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
-        btnRegistrasi.setOnClickListener(new View.OnClickListener() {
+        mAuth = FirebaseAuth.getInstance();
+        mFirebaseDatabase = FirebaseDatabase.getInstance();
+        myRef = mFirebaseDatabase.getReference();
+        FirebaseUser user = mAuth.getCurrentUser();
+        userID = user.getUid();
+
+
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
-            public void onClick(View v) {
-
-                String email = inputEmail.getText().toString().trim();
-                String password = inputPassword.getText().toString().trim();
-                String nama = inputNama.getText().toString().trim();
-                String no_hp = inputPassword.getText().toString().trim();
-
-                if (TextUtils.isEmpty(email)) {
-                    Toast.makeText(getApplicationContext(), "Enter email address!", Toast.LENGTH_SHORT).show();
-                    return;
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user != null) {
+                    // User is signed in
+                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
+                    toastMessage("Successfully signed in with: " + user.getEmail());
+                } else {
+                    // User is signed out
+                    Log.d(TAG, "onAuthStateChanged:signed_out");
+                    toastMessage("Successfully signed out.");
                 }
-                if (TextUtils.isEmpty(nama)) {
-                    Toast.makeText(getApplicationContext(), "Enter email address!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if (TextUtils.isEmpty(no_hp)) {
-                    Toast.makeText(getApplicationContext(), "Enter email address!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                if (TextUtils.isEmpty(password)) {
-                    Toast.makeText(getApplicationContext(), "Enter password!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                if (password.length() < 6) {
-                    Toast.makeText(getApplicationContext(), "Password too short, enter minimum 6 characters!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                progressBar.setVisibility(View.VISIBLE);
-                //create user
-                auth.createUserWithEmailAndPassword(email, password)
-                        .addOnCompleteListener(RegistrationActivity.this, new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                Toast.makeText(RegistrationActivity.this, "createUserWithEmail:onComplete:" + task.isSuccessful(), Toast.LENGTH_SHORT).show();
-                                progressBar.setVisibility(View.GONE);
-                                // If sign in fails, display a message to the user. If sign in succeeds
-                                // the auth state listener will be notified and logic to handle the
-                                // signed in user can be handled in the listener.
-                                if (!task.isSuccessful()) {
-                                    Toast.makeText(RegistrationActivity.this, "Authentication failed." + task.getException(), Toast.LENGTH_SHORT).show();
-                                    Log.d("registerTag",task.getException().toString());
-                                } else {
-                                    startActivity(new Intent(RegistrationActivity.this, HalamanUtama.class));
-                                    finish();
-                                }
-                            }
-                        });
-
+                // ...
             }
-        });
-    }
+        };
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        progressBar.setVisibility(View.GONE);
-    }
+     myRef.addValueEventListener(new ValueEventListener() {
+        @Override
+        public void onDataChange(DataSnapshot dataSnapshot) {
+            // This method is called once with the initial value and again
+            // whenever data at this location is updated.
+            Log.d(TAG, "onDataChange: Added information to database: \n" +
+                    dataSnapshot.getValue());
+        }
+
+        @Override
+        public void onCancelled(DatabaseError error) {
+            // Failed to read value
+            Log.w(TAG, "Failed to read value.", error.toException());
+        }
+    });
+
+    btnRegistrasi.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view){
+            registerUser();
+        }
+    });
 }
 
 
+    private void registerUser(){
+
+        //getting email and password from edit texts
+        final String email = inputEmail.getText().toString().trim();
+        final String password = inputPassword.getText().toString().trim();
+        final String nama = inputNama.getText().toString().trim();
+        final String no_hp = inputNoHp.getText().toString().trim();
+
+        //checking if email and passwords are empty
+        if (TextUtils.isEmpty(email)) {
+            Toast.makeText(getApplicationContext(), "Enter email address!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (TextUtils.isEmpty(nama)) {
+            Toast.makeText(getApplicationContext(), "Enter email address!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (TextUtils.isEmpty(no_hp)) {
+            Toast.makeText(getApplicationContext(), "Enter email address!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (TextUtils.isEmpty(password)) {
+            Toast.makeText(getApplicationContext(), "Enter password!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (password.length() < 6) {
+            Toast.makeText(getApplicationContext(), "Password too short, enter minimum 6 characters!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        progressBar.setVisibility(View.VISIBLE);
 
 
+        //creating a new user
+        mAuth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        //checking if success
+                        if(!email.equals("") && !password.equals("") && !nama.equals("") && !no_hp.equals("")){
+                            User user= new User(email,password,nama, no_hp);
+                            myRef.child("Users").child(userID).setValue(user);
+                            Toast.makeText(RegistrationActivity.this,"Successfully registered",Toast.LENGTH_LONG).show();
+                            inputEmail.setText("");
+                            inputPassword.setText("");
+                            inputNama.setText("");
+                            inputNoHp.setText("");
+                            startActivity(new Intent(RegistrationActivity.this, HalamanUtama.class));
+                            finish();
+                        }else{
+                            //display some message here
+                            Toast.makeText(RegistrationActivity.this,"Registration Error",Toast.LENGTH_LONG).show();
+                        }
+
+                    }
+                });
+
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        mAuth.addAuthStateListener(mAuthListener);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (mAuthListener != null) {
+            mAuth.removeAuthStateListener(mAuthListener);
+        }
+    }
 
 
+    /**
+     * customizable toast
+     * @param message
+     */
+    private void toastMessage(String message){
+        Toast.makeText(this,message,Toast.LENGTH_SHORT).show();
+    }
+//
+//    @Override
+//    public void onClick(View view) {
+//
+//    }
+}
 
+
+                //create user
+//                auth.createUserWithEmailAndPassword(email, password)
+//                        .addOnCompleteListener(RegistrationActivity.this, new OnCompleteListener<AuthResult>() {
+//                            @Override
+//                            public void onComplete(@NonNull Task<AuthResult> task) {
+//                                Toast.makeText(RegistrationActivity.this, "createUserWithEmail:onComplete:" + task.isSuccessful(), Toast.LENGTH_SHORT).show();
+//                                progressBar.setVisibility(View.GONE);
+//                                // If sign in fails, display a message to the user. If sign in succeeds
+//                                // the auth state listener will be notified and logic to handle the
+//                                // signed in user can be handled in the listener.
+//                                if (!task.isSuccessful()) {
+//                                    Toast.makeText(RegistrationActivity.this, "Authentication failed." + task.getException(), Toast.LENGTH_SHORT).show();
+//                                    Log.d("registerTag",task.getException().toString());
+//                                } else {
+//                                    startActivity(new Intent(RegistrationActivity.this, HalamanUtama.class));
+//                                    finish();
+//                                }
+//                            }
+//                        });
 
 
 

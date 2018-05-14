@@ -88,6 +88,8 @@ public class Maps extends Fragment implements OnMapReadyCallback,
     private Context mContext;
     private SupportMapFragment supportMapFragment;
 
+
+
     ImageView mylocation;
     ImageView createEvent;
     private AutoCompleteTextView mSearchText;
@@ -118,6 +120,7 @@ public class Maps extends Fragment implements OnMapReadyCallback,
         mView = inflater.inflate(R.layout.fragment_maps, container, false);
 
         createEvent = mView.findViewById(R.id.create_event);
+        mSearchText = mView.findViewById(R.id.input_search);
 
         createEvent.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -164,6 +167,7 @@ public class Maps extends Fragment implements OnMapReadyCallback,
 
     private void init() {
         Log.d(TAG, "init: initializing");
+
 
         if (mGoogleApiClient == null || !mGoogleApiClient.isConnected()) {
             try {
@@ -358,7 +362,6 @@ public class Maps extends Fragment implements OnMapReadyCallback,
     private void hideSoftKeyboard() {
         this.getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
     }
-
     /*
         --------------------------- google places API autocomplete suggestions -----------------
      */

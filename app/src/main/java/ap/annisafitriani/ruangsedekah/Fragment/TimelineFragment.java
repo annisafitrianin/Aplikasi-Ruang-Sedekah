@@ -55,6 +55,7 @@ public class TimelineFragment extends Fragment {
          FDB = FirebaseDatabase.getInstance();
         GetDataFirebase();
 
+
         return view;
     }
     void GetDataFirebase(){
