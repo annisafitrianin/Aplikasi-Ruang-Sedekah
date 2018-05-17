@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -17,10 +18,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import ap.annisafitriani.ruangsedekah.Model.Kegiatan;
-import ap.annisafitriani.ruangsedekah.Model.KegiatanData;
 import ap.annisafitriani.ruangsedekah.Adapter.ListTimelineAdapter;
+import ap.annisafitriani.ruangsedekah.Model.Kegiatan;
 import ap.annisafitriani.ruangsedekah.R;
 
 
@@ -29,62 +30,71 @@ import ap.annisafitriani.ruangsedekah.R;
  */
 public class TimelineFragment extends Fragment {
 
-    private RecyclerView rvCategory;
-    private ArrayList<Kegiatan> list;
-    FirebaseDatabase FDB;
-    DatabaseReference DBR;
-
-
-
-
-    public TimelineFragment(){
-
-    }
+    RecyclerView rvCategory;
+    ListTimelineAdapter adapter;
+    List<Kegiatan> kegiatanItem;
+    DatabaseReference mRef;
+    FirebaseDatabase mDatabase;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_timeline, container, false);
+
+        mDatabase = FirebaseDatabase.getInstance();
+        mRef = mDatabase.getReference("Kegiatan");
+
+        kegiatanItem = new ArrayList<>();
+
         rvCategory = (RecyclerView) view.findViewById(R.id.rv_category);
+        rvCategory.setHasFixedSize(true);
 
-        list = new ArrayList<>();
-        list.addAll(KegiatanData.getListData());
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
+        rvCategory.setLayoutManager(linearLayoutManager);
 
+        adapter = new ListTimelineAdapter(kegiatanItem);
+        rvCategory.setAdapter(adapter);
 
-
-         FDB = FirebaseDatabase.getInstance();
-        GetDataFirebase();
-
-
+        updateList();
         return view;
     }
-    void GetDataFirebase(){
 
-        DBR = FDB.getReference("kegiatan");
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case 0:
+                break;
+            case 1:
+                break;
+        }
+        return super.onContextItemSelected(item);
+    }
 
-        DBR.addChildEventListener(new ChildEventListener() {
+    private void updateList() {
+        mRef.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-
-                Kegiatan data = dataSnapshot.getValue(Kegiatan.class);
-                //Now add to ArrayList
-                list.add(data);
-                //Now Add List into Adapter/Recyclerview
-                ListTimelineAdapter listTimelineAdapter = new ListTimelineAdapter(getContext());
-                listTimelineAdapter.setListKegiatan(list);
-                rvCategory.setLayoutManager(new LinearLayoutManager(getActivity()));
-                rvCategory.setAdapter(listTimelineAdapter);
-
+                kegiatanItem.add(dataSnapshot.getValue(Kegiatan.class));
+                adapter.notifyDataSetChanged();
             }
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                Kegiatan kegiatan = dataSnapshot.getValue(Kegiatan.class);
+                int index = getItemIndex(kegiatan);
 
+                kegiatanItem.set(index, kegiatan);
+                adapter.notifyItemChanged(index);
             }
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
+                Kegiatan kegiatan = dataSnapshot.getValue(Kegiatan.class);
+                int index = getItemIndex(kegiatan);
 
+                kegiatanItem.remove(index);
+                adapter.notifyItemRemoved(index);
             }
 
             @Override
@@ -97,5 +107,18 @@ public class TimelineFragment extends Fragment {
 
             }
         });
+    }
+
+    private int getItemIndex(Kegiatan kegiatan) {
+
+        int index = -1;
+        for (int i = 0; i < kegiatanItem.size(); i++) {
+            if (kegiatanItem.get(i).getId().equals(kegiatan.getId())) {
+                index = i;
+                break;
+            }
+
+        }
+        return index;
     }
 }

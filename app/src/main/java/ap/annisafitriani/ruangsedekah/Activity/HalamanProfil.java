@@ -21,7 +21,6 @@ public class HalamanProfil extends AppCompatActivity {
     private ViewPager viewPager;
     private HalamanProfil.ViewPagerAdapter adapter;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,23 +30,10 @@ public class HalamanProfil extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-//        viewPager = (ViewPager) findViewById(R.id.viewpager);
-//        setupViewPager(viewPager);
-
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
         adapter = new ViewPagerAdapter(getSupportFragmentManager());
-
-
-
     }
-
-
-//    private void setupViewPager(ViewPager viewPager) {
-//        HalamanUtama.ViewPagerAdapter adapter = new HalamanUtama.ViewPagerAdapter(getSupportFragmentManager());
-//        adapter.addFragment(new Beranda(), "BERANDA");
-//        viewPager.setAdapter(adapter);
-//    }
 
     class ViewPagerAdapter extends FragmentPagerAdapter {
         private final List<Fragment> mFragmentList = new ArrayList<>();
@@ -77,5 +63,4 @@ public class HalamanProfil extends AppCompatActivity {
             return mFragmentTitleList.get(position);
         }
     }
-
 }

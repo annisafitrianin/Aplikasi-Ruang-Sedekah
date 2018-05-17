@@ -3,21 +3,28 @@ package ap.annisafitriani.ruangsedekah.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.text.format.DateFormat;
+import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.view.View;
-import android.widget.DatePicker;
+import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
+
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
 import ap.annisafitriani.ruangsedekah.Fragment.Maps;
+import ap.annisafitriani.ruangsedekah.Model.Kegiatan;
 import ap.annisafitriani.ruangsedekah.R;
 
 
@@ -27,12 +34,16 @@ public class CreateActivity extends AppCompatActivity {
     private SimpleDateFormat dateFormatter;
     private ImageButton ibTime;
     private ImageButton ibLoc;
-    private ImageButton ibDesc;
     private Button btnSubmit;
     private Button btnPickDate;
-    private EditText etResult;
+    private EditText etDateResult;
     private EditText etDesc;
     private EditText etNama;
+    private TextView tvLocResult;
+    private TextView tvTimeResult;
+
+
+    DatabaseReference mDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,17 +52,24 @@ public class CreateActivity extends AppCompatActivity {
 
         dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
 
-        etResult = (EditText) findViewById(R.id.et_result);
+
+        etDateResult = (EditText) findViewById(R.id.et_DateResult);
         btnPickDate = (Button) findViewById(R.id.btn_pickdate);
         ibTime = (ImageButton) findViewById(R.id.ib_time);
-        ibDesc = (ImageButton) findViewById(R.id.ib_desc);
+        ;
         ibLoc = (ImageButton) findViewById(R.id.ib_loc);
+        etNama = (EditText) findViewById(R.id.et_namaKegiatan);
+        etDesc = (EditText) findViewById(R.id.et_desc);
+        tvLocResult = (TextView) findViewById(R.id.tv_locResult);
+        tvTimeResult = (TextView) findViewById(R.id.tv_timeResult);
+
         btnPickDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 showDateDialog();
             }
         });
+        btnSubmit = (Button) findViewById(R.id.btn_submit);
 
         ibTime.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,7 +77,6 @@ public class CreateActivity extends AppCompatActivity {
                 showTimeDialog();
             }
         });
-
 
         //TODO: coba pake placebuilder mbak
         ibLoc.setOnClickListener(new View.OnClickListener() {
@@ -69,7 +86,51 @@ public class CreateActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        mDatabase = FirebaseDatabase.getInstance().getReference("Kegiatan");
+
+        btnSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                createKegiatan();
+            }
+        });
     }
+
+
+    private void createKegiatan() {
+        //getting the values to save
+        String date = etDateResult.getText().toString().trim();
+        String nama = etNama.getText().toString().trim();
+        String desc = etDesc.getText().toString().trim();
+        String time = tvTimeResult.getText().toString().trim();
+        String loc = tvLocResult.getText().toString().trim();
+
+
+        //checking if the value is provided
+        if (!TextUtils.isEmpty(nama)) {
+
+            //getting a unique id using push().getKey() method
+            //it will create a unique id and we will use it as the Primary Key for our Artist
+            String id = mDatabase.push().getKey();
+
+            //creating an Artist Object
+            Kegiatan kegiatan = new Kegiatan(nama, date, time, desc, id);
+
+            //Saving the Artist
+            mDatabase.child(id).setValue(kegiatan);
+
+            //setting edittext to blank again
+            etNama.setText("");
+
+            //displaying a success toast
+            Toast.makeText(this, "Event added", Toast.LENGTH_LONG).show();
+        } else {
+            //if the value is not given displaying a toast
+            Toast.makeText(this, "Please enter a name", Toast.LENGTH_LONG).show();
+        }
+    }
+
 
     private void showDateDialog() {
         Calendar newCalendar = Calendar.getInstance();
@@ -80,7 +141,7 @@ public class CreateActivity extends AppCompatActivity {
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                 Calendar newDate = Calendar.getInstance();
                 newDate.set(year, monthOfYear, dayOfMonth);
-                etResult.setText(dateFormatter.format(newDate.getTime()));
+                etDateResult.setText(dateFormatter.format(newDate.getTime()));
             }
 
         }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
@@ -92,6 +153,9 @@ public class CreateActivity extends AppCompatActivity {
         timePickerDialog = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                Calendar newTime = Calendar.getInstance();
+                tvTimeResult.setText("" + hourOfDay + ":" + minute);
+
 
             }
         },

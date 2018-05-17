@@ -27,7 +27,6 @@ public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
 
     private EditText inputEmail, inputPassword;
-    //TODO: PERHATIKAN TIPE WIDGET(EDITTEXT/TEXTVIEW), JANGAN ASAL COPAS
     private FirebaseAuth auth;
     private ProgressBar progressBar;
     private Button loginBtn;
@@ -39,15 +38,11 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        //getting firebase auth object
         auth = FirebaseAuth.getInstance();
 
-        //if the objects getcurrentuser method is not null
-        //means user is already logged in
         if (auth.getCurrentUser() != null) {
-            //close this activity
             finish();
-            //opening profile activity
+
             startActivity(new Intent(getApplicationContext(), HalamanUtama.class));
         }
 
@@ -55,11 +50,8 @@ public class LoginActivity extends AppCompatActivity {
         inputPassword = (EditText) findViewById(R.id.password);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
-        //TODO: ID SALAH!! PERHATIKAN ID
         loginBtn = (Button) findViewById(R.id.email_sign_in_button);
 
-
-        //Get Firebase auth instance
         auth = FirebaseAuth.getInstance();
 
         mAuthListener = new FirebaseAuth.AuthStateListener() {
@@ -67,18 +59,14 @@ public class LoginActivity extends AppCompatActivity {
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
-                    // User is signed in
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
                     toastMessage("Successfully signed in with: " + user.getEmail());
                 } else {
-                    // User is signed out
                     Log.d(TAG, "onAuthStateChanged:signed_out");
                     toastMessage("Successfully signed out.");
                 }
-                // ...
             }
         };
-
 
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,17 +86,12 @@ public class LoginActivity extends AppCompatActivity {
 
                 progressBar.setVisibility(View.VISIBLE);
 
-                //authenticate user
                 auth.signInWithEmailAndPassword(email, password)
                         .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
-                                // If sign in fails, display a message to the user. If sign in succeeds
-                                // the auth state listener will be notified and logic to handle the
-                                // signed in user can be handled in the listener.
                                 progressBar.setVisibility(View.GONE);
                                 if (!task.isSuccessful()) {
-                                    // there was an error
                                     if (password.length() < 6) {
                                         inputPassword.setError(getString(R.string.minimum_password));
                                     } else {
@@ -124,21 +107,23 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
-        @Override
-        public void onStart() {
-            super.onStart();
-            auth.addAuthStateListener(mAuthListener);
-        }
 
-        @Override
-        public void onStop() {
-            super.onStop();
-            if (mAuthListener != null) {
-                auth.removeAuthStateListener(mAuthListener);
-            }
+    @Override
+    public void onStart() {
+        super.onStart();
+        auth.addAuthStateListener(mAuthListener);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (mAuthListener != null) {
+            auth.removeAuthStateListener(mAuthListener);
         }
-    private void toastMessage(String message){
-        Toast.makeText(this,message,Toast.LENGTH_SHORT).show();
+    }
+
+    private void toastMessage(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
 }

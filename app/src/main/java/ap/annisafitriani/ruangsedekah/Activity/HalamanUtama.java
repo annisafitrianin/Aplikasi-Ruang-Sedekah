@@ -32,7 +32,7 @@ import ap.annisafitriani.ruangsedekah.Fragment.TimelineFragment;
 import ap.annisafitriani.ruangsedekah.R;
 
 
-public class HalamanUtama extends AppCompatActivity implements View.OnClickListener{
+public class HalamanUtama extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = "HalamanUtama";
 
@@ -50,9 +50,6 @@ public class HalamanUtama extends AppCompatActivity implements View.OnClickListe
 
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,19 +86,16 @@ public class HalamanUtama extends AppCompatActivity implements View.OnClickListe
             Intent intent = new Intent(this, HalamanProfil.class);
             startActivity(intent);
             finish();
-        }
-        else if (id == R.id.menu_logout) {
+        } else if (id == R.id.menu_logout) {
 //            Toast.makeText(this, "menu_logout clicked", Toast.LENGTH_SHORT).show();
             Log.d(TAG, "onClick: attempting to sign out the user.");
             FirebaseAuth.getInstance().signOut();
-        }
-        else if (id == R.id.home){
+        } else if (id == R.id.home) {
             onBackPressed();
         }
         return true;
 
     }
-
 
     private void setupTabIcons() {
         tabLayout.getTabAt(0).setIcon(tabIcons[0]);
@@ -126,17 +120,10 @@ public class HalamanUtama extends AppCompatActivity implements View.OnClickListe
                 .setContentText("ini isi dari notifikasinya")
                 .setSmallIcon(R.mipmap.ic_notifications_active)
                 .setContentIntent(pendingIntent)
-                //.setAutoCancel(true)
                 .build();
 
-        //if (Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O)
-        //    NotificationChannel channel = new NotificationChannel(
-        //            "Ch01","Channel 01", NotificationManager.IMPORTANCE_HIGH);
-
-        //this.notificationManager.createNotificationChannel(channel);;
 
         this.notificationManager.notify(12, this.myNotification);
-        //this.notificationManager.cancel(12);
     }
 
 
@@ -186,10 +173,7 @@ public class HalamanUtama extends AppCompatActivity implements View.OnClickListe
                 }
             }
         };
-
-
-        }
-
+    }
 
     @Override
     protected void onStart() {
@@ -200,7 +184,7 @@ public class HalamanUtama extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onStop() {
         super.onStop();
-        if(mAuthListener != null){
+        if (mAuthListener != null) {
             FirebaseAuth.getInstance().removeAuthStateListener(mAuthListener);
         }
     }

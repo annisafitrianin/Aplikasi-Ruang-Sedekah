@@ -88,8 +88,6 @@ public class Maps extends Fragment implements OnMapReadyCallback,
     private Context mContext;
     private SupportMapFragment supportMapFragment;
 
-
-
     ImageView mylocation;
     ImageView createEvent;
     private AutoCompleteTextView mSearchText;
@@ -98,7 +96,6 @@ public class Maps extends Fragment implements OnMapReadyCallback,
     private static final String FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
     private static final String COURSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1234;
-
 
     private Boolean mLocationPermissionsGranted = false;
     private static final float DEFAULT_ZOOM = 15f;
@@ -112,7 +109,6 @@ public class Maps extends Fragment implements OnMapReadyCallback,
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
@@ -141,7 +137,6 @@ public class Maps extends Fragment implements OnMapReadyCallback,
 
         mSearchText = mView.findViewById(R.id.input_search);
 
-
         getLocationPermission();
 
         return mView;
@@ -156,7 +151,6 @@ public class Maps extends Fragment implements OnMapReadyCallback,
             mMapView.onResume();
             mMapView.getMapAsync(this);
         }
-
     }
 
     @Override
@@ -168,10 +162,8 @@ public class Maps extends Fragment implements OnMapReadyCallback,
     private void init() {
         Log.d(TAG, "init: initializing");
 
-
         if (mGoogleApiClient == null || !mGoogleApiClient.isConnected()) {
             try {
-
                 mGoogleApiClient = new GoogleApiClient
                         .Builder(getContext())
                         .addApi(Places.GEO_DATA_API)
@@ -179,7 +171,6 @@ public class Maps extends Fragment implements OnMapReadyCallback,
                         .enableAutoManage(getActivity(), this)
                         .build();
             } catch (Exception e) {
-
             }
         }
 //        mSearchText.setOnItemClickListener(mAutocompleteClickListener);
@@ -229,7 +220,6 @@ public class Maps extends Fragment implements OnMapReadyCallback,
         }
     }
 
-
     private void getDeviceLocation() {
         Log.d(TAG, "getDeviceLocation: getting the devices current location");
 
@@ -271,7 +261,7 @@ public class Maps extends Fragment implements OnMapReadyCallback,
 
         if (kegiatan != null) {
             try {
-                String snippet = "Nama Kegiatan: " + kegiatan.getName() + "\n" +
+                String snippet = "Nama Kegiatan: " + kegiatan.getNama() + "\n" +
                         "Deskripsi: " + kegiatan.getDeskripsi() + "\n" +
                         "Tanggal: " + kegiatan.getTanggal() + "\n" +
                         "Waktu: " + kegiatan.getWaktu() + "\n" +
@@ -279,7 +269,7 @@ public class Maps extends Fragment implements OnMapReadyCallback,
 
                 MarkerOptions options = new MarkerOptions()
                         .position(latLng)
-                        .title(kegiatan.getName())
+                        .title(kegiatan.getNama())
                         .snippet(snippet);
                 mMap.addMarker(options);
 
@@ -296,7 +286,6 @@ public class Maps extends Fragment implements OnMapReadyCallback,
         Log.d(TAG, "moveCamera: moving the camera to: lat: " + latLng.latitude + ", lng: " + latLng.longitude);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
     }
-
 
     private void initMap() {
         mContext = getActivity();
@@ -358,13 +347,9 @@ public class Maps extends Fragment implements OnMapReadyCallback,
         }
     }
 
-
     private void hideSoftKeyboard() {
         this.getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
     }
-    /*
-        --------------------------- google places API autocomplete suggestions -----------------
-     */
 
     private AdapterView.OnItemClickListener mAutocompleteClickListener = new AdapterView.OnItemClickListener() {
         @Override
@@ -383,7 +368,6 @@ public class Maps extends Fragment implements OnMapReadyCallback,
             placeResult.setResultCallback(mUpdatePlaceDetailsCallback);
         }
     };
-
 
     private ResultCallback<PlaceBuffer> mUpdatePlaceDetailsCallback = new ResultCallback<PlaceBuffer>() {
         @Override
@@ -440,8 +424,3 @@ public class Maps extends Fragment implements OnMapReadyCallback,
         }
 
     }
-}
-
-
-
-

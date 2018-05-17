@@ -6,63 +6,69 @@ package ap.annisafitriani.ruangsedekah.Model;
 
 public class Kegiatan {
 
-    private String nama, deskripsi, photo, id;
-    private int tanggal, waktu;
-    private double lokasi;
+    public String nama, deskripsi, photo, tanggal, waktu, lokasi, id;
 
-    public Kegiatan(String nama, String deskripsi, String id, int tanggal, int waktu, double lokasi){
+
+    public Kegiatan(String nama, String tanggal, String waktu, String deskripsi, String id) {
         this.nama = nama;
-        this.id = id;
         this.deskripsi = deskripsi;
         this.tanggal = tanggal;
         this.waktu = waktu;
-        this.lokasi = lokasi;
+        this.id = id;
+//        this.lokasi = lokasi;
     }
-    public Kegiatan(){
+
+    public Kegiatan() {
 
     }
 
-    public String getName() {
+    public String getNama() {
         return nama;
     }
-    public void setName(String nama) {
+
+    public void setNama(String nama) {
         this.nama = nama;
     }
 
-    public String getId() {
-        return id;
-    }
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public int getTanggal() {
+    public String getTanggal() {
         return tanggal;
     }
-    public void setTanggal(int tanggal) {
+
+    public void setTanggal(String tanggal) {
         this.tanggal = tanggal;
     }
 
-    public int getWaktu() {
+    public String getWaktu() {
         return waktu;
     }
-    public void setWaktu(int waktu) {
+
+    public void setWaktu(String waktu) {
 
         this.waktu = waktu;
     }
 
-    public double getLokasi() {
+    public String getLokasi() {
         return lokasi;
     }
-    public void setLokasi(int lokasi) {
+
+    public void setLokasi(String lokasi) {
         this.lokasi = lokasi;
     }
 
     public String getDeskripsi() {
         return deskripsi;
     }
+
     public void setDeskripsi(String deskripsi) {
         this.deskripsi = deskripsi;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getPhoto() {
@@ -73,13 +79,4 @@ public class Kegiatan {
         this.photo = photo;
     }
 
-    @Override
-    public String toString() {
-        return "Detail{" +
-                "nama kegiatan='" + nama + '\'' +
-                ", deskripsi='" + deskripsi + '\'' +
-                ", tanggal='" + tanggal + '\'' +
-                ", waktu='" + waktu + '\'' +
-                '}';
-    }
 }

@@ -2,15 +2,13 @@ package ap.annisafitriani.ruangsedekah.Adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-
-import java.util.ArrayList;
+import java.util.List;
 
 import ap.annisafitriani.ruangsedekah.Model.Kegiatan;
 import ap.annisafitriani.ruangsedekah.R;
@@ -19,21 +17,12 @@ import ap.annisafitriani.ruangsedekah.R;
  * Created by Hp on 4/18/2018.
  */
 
-public class ListTimelineAdapter extends RecyclerView.Adapter<ListTimelineAdapter.CategoryViewHolder>{
-    private Context context;
+public class ListTimelineAdapter extends RecyclerView.Adapter<ListTimelineAdapter.CategoryViewHolder> {
+    List<Kegiatan> listKegiatan;
+    Context context;
 
-    public ArrayList<Kegiatan> getListKegiatan() {
-        return listKegiatan;
-    }
-
-    public void setListKegiatan(ArrayList<Kegiatan> listKegiatan) {
+    public ListTimelineAdapter(List<Kegiatan> listKegiatan) {
         this.listKegiatan = listKegiatan;
-    }
-
-    private ArrayList<Kegiatan>listKegiatan;
-
-    public ListTimelineAdapter(Context context) {
-        this.context = context;
     }
 
     @Override
@@ -43,47 +32,54 @@ public class ListTimelineAdapter extends RecyclerView.Adapter<ListTimelineAdapte
     }
 
     @Override
-    public void onBindViewHolder(CategoryViewHolder holder, int position) {
+    public void onBindViewHolder(final CategoryViewHolder holder, int position) {
 
+        Kegiatan kegiatan = listKegiatan.get(position);
 
-        holder.tvName.setText(getListKegiatan().get(position).getName());
-//        holder.tvTanggal.setText(getListKegiatan().get(position).getTanggal());
-//        holder.tvWaktu.setText(getListKegiatan().get(position).getWaktu());
-        holder.tvDesc.setText(getListKegiatan().get(position).getDeskripsi());
+        holder.tvNama.setText(kegiatan.getNama());
+        holder.tvTanggal.setText(kegiatan.getTanggal());
+        holder.tvWaktu.setText(kegiatan.getWaktu());
+        holder.tvDesc.setText(kegiatan.getDeskripsi());
 
-        Glide.with(context)
-                .load(getListKegiatan().get(position).getLokasi())
+        holder.itemView.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
+            @Override
+            public void onCreateContextMenu(ContextMenu contextMenu, View view, ContextMenu.ContextMenuInfo contextMenuInfo) {
+                contextMenu.add(holder.getAdapterPosition(), 0, 0, "ksksks");
+                contextMenu.add(holder.getAdapterPosition(), 1, 0, "fjdjfjdfjd");
+            }
+        });
 
-
-                .into(holder.locLokasi);
-        Glide.with(context)
-                .load(getListKegiatan().get(position).getPhoto())
-
-
-                .into(holder.imgPhoto);
+//        Glide.with(context)
+//                .load(kegiatan.getLokasi())
+//                .into(holder.locLokasi);
+//        Glide.with(context)
+//                .load(kegiatan.getPhoto())
+//                .into(holder.imgPhoto);
     }
 
     @Override
     public int getItemCount() {
-        return getListKegiatan().size();
+        return listKegiatan.size();
     }
 
-    class CategoryViewHolder extends RecyclerView.ViewHolder{
-        TextView tvName;
+    class CategoryViewHolder extends RecyclerView.ViewHolder {
+        TextView tvNama;
         TextView tvTanggal;
         TextView tvWaktu;
-        ImageView locLokasi;
+        //        ImageView locLokasi;
         TextView tvDesc;
-        ImageView imgPhoto;
+//        ImageView imgPhoto;
 
         public CategoryViewHolder(View itemView) {
             super(itemView);
-            tvName = (TextView)itemView.findViewById(R.id.tv_item_name);
-            tvTanggal = (TextView)itemView.findViewById(R.id.tv_item_tanggal);
-            tvWaktu = (TextView)itemView.findViewById(R.id.tv_item_waktu);
-            tvDesc = (TextView)itemView.findViewById(R.id.tv_item_desc);
-            locLokasi = (ImageView)itemView.findViewById(R.id.img_loc);
-            imgPhoto = (ImageView)itemView.findViewById(R.id.img_item_photo);
+            tvNama = (TextView) itemView.findViewById(R.id.tv_item_nama);
+            tvTanggal = (TextView) itemView.findViewById(R.id.tv_item_tanggal);
+            tvWaktu = (TextView) itemView.findViewById(R.id.tv_item_waktu);
+            tvDesc = (TextView) itemView.findViewById(R.id.tv_item_desc);
+//            locLokasi = (ImageView) itemView.findViewById(R.id.img_loc);
+//            imgPhoto = (ImageView) itemView.findViewById(R.id.img_item_photo);
         }
     }
+
+
 }

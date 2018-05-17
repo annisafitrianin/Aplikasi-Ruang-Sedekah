@@ -30,7 +30,6 @@ public class RegistrationActivity extends AppCompatActivity {
 
     private static final String TAG = "RegistrationActivity";
 
-
     private EditText inputEmail,
             inputPassword,
             inputNama, inputNoHp;
@@ -81,32 +80,32 @@ public class RegistrationActivity extends AppCompatActivity {
             }
         };
 
-     myRef.addValueEventListener(new ValueEventListener() {
-        @Override
-        public void onDataChange(DataSnapshot dataSnapshot) {
-            // This method is called once with the initial value and again
-            // whenever data at this location is updated.
-            Log.d(TAG, "onDataChange: Added information to database: \n" +
-                    dataSnapshot.getValue());
-        }
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                Log.d(TAG, "onDataChange: Added information to database: \n" +
+                        dataSnapshot.getValue());
+            }
 
-        @Override
-        public void onCancelled(DatabaseError error) {
-            // Failed to read value
-            Log.w(TAG, "Failed to read value.", error.toException());
-        }
-    });
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w(TAG, "Failed to read value.", error.toException());
+            }
+        });
 
-    btnRegistrasi.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View view){
-            registerUser();
-        }
-    });
-}
+        btnRegistrasi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                registerUser();
+            }
+        });
+    }
 
 
-    private void registerUser(){
+    private void registerUser() {
 
         //getting email and password from edit texts
         final String email = inputEmail.getText().toString().trim();
@@ -147,24 +146,23 @@ public class RegistrationActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         //checking if success
-                        if(!email.equals("") && !password.equals("") && !nama.equals("") && !no_hp.equals("")){
-                            User user= new User(email,password,nama, no_hp);
+                        if (!email.equals("") && !password.equals("") && !nama.equals("") && !no_hp.equals("")) {
+                            User user = new User(email, password, nama, no_hp);
                             myRef.child("Users").child(userID).setValue(user);
-                            Toast.makeText(RegistrationActivity.this,"Successfully registered",Toast.LENGTH_LONG).show();
+                            Toast.makeText(RegistrationActivity.this, "Successfully registered", Toast.LENGTH_LONG).show();
                             inputEmail.setText("");
                             inputPassword.setText("");
                             inputNama.setText("");
                             inputNoHp.setText("");
                             startActivity(new Intent(RegistrationActivity.this, HalamanUtama.class));
                             finish();
-                        }else{
+                        } else {
                             //display some message here
-                            Toast.makeText(RegistrationActivity.this,"Registration Error",Toast.LENGTH_LONG).show();
+                            Toast.makeText(RegistrationActivity.this, "Registration Error", Toast.LENGTH_LONG).show();
                         }
 
                     }
                 });
-
     }
 
     @Override
@@ -181,41 +179,12 @@ public class RegistrationActivity extends AppCompatActivity {
         }
     }
 
-
-    /**
-     * customizable toast
-     * @param message
-     */
-    private void toastMessage(String message){
-        Toast.makeText(this,message,Toast.LENGTH_SHORT).show();
+    private void toastMessage(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
-//
-//    @Override
-//    public void onClick(View view) {
-//
-//    }
 }
 
 
-                //create user
-//                auth.createUserWithEmailAndPassword(email, password)
-//                        .addOnCompleteListener(RegistrationActivity.this, new OnCompleteListener<AuthResult>() {
-//                            @Override
-//                            public void onComplete(@NonNull Task<AuthResult> task) {
-//                                Toast.makeText(RegistrationActivity.this, "createUserWithEmail:onComplete:" + task.isSuccessful(), Toast.LENGTH_SHORT).show();
-//                                progressBar.setVisibility(View.GONE);
-//                                // If sign in fails, display a message to the user. If sign in succeeds
-//                                // the auth state listener will be notified and logic to handle the
-//                                // signed in user can be handled in the listener.
-//                                if (!task.isSuccessful()) {
-//                                    Toast.makeText(RegistrationActivity.this, "Authentication failed." + task.getException(), Toast.LENGTH_SHORT).show();
-//                                    Log.d("registerTag",task.getException().toString());
-//                                } else {
-//                                    startActivity(new Intent(RegistrationActivity.this, HalamanUtama.class));
-//                                    finish();
-//                                }
-//                            }
-//                        });
 
 
 
