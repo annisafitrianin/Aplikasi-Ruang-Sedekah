@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -57,6 +58,7 @@ public class TimelineFragment extends Fragment {
         rvCategory.setAdapter(adapter);
 
         updateList();
+        hideSoftKeyboard();
         return view;
     }
 
@@ -120,5 +122,8 @@ public class TimelineFragment extends Fragment {
 
         }
         return index;
+    }
+    private void hideSoftKeyboard() {
+        this.getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
     }
 }
