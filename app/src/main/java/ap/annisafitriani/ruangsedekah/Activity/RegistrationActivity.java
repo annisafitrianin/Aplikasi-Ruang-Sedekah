@@ -23,6 +23,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.UUID;
+
 import ap.annisafitriani.ruangsedekah.Model.User;
 import ap.annisafitriani.ruangsedekah.R;
 
@@ -60,13 +62,12 @@ public class RegistrationActivity extends AppCompatActivity {
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         myRef = mFirebaseDatabase.getReference();
         FirebaseUser user = mAuth.getCurrentUser();
-        userID = user.getUid();
-
 
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
+
                 if (user != null) {
                     // User is signed in
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
@@ -106,6 +107,13 @@ public class RegistrationActivity extends AppCompatActivity {
 
 
     private void registerUser() {
+
+        /*
+        baris kode ini berlaku kalau user udah login
+
+        FirebaseUser user = mAuth.getCurrentUser();
+        userID = user.getUid();
+        */
 
         //getting email and password from edit texts
         final String email = inputEmail.getText().toString().trim();
@@ -147,14 +155,16 @@ public class RegistrationActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         //checking if success
                         if (!email.equals("") && !password.equals("") && !nama.equals("") && !no_hp.equals("")) {
-                            User user = new User(email, password, nama, no_hp);
-                            myRef.child("Users").child(userID).setValue(user);
                             Toast.makeText(RegistrationActivity.this, "Successfully registered", Toast.LENGTH_LONG).show();
                             inputEmail.setText("");
                             inputPassword.setText("");
                             inputNama.setText("");
                             inputNoHp.setText("");
-                            startActivity(new Intent(RegistrationActivity.this, HalamanUtama.class));
+                            if (task.isSuccessful()) {
+                                User user = new User(email, password, nama, no_hp);
+                                myRef.child("Users").child(myRef.push().getKey()).setValue(user);
+                            }
+                            startActivity(new Intent(RegistrationActivity.this, LoginActivity.class));
                             finish();
                         } else {
                             //display some message here

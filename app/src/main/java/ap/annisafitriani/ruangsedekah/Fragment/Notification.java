@@ -32,8 +32,7 @@ public class Notification extends Fragment {
         list = new ArrayList<>();
 //        list.addAll(KegiatanData.getListData());
 
-        ListNotifAdapter listNotifAdapter = new ListNotifAdapter(getContext());
-        listNotifAdapter.setListKegiatan(list);
+        ListNotifAdapter listNotifAdapter = new ListNotifAdapter(list);
         rvCategory.setLayoutManager(new LinearLayoutManager(getActivity()));
         rvCategory.setAdapter(listNotifAdapter);
         return view;

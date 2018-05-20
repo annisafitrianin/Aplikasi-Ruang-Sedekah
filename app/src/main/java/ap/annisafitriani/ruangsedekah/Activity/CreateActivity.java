@@ -16,6 +16,10 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlacePicker;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -44,6 +48,7 @@ public class CreateActivity extends AppCompatActivity {
 
 
     DatabaseReference mDatabase;
+    private static int PLACE_PICKER_REQUEST = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +61,7 @@ public class CreateActivity extends AppCompatActivity {
         etDateResult = (EditText) findViewById(R.id.et_DateResult);
         btnPickDate = (Button) findViewById(R.id.btn_pickdate);
         ibTime = (ImageButton) findViewById(R.id.ib_time);
-        ;
+
         ibLoc = (ImageButton) findViewById(R.id.ib_loc);
         etNama = (EditText) findViewById(R.id.et_namaKegiatan);
         etDesc = (EditText) findViewById(R.id.et_desc);
@@ -82,8 +87,18 @@ public class CreateActivity extends AppCompatActivity {
         ibLoc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), Maps.class);
-                startActivity(intent);
+                // membuat Intent untuk Place Picker
+                PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+                try {
+                    //menjalankan place picker
+                    startActivityForResult(builder.build(CreateActivity.this), PLACE_PICKER_REQUEST);
+
+                    // check apabila <a title="Solusi Tidak Bisa Download Google Play Services di Android" href="http://www.twoh.co/2014/11/solusi-tidak-bisa-download-google-play-services-di-android/" target="_blank">Google Play Services tidak terinstall</a> di HP
+                } catch (GooglePlayServicesRepairableException e) {
+                    e.printStackTrace();
+                } catch (GooglePlayServicesNotAvailableException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -164,5 +179,17 @@ public class CreateActivity extends AppCompatActivity {
                 DateFormat.is24HourFormat(this));
 
         timePickerDialog.show();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // menangkap hasil balikan dari Place Picker, dan menampilkannya pada TextView
+        if (requestCode == PLACE_PICKER_REQUEST) {
+            if (resultCode == RESULT_OK) {
+                Place place = PlacePicker.getPlace(data, this);
+                //text view bisa dimasukkan dari sini
+                tvLocResult.setText(place.getName());
+            }
+        }
     }
 }
