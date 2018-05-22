@@ -44,17 +44,15 @@ public class ListTimelineAdapter extends RecyclerView.Adapter<ListTimelineAdapte
         holder.itemView.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
             @Override
             public void onCreateContextMenu(ContextMenu contextMenu, View view, ContextMenu.ContextMenuInfo contextMenuInfo) {
-                contextMenu.add(holder.getAdapterPosition(), 0, 0, "ksksks");
-                contextMenu.add(holder.getAdapterPosition(), 1, 0, "fjdjfjdfjd");
+                contextMenu.add(holder.getAdapterPosition(), 0, 0, "Hapus");
+                contextMenu.add(holder.getAdapterPosition(), 1, 0, "Edit");
             }
         });
 
 //        Glide.with(context)
 //                .load(kegiatan.getLokasi())
 //                .into(holder.locLokasi);
-//        Glide.with(context)
-//                .load(kegiatan.getPhoto())
-//                .into(holder.imgPhoto);
+
     }
 
     @Override
@@ -68,7 +66,6 @@ public class ListTimelineAdapter extends RecyclerView.Adapter<ListTimelineAdapte
         TextView tvWaktu;
         //        ImageView locLokasi;
         TextView tvDesc;
-//        ImageView imgPhoto;
 
         public CategoryViewHolder(View itemView) {
             super(itemView);
@@ -77,7 +74,7 @@ public class ListTimelineAdapter extends RecyclerView.Adapter<ListTimelineAdapte
             tvWaktu = (TextView) itemView.findViewById(R.id.tv_item_waktu);
             tvDesc = (TextView) itemView.findViewById(R.id.tv_item_desc);
 //            locLokasi = (ImageView) itemView.findViewById(R.id.img_loc);
-//            imgPhoto = (ImageView) itemView.findViewById(R.id.img_item_photo);
+
         }
     }
 

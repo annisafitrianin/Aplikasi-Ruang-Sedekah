@@ -118,6 +118,7 @@ public class CreateActivity extends AppCompatActivity {
 
 
 
+
     private void createKegiatan() {
         //getting the values to save
         String date = etDateResult.getText().toString().trim();
@@ -199,6 +200,8 @@ public class CreateActivity extends AppCompatActivity {
             }
         }
     }
+
+
 
     private void hideSoftKeyboard(){
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);

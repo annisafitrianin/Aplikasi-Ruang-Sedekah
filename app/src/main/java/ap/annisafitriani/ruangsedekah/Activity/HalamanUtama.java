@@ -28,7 +28,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ap.annisafitriani.ruangsedekah.Fragment.Maps;
-import ap.annisafitriani.ruangsedekah.Fragment.Notification;
 import ap.annisafitriani.ruangsedekah.Fragment.TimelineFragment;
 import ap.annisafitriani.ruangsedekah.R;
 
@@ -49,7 +48,7 @@ public class HalamanUtama extends AppCompatActivity implements View.OnClickListe
     private android.app.Notification myNotification;
     private NotificationManager notificationManager;
 
-    private FirebaseAuth mAuth;
+ //   private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
 
     @Override
@@ -88,7 +87,7 @@ public class HalamanUtama extends AppCompatActivity implements View.OnClickListe
             startActivity(intent);
             finish();
         } else if (id == R.id.menu_logout) {
-//            Toast.makeText(this, "menu_logout clicked", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "menu_logout clicked", Toast.LENGTH_SHORT).show();
             Log.d(TAG, "onClick: attempting to sign out the user.");
             FirebaseAuth.getInstance().signOut();
         } else if (id == R.id.home) {
@@ -101,14 +100,12 @@ public class HalamanUtama extends AppCompatActivity implements View.OnClickListe
     private void setupTabIcons() {
         tabLayout.getTabAt(0).setIcon(tabIcons[0]);
         tabLayout.getTabAt(1).setIcon(tabIcons[1]);
-        tabLayout.getTabAt(2).setIcon(tabIcons[2]);
     }
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new Maps(), "MAPS");
         adapter.addFragment(new TimelineFragment(), "TIMELINE");
-        adapter.addFragment(new Notification(), "NOTIFICATION");
         viewPager.setAdapter(adapter);
     }
 

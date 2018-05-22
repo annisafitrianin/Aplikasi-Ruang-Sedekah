@@ -138,7 +138,7 @@ public class Maps extends Fragment implements OnMapReadyCallback,
     }
 
 
-    private void getDeviceLocation() {
+        private void getDeviceLocation() {
         Log.d(TAG, "getDeviceLocation: getting the devices current location");
 
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getActivity());

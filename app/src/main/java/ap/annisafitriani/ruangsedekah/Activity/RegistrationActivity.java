@@ -23,8 +23,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.UUID;
-
 import ap.annisafitriani.ruangsedekah.Model.User;
 import ap.annisafitriani.ruangsedekah.R;
 
@@ -84,8 +82,6 @@ public class RegistrationActivity extends AppCompatActivity {
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                // This method is called once with the initial value and again
-                // whenever data at this location is updated.
                 Log.d(TAG, "onDataChange: Added information to database: \n" +
                         dataSnapshot.getValue());
             }
@@ -121,13 +117,14 @@ public class RegistrationActivity extends AppCompatActivity {
         final String nama = inputNama.getText().toString().trim();
         final String no_hp = inputNoHp.getText().toString().trim();
 
+
         //checking if email and passwords are empty
         if (TextUtils.isEmpty(email)) {
             Toast.makeText(getApplicationContext(), "Enter email address!", Toast.LENGTH_SHORT).show();
             return;
         }
         if (TextUtils.isEmpty(nama)) {
-            Toast.makeText(getApplicationContext(), "Enter email address!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Enter nama", Toast.LENGTH_SHORT).show();
             return;
         }
         if (TextUtils.isEmpty(no_hp)) {
@@ -145,6 +142,10 @@ public class RegistrationActivity extends AppCompatActivity {
             return;
         }
 
+        final String userId = myRef.push().getKey();
+        User user = new User(email, password, nama, no_hp, userId);
+        myRef.child(userId).setValue(user);
+
         progressBar.setVisibility(View.VISIBLE);
 
 
@@ -160,8 +161,9 @@ public class RegistrationActivity extends AppCompatActivity {
                             inputPassword.setText("");
                             inputNama.setText("");
                             inputNoHp.setText("");
+
                             if (task.isSuccessful()) {
-                                User user = new User(email, password, nama, no_hp);
+                                User user = new User(email, password, nama, no_hp, userId);
                                 myRef.child("Users").child(myRef.push().getKey()).setValue(user);
                             }
                             startActivity(new Intent(RegistrationActivity.this, LoginActivity.class));
@@ -193,16 +195,3 @@ public class RegistrationActivity extends AppCompatActivity {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-

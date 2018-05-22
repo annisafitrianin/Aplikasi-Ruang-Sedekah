@@ -7,7 +7,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -62,16 +61,7 @@ public class TimelineFragment extends Fragment {
         return view;
     }
 
-    @Override
-    public boolean onContextItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case 0:
-                break;
-            case 1:
-                break;
-        }
-        return super.onContextItemSelected(item);
-    }
+
 
     private void updateList() {
         mRef.addChildEventListener(new ChildEventListener() {
