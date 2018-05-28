@@ -2,7 +2,6 @@ package ap.annisafitriani.ruangsedekah.Adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,14 +39,14 @@ public class ListTimelineAdapter extends RecyclerView.Adapter<ListTimelineAdapte
         holder.tvTanggal.setText(kegiatan.getTanggal());
         holder.tvWaktu.setText(kegiatan.getWaktu());
         holder.tvDesc.setText(kegiatan.getDeskripsi());
-
-        holder.itemView.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
-            @Override
-            public void onCreateContextMenu(ContextMenu contextMenu, View view, ContextMenu.ContextMenuInfo contextMenuInfo) {
-                contextMenu.add(holder.getAdapterPosition(), 0, 0, "Hapus");
-                contextMenu.add(holder.getAdapterPosition(), 1, 0, "Edit");
-            }
-        });
+//
+//        holder.itemView.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
+//            @Override
+//            public void onCreateContextMenu(ContextMenu contextMenu, View view, ContextMenu.ContextMenuInfo contextMenuInfo) {
+//                contextMenu.add(holder.getAdapterPosition(), 0, 0, "Hapus");
+//                contextMenu.add(holder.getAdapterPosition(), 1, 0, "Edit");
+//            }
+//        });
 
 //        Glide.with(context)
 //                .load(kegiatan.getLokasi())

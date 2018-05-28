@@ -69,7 +69,7 @@ public class RegistrationActivity extends AppCompatActivity {
                 if (user != null) {
                     // User is signed in
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
-                    toastMessage("Successfully signed in with: " + user.getEmail());
+  //                  toastMessage("Successfully signed in with: " + user.getEmail());
                 } else {
                     // User is signed out
                     Log.d(TAG, "onAuthStateChanged:signed_out");
@@ -166,7 +166,7 @@ public class RegistrationActivity extends AppCompatActivity {
                                 User user = new User(email, password, nama, no_hp, userId);
                                 myRef.child("Users").child(myRef.push().getKey()).setValue(user);
                             }
-                            startActivity(new Intent(RegistrationActivity.this, LoginActivity.class));
+                            startActivity(new Intent(RegistrationActivity.this, HalamanUtama.class));
                             finish();
                         } else {
                             //display some message here

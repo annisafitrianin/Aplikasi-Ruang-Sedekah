@@ -5,129 +5,67 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/colorAccent"
-    tools:context="ap.annisafitriani.ruangsedekah.Activity.HalamanProfil">
+    tools:context="ap.annisafitriani.ruangsedekah.Activity.CreateActivity">
+
+
+    <RelativeLayout
+        android:id="@+id/rellay1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:paddingBottom="20dp">
 
         <RelativeLayout
-
-            android:layout_width="match_parent"
+            android:id="@+id/imgUser"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:background="@color/colorPrimary"
-            android:paddingBottom="20dp"
-            android:paddingTop="20dp"
-            >
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/circle_border">
+
             <ImageView
-                android:id="@+id/imgUser"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:src="@drawable/circle"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="20dp"/>
-            <TextView
-                android:id="@+id/tv_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/imgUser"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="15sp"
-                android:fontFamily="sans-serif-light"
-                android:text="Annisa Fitriani"
-                android:textColor="#ffffff"
-                android:textSize="20sp" />
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_margin="9dp"
+                android:adjustViewBounds="true"
+                android:background="@drawable/circle"
+                android:padding="3dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/user" />
 
-            <TextView
-                android:id="@+id/tv_address"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/tv_name"
-                android:layout_centerHorizontal="true"
-                android:fontFamily="sans-serif"
-                android:text="new york, usa"
-                android:textAllCaps="true"
-                android:textColor="#ffffff"
-                android:textSize="14sp" />
         </RelativeLayout>
-        <!--<RelativeLayout-->
-            <!--android:id="@+id/rellay1"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:background="@drawable/grad"-->
-            <!--android:paddingBottom="20dp">-->
 
-            <!--<RelativeLayout-->
-                <!--android:id="@+id/imgUser"-->
-                <!--android:layout_width="100dp"-->
-                <!--android:layout_height="100dp"-->
-                <!--android:layout_centerHorizontal="true"-->
-                <!--android:layout_marginTop="20dp"-->
-                <!--android:background="@drawable/circle_border">-->
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/imgUser"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="15sp"
+            android:fontFamily="sans-serif-light"
+            android:text="nama"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
 
-                <!--<ImageView-->
-                    <!--android:layout_width="120dp"-->
-                    <!--android:layout_height="120dp"-->
-                    <!--android:layout_margin="9dp"-->
-                    <!--android:adjustViewBounds="true"-->
-                    <!--android:background="@drawable/circle"-->
-                    <!--android:padding="3dp"-->
-                    <!--android:scaleType="centerInside" />-->
-
-            <!--</RelativeLayout>-->
-
-            <!--<TextView-->
-                <!--android:id="@+id/tv_name"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_below="@+id/imgUser"-->
-                <!--android:layout_centerHorizontal="true"-->
-                <!--android:layout_marginTop="15sp"-->
-                <!--android:fontFamily="sans-serif-light"-->
-                <!--android:text="Annisa Fitriani"-->
-                <!--android:textColor="@color/white"-->
-                <!--android:textSize="20sp" />-->
-
-            <!--<TextView-->
-                <!--android:id="@+id/tv_address"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_below="@+id/tv_name"-->
-                <!--android:layout_centerHorizontal="true"-->
-                <!--android:fontFamily="sans-serif"-->
-                <!--android:text="new york, usa"-->
-                <!--android:textAllCaps="true"-->
-                <!--android:textColor="@color/address"-->
-                <!--android:textSize="14sp" />-->
+        <TextView android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:id="@+id/tv_email"
+            android:layout_centerHorizontal="true"
+            android:textSize="14sp"
+            android:textColor="@color/address"
+            android:text="email"
+            android:fontFamily="sans-serif"
+            android:layout_below="@+id/tv_name"
+            />
 
 
-        <!--</RelativeLayout>-->
-    <!--<android.support.design.widget.AppBarLayout-->
-        <!--android:id="@+id/appbarid"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:background="@drawable/grad"-->
-        <!--android:elevation="0dp"-->
-        <!--android:layout_below="@+id/rellay1"-->
-        <!--android:gravity="center"-->
+    </RelativeLayout>
 
-        <!--android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">-->
 
-        <!--<android.support.v7.widget.Toolbar-->
-            <!--android:id="@+id/toolbar"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="?attr/actionBarSize"-->
-
-            <!--app:layout_scrollFlags="scroll|enterAlways"-->
-            <!--app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />-->
-
-        <!--<android.support.design.widget.TabLayout-->
-            <!--android:id="@+id/tabs"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--app:tabGravity="fill"-->
-            <!--app:tabMode="fixed" />-->
-    <!--</android.support.design.widget.AppBarLayout>-->
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_category"
+        android:layout_height="match_parent"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:id="@+id/rv_category"/>
+
+
 </LinearLayout>

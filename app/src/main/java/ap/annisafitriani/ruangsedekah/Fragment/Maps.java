@@ -4,6 +4,8 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -34,7 +36,12 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import ap.annisafitriani.ruangsedekah.Activity.CreateActivity;
+import ap.annisafitriani.ruangsedekah.Adapter.CustomInfoWindowAdapter;
 import ap.annisafitriani.ruangsedekah.Model.Kegiatan;
 import ap.annisafitriani.ruangsedekah.R;
 
@@ -138,7 +145,7 @@ public class Maps extends Fragment implements OnMapReadyCallback,
     }
 
 
-        private void getDeviceLocation() {
+    private void getDeviceLocation() {
         Log.d(TAG, "getDeviceLocation: getting the devices current location");
 
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getActivity());
@@ -155,7 +162,8 @@ public class Maps extends Fragment implements OnMapReadyCallback,
                             Location currentLocation = (Location) task.getResult();
 
                             moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()),
-                                    DEFAULT_ZOOM);
+                                    DEFAULT_ZOOM,
+                                    "My Location");
 
                         } else {
                             Log.d(TAG, "onComplete: current location is null");
@@ -175,7 +183,7 @@ public class Maps extends Fragment implements OnMapReadyCallback,
 
         mMap.clear();
 
-        // mMap.setInfoWindowAdapter(new CustomInfoWindowAdapter(Maps.this));
+        mMap.setInfoWindowAdapter(new CustomInfoWindowAdapter(getContext()));
 
         if (kegiatan != null) {
             try {
@@ -200,9 +208,43 @@ public class Maps extends Fragment implements OnMapReadyCallback,
         }
     }
 
-    private void moveCamera(LatLng latLng, float zoom) {
+    private void geoLocate(){
+        Log.d(TAG, "geoLocate: geolocating");
+
+
+        Geocoder geocoder = new Geocoder(getContext());
+        List<Address> list = new ArrayList<>();
+        try{
+            list = geocoder.getFromLocationName("", 1);
+        }catch (IOException e){
+            Log.e(TAG, "geoLocate: IOException: " + e.getMessage() );
+        }
+
+        if(list.size() > 0){
+            Address address = list.get(0);
+
+            Log.d(TAG, "geoLocate: found a location: " + address.toString());
+            //Toast.makeText(this, address.toString(), Toast.LENGTH_SHORT).show();
+
+            moveCamera(new LatLng(address.getLatitude(), address.getLongitude()), DEFAULT_ZOOM,
+                    address.getAddressLine(0));
+        }
+    }
+
+    private void moveCamera(LatLng latLng, float zoom, String title) {
         Log.d(TAG, "moveCamera: moving the camera to: lat: " + latLng.latitude + ", lng: " + latLng.longitude);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
+
+        if(!title.equals("My Location")){
+            MarkerOptions options = new MarkerOptions()
+                    .position(latLng)
+                    .title(title);
+            mMap.addMarker(options);
+        }
+
+        hideSoftKeyboard();
+
+
     }
 
     private void initMap() {

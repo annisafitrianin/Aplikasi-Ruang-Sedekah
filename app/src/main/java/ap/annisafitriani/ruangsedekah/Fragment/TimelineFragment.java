@@ -73,20 +73,20 @@ public class TimelineFragment extends Fragment {
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                Kegiatan kegiatan = dataSnapshot.getValue(Kegiatan.class);
-                int index = getItemIndex(kegiatan);
-
-                kegiatanItem.set(index, kegiatan);
-                adapter.notifyItemChanged(index);
+//                Kegiatan kegiatan = dataSnapshot.getValue(Kegiatan.class);
+//                int index = getItemIndex(kegiatan);
+//
+//                kegiatanItem.set(index, kegiatan);
+//                adapter.notifyItemChanged(index);
             }
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-                Kegiatan kegiatan = dataSnapshot.getValue(Kegiatan.class);
-                int index = getItemIndex(kegiatan);
-
-                kegiatanItem.remove(index);
-                adapter.notifyItemRemoved(index);
+//                Kegiatan kegiatan = dataSnapshot.getValue(Kegiatan.class);
+//                int index = getItemIndex(kegiatan);
+//
+//                kegiatanItem.remove(index);
+//                adapter.notifyItemRemoved(index);
             }
 
             @Override

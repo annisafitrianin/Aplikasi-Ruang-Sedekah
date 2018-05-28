@@ -16,6 +16,9 @@ public class User {
         this.nohp = nohp;
         this.userId = userId;
     }
+    public User(){
+
+    }
 
     public String getUsername() {
         return username;

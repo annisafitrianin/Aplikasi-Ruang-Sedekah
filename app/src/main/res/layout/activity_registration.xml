@@ -118,7 +118,7 @@
                 android:textStyle="bold"
                 android:background="@color/colorPrimary"
                 android:textColor="@color/colorAccent"
-                android:onClick="btnRegis"/>
+               />
             <ProgressBar
                 android:id="@+id/progressBar"
                 android:layout_width="0dp"
