@@ -7,14 +7,15 @@
     android:background="@color/colorAccent"
     tools:context="ap.annisafitriani.ruangsedekah.Activity.HalamanAwal">
 
-        <ImageView
-            android:id="@+id/iv_logo"
-            android:layout_width="wrap_content"
-            android:layout_height="100dp"
-            android:layout_alignParentTop="true"
-            android:layout_marginTop="30dp"
-            android:layout_centerHorizontal="true"
-            android:src="@drawable/logo" />
+    <ImageView
+        android:id="@+id/iv_logo"
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="57dp"
+        android:src="@drawable/logo" />
 
         <Button
             android:id="@+id/btn_login"

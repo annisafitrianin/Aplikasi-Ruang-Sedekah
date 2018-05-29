@@ -21,6 +21,8 @@ import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.Marker;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -45,7 +47,9 @@ public class CreateActivity extends AppCompatActivity {
     private EditText etNama;
     private TextView tvLocResult;
     private TextView tvTimeResult;
-
+    private Marker mMarker;
+    private GoogleMap mMap;
+//    private PlaceInfo mPlace;
 
     DatabaseReference mDatabase;
     int PLACE_PICKER_REQUEST = 1;
@@ -103,6 +107,7 @@ public class CreateActivity extends AppCompatActivity {
                     //menjalankan place picker
                     startActivityForResult(builder.build(CreateActivity.this), PLACE_PICKER_REQUEST);
 
+
                     // check apabila <a title="Solusi Tidak Bisa Download Google Play Services di Android" href="http://www.twoh.co/2014/11/solusi-tidak-bisa-download-google-play-services-di-android/" target="_blank">Google Play Services tidak terinstall</a> di HP
                 } catch (GooglePlayServicesRepairableException e) {
                     e.printStackTrace();
@@ -114,6 +119,7 @@ public class CreateActivity extends AppCompatActivity {
         });
 
     }
+
 
 
 
@@ -196,9 +202,12 @@ public class CreateActivity extends AppCompatActivity {
                 Place place = PlacePicker.getPlace(data, this);
                 //text view bisa dimasukkan dari sini
                 tvLocResult.setText(place.getName());
+
             }
         }
     }
+
+
 
     private void hideSoftKeyboard(){
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);

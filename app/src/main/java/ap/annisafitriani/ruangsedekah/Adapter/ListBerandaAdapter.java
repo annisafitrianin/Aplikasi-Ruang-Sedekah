@@ -6,6 +6,7 @@ import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -27,7 +28,7 @@ public class ListBerandaAdapter extends RecyclerView.Adapter<ListBerandaAdapter.
 
     @Override
     public CategoryViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemRow = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_row_timeline, parent, false);
+        View itemRow = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_row_beranda, parent, false);
         return new CategoryViewHolder(itemRow);
     }
 
@@ -44,8 +45,8 @@ public class ListBerandaAdapter extends RecyclerView.Adapter<ListBerandaAdapter.
         holder.itemView.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
             @Override
             public void onCreateContextMenu(ContextMenu contextMenu, View view, ContextMenu.ContextMenuInfo contextMenuInfo) {
-                contextMenu.add(holder.getAdapterPosition(), 0, 0, "hapus");
-                contextMenu.add(holder.getAdapterPosition(), 1, 0, "hapus");
+                contextMenu.add(holder.getAdapterPosition(), 0, 0, "Hapus");
+                contextMenu.add(holder.getAdapterPosition(), 1, 0, "Edit");
             }
         });
 
@@ -64,8 +65,9 @@ public class ListBerandaAdapter extends RecyclerView.Adapter<ListBerandaAdapter.
         TextView tvNama;
         TextView tvTanggal;
         TextView tvWaktu;
-        //        ImageView locLokasi;
+        ImageView locLokasi;
         TextView tvDesc;
+
 
         public CategoryViewHolder(View itemView) {
             super(itemView);
@@ -74,8 +76,7 @@ public class ListBerandaAdapter extends RecyclerView.Adapter<ListBerandaAdapter.
             tvWaktu = (TextView) itemView.findViewById(R.id.tv_item_waktu);
             tvDesc = (TextView) itemView.findViewById(R.id.tv_item_desc);
 //            locLokasi = (ImageView) itemView.findViewById(R.id.img_loc);
+
         }
     }
-
-
 }

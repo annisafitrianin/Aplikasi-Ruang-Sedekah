@@ -8,6 +8,11 @@
     android:background="@color/colorAccent"
     tools:context="ap.annisafitriani.ruangsedekah.Activity.CreateActivity">
 
+    <ScrollView
+        android:id="@+id/login_form"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
     <RelativeLayout
 
         android:layout_width="match_parent"
@@ -16,7 +21,6 @@
         android:layout_weight="3"
         >
         <EditText
-
             android:id="@+id/et_DateResult"
             android:layout_width="210dp"
             android:layout_height="wrap_content"
@@ -52,7 +56,7 @@
             android:layout_marginStart="43dp"
             android:layout_marginTop="13dp"
             android:background="@color/colorPrimary"
-            android:src="@drawable/ic_time"
+            app:srcCompat="@drawable/ic_time"
             android:textColor="@color/colorAccent" />
         <TextView
             android:id="@+id/tv_time"
@@ -88,7 +92,7 @@
             android:layout_toEndOf="@+id/tv_time"
             android:layout_alignTop="@+id/tv_time"
             android:background="@color/colorPrimary"
-            android:src="@drawable/ic_location"
+            app:srcCompat="@drawable/ic_location"
             android:textColor="@color/colorAccent" />
         <TextView
             android:id="@+id/tv_loc"
@@ -134,12 +138,10 @@
             android:id="@+id/et_desc"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/ib_time"
-            android:layout_alignStart="@+id/ib_time"
             android:layout_below="@+id/ib_time"
-            android:layout_marginTop="28dp"
-            android:ems="10"
-            android:hint="Write your descricpion here"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="25dp"
+            android:hint="description"
             android:inputType="textMultiLine" />
 
 
@@ -156,5 +158,7 @@
 
 
     </RelativeLayout>
+
+    </ScrollView>
 
 </LinearLayout>

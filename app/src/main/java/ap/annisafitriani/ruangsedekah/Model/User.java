@@ -6,14 +6,18 @@ package ap.annisafitriani.ruangsedekah.Model;
 
 public class User {
 
-    private String username, email, nohp, password;
+    private String username, email, nohp, password, userId;
 
-    public User(String email, String password, String username, String nohp) {
+    public User(String email, String password, String username, String nohp, String userId) {
 
         this.email = email;
         this.password = password;
         this.username = username;
         this.nohp = nohp;
+        this.userId = userId;
+    }
+    public User(){
+
     }
 
     public String getUsername() {
@@ -46,5 +50,13 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 }
