@@ -9,13 +9,13 @@ public class Kegiatan {
     public String nama, deskripsi, photo, tanggal, waktu, lokasi, id;
 
 
-    public Kegiatan(String nama, String tanggal, String waktu, String deskripsi, String id) {
+    public Kegiatan(String nama, String tanggal, String waktu, String deskripsi, String id, String lokasi) {
         this.nama = nama;
         this.deskripsi = deskripsi;
         this.tanggal = tanggal;
         this.waktu = waktu;
         this.id = id;
-//        this.lokasi = lokasi;
+        this.lokasi = lokasi;
     }
 
     public Kegiatan() {

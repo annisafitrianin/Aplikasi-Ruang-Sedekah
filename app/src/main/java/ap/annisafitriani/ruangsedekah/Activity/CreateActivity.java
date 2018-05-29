@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.text.format.DateFormat;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -27,7 +28,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
-import ap.annisafitriani.ruangsedekah.Fragment.Maps;
 import ap.annisafitriani.ruangsedekah.Model.Kegiatan;
 import ap.annisafitriani.ruangsedekah.R;
 
@@ -48,12 +48,13 @@ public class CreateActivity extends AppCompatActivity {
 
 
     DatabaseReference mDatabase;
-    private static int PLACE_PICKER_REQUEST = 1;
+    int PLACE_PICKER_REQUEST = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create);
+        hideSoftKeyboard();
 
         dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
 
@@ -83,6 +84,15 @@ public class CreateActivity extends AppCompatActivity {
             }
         });
 
+        mDatabase = FirebaseDatabase.getInstance().getReference("Kegiatan");
+
+        btnSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                createKegiatan();
+            }
+        });
+
         //TODO: coba pake placebuilder mbak
         ibLoc.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -100,17 +110,12 @@ public class CreateActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
             }
+
         });
 
-        mDatabase = FirebaseDatabase.getInstance().getReference("Kegiatan");
-
-        btnSubmit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                createKegiatan();
-            }
-        });
     }
+
+
 
 
     private void createKegiatan() {
@@ -130,7 +135,7 @@ public class CreateActivity extends AppCompatActivity {
             String id = mDatabase.push().getKey();
 
             //creating an Artist Object
-            Kegiatan kegiatan = new Kegiatan(nama, date, time, desc, id);
+            Kegiatan kegiatan = new Kegiatan(nama, date, time, desc, id, loc);
 
             //Saving the Artist
             mDatabase.child(id).setValue(kegiatan);
@@ -140,6 +145,8 @@ public class CreateActivity extends AppCompatActivity {
 
             //displaying a success toast
             Toast.makeText(this, "Event added", Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(CreateActivity.this, HalamanUtama.class);
+            startActivity(intent);
         } else {
             //if the value is not given displaying a toast
             Toast.makeText(this, "Please enter a name", Toast.LENGTH_LONG).show();
@@ -191,5 +198,9 @@ public class CreateActivity extends AppCompatActivity {
                 tvLocResult.setText(place.getName());
             }
         }
+    }
+
+    private void hideSoftKeyboard(){
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
     }
 }

@@ -16,6 +16,12 @@
         <item name="android:textColor">@color/colorTextButton</item>
     </style>
 
+    <style name="HalamanUtamaStyle" parent="Theme.AppCompat.DayNight.NoActionBar" >
+        <item name="colorPrimary">@color/backgroundfragment</item>
+    </style>
+
+
+
 
 
 
