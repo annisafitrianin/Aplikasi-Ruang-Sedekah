@@ -186,7 +186,7 @@ public class HalamanProfil extends AppCompatActivity {
 
 
     private void removeKegiatan(int position) {
-        mRef.child(kegiatanItem.get(position).id).removeValue();
+        mRef.child(kegiatanItem.get(position).getId()).removeValue();
     }
 
     private void editKegiatan(int position) {

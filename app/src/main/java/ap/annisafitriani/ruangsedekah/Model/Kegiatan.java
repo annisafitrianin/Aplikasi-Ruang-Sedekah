@@ -6,7 +6,8 @@ package ap.annisafitriani.ruangsedekah.Model;
 
 public class Kegiatan {
 
-    public String nama, deskripsi, photo, tanggal, waktu, lokasi, id;
+    String nama, deskripsi, photo, tanggal, waktu, id, lokasi;
+    Double lang, lat;
 
 
     public Kegiatan(String nama, String tanggal, String waktu, String deskripsi, String id, String lokasi) {
@@ -78,7 +79,7 @@ public class Kegiatan {
 //        return lat;
 //    }
 //
-//    public void setLat(String lat) {
+//    public void setLat(Double lat) {
 //        this.lat =lat;
 //    }
 //
