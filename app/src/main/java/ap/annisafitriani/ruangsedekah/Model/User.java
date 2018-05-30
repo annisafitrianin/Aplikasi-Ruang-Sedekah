@@ -6,7 +6,7 @@ package ap.annisafitriani.ruangsedekah.Model;
 
 public class User {
 
-    private String username, email, nohp, password, userId;
+    public String username, email, nohp, password, userId;
 
     public User(String email, String password, String username, String nohp, String userId) {
 

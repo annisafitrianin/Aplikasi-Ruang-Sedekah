@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="ap.annisafitriani.ruangsedekah.Activity.CreateActivity">
+    tools:context="ap.annisafitriani.ruangsedekah.Activity.HalamanProfil">
 
 
     <RelativeLayout
@@ -43,7 +43,6 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="15sp"
             android:fontFamily="sans-serif-light"
-            android:text="nama"
             android:textColor="@color/white"
             android:textSize="20sp" />
 
@@ -53,7 +52,6 @@
             android:layout_centerHorizontal="true"
             android:textSize="14sp"
             android:textColor="@color/address"
-            android:text="email"
             android:fontFamily="sans-serif"
             android:layout_below="@+id/tv_name"
             />

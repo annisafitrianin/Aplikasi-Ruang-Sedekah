@@ -32,9 +32,12 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -49,6 +52,8 @@ public class Maps extends Fragment implements OnMapReadyCallback,
         GoogleApiClient.OnConnectionFailedListener {
 
     private Kegiatan mKegiatan;
+    private DatabaseReference mDatabase;
+    private DatabaseReference refDatabase;
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -91,6 +96,7 @@ public class Maps extends Fragment implements OnMapReadyCallback,
 
     private FusedLocationProviderClient mFusedLocationProviderClient;
     private GoogleApiClient mGoogleApiClient;
+    private Marker mMarker;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -120,9 +126,13 @@ public class Maps extends Fragment implements OnMapReadyCallback,
             }
         });
 
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("Kegiatan");
 
         getLocationPermission();
         hideSoftKeyboard();
+
+
+
 
         return mView;
     }
@@ -197,7 +207,7 @@ public class Maps extends Fragment implements OnMapReadyCallback,
                         .position(latLng)
                         .title(kegiatan.getNama())
                         .snippet(snippet);
-                mMap.addMarker(options);
+                mMarker = mMap.addMarker(options);
 
             } catch (NullPointerException e) {
                 Log.e(TAG, "moveCamera: NullPointerException: " + e.getMessage());
@@ -306,6 +316,9 @@ public class Maps extends Fragment implements OnMapReadyCallback,
             }
         }
     }
+
+
+
 
     private void hideSoftKeyboard() {
         this.getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);

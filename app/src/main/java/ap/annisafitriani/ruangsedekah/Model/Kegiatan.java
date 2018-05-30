@@ -16,6 +16,9 @@ public class Kegiatan {
         this.waktu = waktu;
         this.id = id;
         this.lokasi = lokasi;
+//        this.lat = lat;
+//        this.lang = lang;
+
     }
 
     public Kegiatan() {
@@ -70,6 +73,22 @@ public class Kegiatan {
     public void setId(String id) {
         this.id = id;
     }
+
+//    public String getLat() {
+//        return lat;
+//    }
+//
+//    public void setLat(String lat) {
+//        this.lat =lat;
+//    }
+//
+//    public String getLang() {
+//        return lang;
+//    }
+//
+//    public void setLang(String lang) {
+//        this.lang = lang;
+//    }
 
     public String getPhoto() {
         return photo;

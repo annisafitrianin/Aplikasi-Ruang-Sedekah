@@ -120,10 +120,6 @@ public class CreateActivity extends AppCompatActivity {
 
     }
 
-
-
-
-
     private void createKegiatan() {
         //getting the values to save
         String date = etDateResult.getText().toString().trim();
@@ -200,12 +196,15 @@ public class CreateActivity extends AppCompatActivity {
         if (requestCode == PLACE_PICKER_REQUEST) {
             if (resultCode == RESULT_OK) {
                 Place place = PlacePicker.getPlace(data, this);
-                //text view bisa dimasukkan dari sini
-                tvLocResult.setText(place.getName());
+                String toastMsg = String.format("Place: %s", place.getName());
+                Toast.makeText(this, toastMsg, Toast.LENGTH_LONG).show();
+                // Here, get the position of the place, mark it in map and moveCamera to that, couple lines of code.
 
-            }
-        }
+                tvLocResult.setText(place.getName());
     }
+}
+            }
+
 
 
 
