@@ -29,7 +29,7 @@ import ap.annisafitriani.ruangsedekah.Adapter.ListBerandaAdapter;
 import ap.annisafitriani.ruangsedekah.Model.Kegiatan;
 import ap.annisafitriani.ruangsedekah.R;
 
-public class HalamanProfil extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
+public class HalamanProfil extends AppCompatActivity {
 
 
     private TextView tvEmail;
@@ -49,7 +49,7 @@ public class HalamanProfil extends AppCompatActivity implements SwipeRefreshLayo
     FirebaseUser user;
 
 
-    public SwipeRefreshLayout myswiperefreshlayout;
+//    public SwipeRefreshLayout myswiperefreshlayout;
 
 
     private static final String TAG = "HalamanProfil";
@@ -78,15 +78,15 @@ public class HalamanProfil extends AppCompatActivity implements SwipeRefreshLayo
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         rvCategory.setLayoutManager(linearLayoutManager);
 
-        mySwipeRefreshLayout = (SwipeRefreshLayout) mySwipeRefreshLayout.findViewById(R.id.swiperefresh);
-        mySwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                Toast.makeText(getApplicationContext(), "on refresh", Toast.LENGTH_SHORT).show();
-            }
-        });
-        mySwipeRefreshLayout.setRefreshing(false);
-
+//        mySwipeRefreshLayout = (SwipeRefreshLayout) mySwipeRefreshLayout.findViewById(R.id.swiperefresh);
+//        mySwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+//            @Override
+//            public void onRefresh() {
+//                Toast.makeText(getApplicationContext(), "on refresh", Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//        mySwipeRefreshLayout.setRefreshing(false);
+//
 
         adapter = new ListBerandaAdapter(kegiatanItem, mRef, nama, tanggal, waktu, lokasi, deskripsi);
         rvCategory.setAdapter(adapter);
@@ -144,19 +144,19 @@ public class HalamanProfil extends AppCompatActivity implements SwipeRefreshLayo
             if (user.getEmail() != null){
                 tvEmail.setText(user.getEmail());
             }
-<<<<<<< HEAD
-        });
 
-        myswiperefreshlayout = findViewById(R.id.swiperefresh);
-        myswiperefreshlayout.setOnRefreshListener(this);
-
-
-
-
-=======
         }
->>>>>>> ee8467bce163e0898f10a49ea6d6300543990f0f
-    }
+
+//        myswiperefreshlayout = findViewById(R.id.swiperefresh);
+//        myswiperefreshlayout.setOnRefreshListener(this);
+
+
+
+
+
+        }
+
+
 
 
     private void updateList() {
@@ -199,7 +199,7 @@ public class HalamanProfil extends AppCompatActivity implements SwipeRefreshLayo
             }
         });
 
-        myswiperefreshlayout.setRefreshing(false);
+    //    myswiperefreshlayout.setRefreshing(false);
     }
 
     private int getItemIndex(Kegiatan kegiatan) {
@@ -261,13 +261,11 @@ public class HalamanProfil extends AppCompatActivity implements SwipeRefreshLayo
     }
 
 
-<<<<<<< HEAD
-    @Override
-    public void onRefresh() {
-        updateList();
-    }
-=======
+//
+//    @Override
+//    public void onRefresh() {
+//        updateList();
+//    }
 
->>>>>>> ee8467bce163e0898f10a49ea6d6300543990f0f
 }
 

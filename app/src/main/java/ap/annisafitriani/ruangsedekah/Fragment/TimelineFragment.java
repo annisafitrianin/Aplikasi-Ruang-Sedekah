@@ -60,14 +60,14 @@ public class TimelineFragment extends Fragment {
         rvCategory.setAdapter(adapter);
 
 
-        mySwipeRefreshLayout = (SwipeRefreshLayout) mySwipeRefreshLayout.findViewById(R.id.timeline);
-        mySwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                Toast.makeText(getContext(), "on refresh", Toast.LENGTH_SHORT).show();
-            }
-        });
-        mySwipeRefreshLayout.setRefreshing(false);
+//        mySwipeRefreshLayout = (SwipeRefreshLayout) mySwipeRefreshLayout.findViewById(R.id.timeline);
+//        mySwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+//            @Override
+//            public void onRefresh() {
+//                Toast.makeText(getContext(), "on refresh", Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//        mySwipeRefreshLayout.setRefreshing(false);
 
         updateList();
         hideSoftKeyboard();
