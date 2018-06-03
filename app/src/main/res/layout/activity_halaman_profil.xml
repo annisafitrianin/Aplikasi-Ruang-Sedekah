@@ -60,10 +60,18 @@
     </RelativeLayout>
 
     <android.support.v4.widget.SwipeRefreshLayout
+<<<<<<< HEAD
         android:id="@+id/swiperefresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
+=======
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/swiperefresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+>>>>>>> ee8467bce163e0898f10a49ea6d6300543990f0f
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_category"

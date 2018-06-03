@@ -31,24 +31,28 @@
             android:text="Nama"
             android:textStyle="bold"
             android:textSize="16sp"
+            android:textColor="@color/colorText"
             android:layout_marginBottom="8dp"/>
         <TextView
             android:id="@+id/tv_item_tanggal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Tanggal"
+            android:textColor="@color/colorText"
             android:layout_marginBottom="8dp"/>
         <TextView
             android:id="@+id/tv_item_waktu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Waktu"
+            android:textColor="@color/colorText"
             android:layout_marginBottom="8dp"/>
         <TextView
             android:id="@+id/tv_item_desc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Desc"
+            android:textColor="@color/colorText"
             android:layout_marginBottom="8dp"/>
 
         <ImageView

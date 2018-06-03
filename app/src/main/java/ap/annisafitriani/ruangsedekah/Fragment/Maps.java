@@ -112,6 +112,7 @@ public class Maps extends Fragment implements OnMapReadyCallback, GoogleApiClien
         createEvent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 Intent intent = new Intent(getContext(), CreateActivity.class);
                 startActivity(intent);
             }

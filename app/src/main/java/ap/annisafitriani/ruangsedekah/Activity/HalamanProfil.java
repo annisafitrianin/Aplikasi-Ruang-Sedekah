@@ -1,6 +1,5 @@
 package ap.annisafitriani.ruangsedekah.Activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -10,6 +9,8 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,7 +21,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,55 +31,96 @@ import ap.annisafitriani.ruangsedekah.R;
 
 public class HalamanProfil extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
 
-    private TextView tvNama;
+
     private TextView tvEmail;
-    private String userId;
+    private TextView tvNama;
+    public String userId;
+    private Button btnHapus;
+    private Button btnEdit;
 
     RecyclerView rvCategory;
     ListBerandaAdapter adapter;
     List<Kegiatan> kegiatanItem;
+
     DatabaseReference mRef;
     FirebaseDatabase mDatabase;
     FirebaseAuth mAuth;
     FirebaseAuth.AuthStateListener mAuthListener;
+    FirebaseUser user;
+
 
     public SwipeRefreshLayout myswiperefreshlayout;
 
 
     private static final String TAG = "HalamanProfil";
+    private EditText nama;
+    private EditText tanggal;
+    private EditText waktu;
+    private EditText lokasi;
+    private EditText deskripsi;
+    private SwipeRefreshLayout mySwipeRefreshLayout;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_halaman_profil);
 
-
-        mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance();
         mRef = mDatabase.getReference("Kegiatan");
-        FirebaseUser user = mAuth.getCurrentUser();
-        userId = mAuth.getCurrentUser().getUid();
 
         kegiatanItem = new ArrayList<>();
-
         rvCategory = (RecyclerView) findViewById(R.id.rv_category);
         rvCategory.setHasFixedSize(true);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-
         rvCategory.setLayoutManager(linearLayoutManager);
 
-        adapter = new ListBerandaAdapter(kegiatanItem);
+        mySwipeRefreshLayout = (SwipeRefreshLayout) mySwipeRefreshLayout.findViewById(R.id.swiperefresh);
+        mySwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                Toast.makeText(getApplicationContext(), "on refresh", Toast.LENGTH_SHORT).show();
+            }
+        });
+        mySwipeRefreshLayout.setRefreshing(false);
+
+
+        adapter = new ListBerandaAdapter(kegiatanItem, mRef, nama, tanggal, waktu, lokasi, deskripsi);
         rvCategory.setAdapter(adapter);
 
+        tvEmail = (TextView) findViewById(R.id.tv_email);
+        
+        mAuth = FirebaseAuth.getInstance();
+        final FirebaseUser user = mAuth.getCurrentUser();
+        userId = mAuth.getCurrentUser().getUid();
+
+
+//        userId = user.getUid();
+//        user = FirebaseAuth.getInstance().getCurrentUser();
+
+        profilUser();
         updateList();
         hideSoftKeyboard();
 
-        tvNama = (TextView) findViewById(R.id.tv_name);
-        tvEmail = (TextView) findViewById(R.id.tv_email);
 
-        mRef = FirebaseDatabase.getInstance().getReference().child("Users").child(userId);
+
+//        mRef = FirebaseDatabase.getInstance().getReference();
+//        mRef.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                String username = dataSnapshot.child("Users").child(userId).child("username").getValue(String.class);
+//                tvNama.setText(username);
+//            }
+//
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//
+//            }
+//        });
 
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -93,25 +134,17 @@ public class HalamanProfil extends AppCompatActivity implements SwipeRefreshLayo
                     toastMessage("Successfully signed out.");
                 }
             }
-        };
+        };}
 
-        mRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    String username = dataSnapshot.child("username").getValue().toString();
-                    String email = dataSnapshot.child("email").getValue().toString();
 
-                    tvNama.setText(username);
-                    tvEmail.setText(email);
+    private void profilUser(){
 
-                }
+        FirebaseUser user = mAuth.getCurrentUser();
+        if (user != null){
+            if (user.getEmail() != null){
+                tvEmail.setText(user.getEmail());
             }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
+<<<<<<< HEAD
         });
 
         myswiperefreshlayout = findViewById(R.id.swiperefresh);
@@ -120,6 +153,9 @@ public class HalamanProfil extends AppCompatActivity implements SwipeRefreshLayo
 
 
 
+=======
+        }
+>>>>>>> ee8467bce163e0898f10a49ea6d6300543990f0f
     }
 
 
@@ -142,11 +178,14 @@ public class HalamanProfil extends AppCompatActivity implements SwipeRefreshLayo
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-                Kegiatan kegiatan = dataSnapshot.getValue(Kegiatan.class);
-                int index = getItemIndex(kegiatan);
 
-                kegiatanItem.remove(index);
-                adapter.notifyItemRemoved(index);
+//                Kegiatan kegiatan = dataSnapshot.getValue(Kegiatan.class);
+//                int index = getItemIndex(kegiatan);
+//
+//                kegiatanItem.remove(index);
+//                adapter.notifyItemRemoved(index);
+
+
             }
 
             @Override
@@ -167,7 +206,7 @@ public class HalamanProfil extends AppCompatActivity implements SwipeRefreshLayo
 
         int index = -1;
         for (int i = 0; i < kegiatanItem.size(); i++) {
-            if (kegiatanItem.get(i).getId().equals(kegiatan.getId())) {
+            if (kegiatanItem.get(i).id.equals(kegiatan.id)) {
                 index = i;
                 break;
             }
@@ -196,13 +235,11 @@ public class HalamanProfil extends AppCompatActivity implements SwipeRefreshLayo
 
 
     private void removeKegiatan(int position) {
-        mRef.child(kegiatanItem.get(position).getId()).removeValue();
+        mRef.child(kegiatanItem.get(position).id).removeValue();
     }
 
     private void editKegiatan(int position) {
-        Kegiatan kegiatan = kegiatanItem.get(position);
-        Intent intent = new Intent(HalamanProfil.this, CreateActivity.class);
-        startActivity(intent);
+
     }
 
     @Override
@@ -224,9 +261,13 @@ public class HalamanProfil extends AppCompatActivity implements SwipeRefreshLayo
     }
 
 
+<<<<<<< HEAD
     @Override
     public void onRefresh() {
         updateList();
     }
+=======
+
+>>>>>>> ee8467bce163e0898f10a49ea6d6300543990f0f
 }
 
