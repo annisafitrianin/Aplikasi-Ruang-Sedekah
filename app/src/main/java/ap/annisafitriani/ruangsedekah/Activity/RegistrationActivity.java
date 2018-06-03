@@ -58,7 +58,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         mFirebaseDatabase = FirebaseDatabase.getInstance();
-        myRef = mFirebaseDatabase.getReference();
+//        myRef = mFirebaseDatabase.getReference();
         FirebaseUser user = mAuth.getCurrentUser();
 
         mAuthListener = new FirebaseAuth.AuthStateListener() {
@@ -164,7 +164,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
                             if (task.isSuccessful()) {
                                 User user = new User(email, password, nama, no_hp, userId);
-                                myRef.child("Users").child(myRef.push().getKey()).setValue(user);
+                                myRef.child("Member").child(myRef.push().getKey()).setValue(user);
                             }
                             startActivity(new Intent(RegistrationActivity.this, HalamanUtama.class));
                             finish();

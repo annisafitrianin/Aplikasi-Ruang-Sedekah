@@ -21,8 +21,6 @@ import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.model.Marker;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -47,9 +45,8 @@ public class CreateActivity extends AppCompatActivity {
     private EditText etNama;
     private TextView tvLocResult;
     private TextView tvTimeResult;
-    private Marker mMarker;
-    private GoogleMap mMap;
-//    private PlaceInfo mPlace;
+    public static String nama;
+
 
     DatabaseReference mDatabase;
     int PLACE_PICKER_REQUEST = 1;
@@ -107,7 +104,6 @@ public class CreateActivity extends AppCompatActivity {
                     //menjalankan place picker
                     startActivityForResult(builder.build(CreateActivity.this), PLACE_PICKER_REQUEST);
 
-
                     // check apabila <a title="Solusi Tidak Bisa Download Google Play Services di Android" href="http://www.twoh.co/2014/11/solusi-tidak-bisa-download-google-play-services-di-android/" target="_blank">Google Play Services tidak terinstall</a> di HP
                 } catch (GooglePlayServicesRepairableException e) {
                     e.printStackTrace();
@@ -120,6 +116,10 @@ public class CreateActivity extends AppCompatActivity {
 
     }
 
+
+
+
+
     private void createKegiatan() {
         //getting the values to save
         String date = etDateResult.getText().toString().trim();
@@ -129,31 +129,32 @@ public class CreateActivity extends AppCompatActivity {
         String loc = tvLocResult.getText().toString().trim();
 
 
-        //checking if the value is provided
-        if (!TextUtils.isEmpty(nama)) {
 
-            //getting a unique id using push().getKey() method
-            //it will create a unique id and we will use it as the Primary Key for our Artist
-            String id = mDatabase.push().getKey();
+            //checking if the value is provided
+            if (!TextUtils.isEmpty(nama)) {
 
-            //creating an Artist Object
-            Kegiatan kegiatan = new Kegiatan(nama, date, time, desc, id, loc);
+                //getting a unique id using push().getKey() method
+                //it will create a unique id and we will use it as the Primary Key for our Artist
+                String id = mDatabase.push().getKey();
 
-            //Saving the Artist
-            mDatabase.child(id).setValue(kegiatan);
+                //creating an Artist Object
+                Kegiatan kegiatan = new Kegiatan(nama, date, time, desc, id, loc);
 
-            //setting edittext to blank again
-            etNama.setText("");
+                //Saving the Artist
+                mDatabase.child(id).setValue(kegiatan);
 
-            //displaying a success toast
-            Toast.makeText(this, "Event added", Toast.LENGTH_LONG).show();
-            Intent intent = new Intent(CreateActivity.this, HalamanUtama.class);
-            startActivity(intent);
-        } else {
-            //if the value is not given displaying a toast
-            Toast.makeText(this, "Please enter a name", Toast.LENGTH_LONG).show();
+                //setting edittext to blank again
+                etNama.setText("");
+
+                //displaying a success toast
+                Toast.makeText(this, "Event added", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(CreateActivity.this, HalamanUtama.class);
+                startActivity(intent);
+            } else {
+                //if the value is not given displaying a toast
+                Toast.makeText(this, "Please enter a name", Toast.LENGTH_LONG).show();
+            }
         }
-    }
 
 
     private void showDateDialog() {
@@ -196,15 +197,11 @@ public class CreateActivity extends AppCompatActivity {
         if (requestCode == PLACE_PICKER_REQUEST) {
             if (resultCode == RESULT_OK) {
                 Place place = PlacePicker.getPlace(data, this);
-                String toastMsg = String.format("Place: %s", place.getName());
-                Toast.makeText(this, toastMsg, Toast.LENGTH_LONG).show();
-                // Here, get the position of the place, mark it in map and moveCamera to that, couple lines of code.
-
+                //text view bisa dimasukkan dari sini
                 tvLocResult.setText(place.getName());
-    }
-}
             }
-
+        }
+    }
 
 
 
