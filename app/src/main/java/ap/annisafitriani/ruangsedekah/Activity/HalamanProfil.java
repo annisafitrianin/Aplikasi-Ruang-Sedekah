@@ -3,6 +3,7 @@ package ap.annisafitriani.ruangsedekah.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -28,7 +29,7 @@ import ap.annisafitriani.ruangsedekah.Adapter.ListBerandaAdapter;
 import ap.annisafitriani.ruangsedekah.Model.Kegiatan;
 import ap.annisafitriani.ruangsedekah.R;
 
-public class HalamanProfil extends AppCompatActivity {
+public class HalamanProfil extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
 
     private TextView tvNama;
     private TextView tvEmail;
@@ -41,6 +42,8 @@ public class HalamanProfil extends AppCompatActivity {
     FirebaseDatabase mDatabase;
     FirebaseAuth mAuth;
     FirebaseAuth.AuthStateListener mAuthListener;
+
+    public SwipeRefreshLayout myswiperefreshlayout;
 
 
     private static final String TAG = "HalamanProfil";
@@ -111,6 +114,11 @@ public class HalamanProfil extends AppCompatActivity {
             }
         });
 
+        myswiperefreshlayout = findViewById(R.id.swiperefresh);
+        myswiperefreshlayout.setOnRefreshListener(this);
+
+
+
 
     }
 
@@ -151,6 +159,8 @@ public class HalamanProfil extends AppCompatActivity {
 
             }
         });
+
+        myswiperefreshlayout.setRefreshing(false);
     }
 
     private int getItemIndex(Kegiatan kegiatan) {
@@ -214,5 +224,9 @@ public class HalamanProfil extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onRefresh() {
+        updateList();
+    }
 }
 
