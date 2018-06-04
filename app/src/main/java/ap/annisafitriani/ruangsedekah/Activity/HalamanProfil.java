@@ -159,6 +159,8 @@ public class HalamanProfil extends AppCompatActivity {
 
 
 
+
+
     private void updateList() {
         mRef.addChildEventListener(new ChildEventListener() {
             @Override
@@ -178,14 +180,11 @@ public class HalamanProfil extends AppCompatActivity {
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
+                Kegiatan kegiatan = dataSnapshot.getValue(Kegiatan.class);
+                int index = getItemIndex(kegiatan);
 
-//                Kegiatan kegiatan = dataSnapshot.getValue(Kegiatan.class);
-//                int index = getItemIndex(kegiatan);
-//
-//                kegiatanItem.remove(index);
-//                adapter.notifyItemRemoved(index);
-
-
+                kegiatanItem.remove(index);
+                adapter.notifyDataSetChanged();
             }
 
             @Override
@@ -219,29 +218,6 @@ public class HalamanProfil extends AppCompatActivity {
         HalamanProfil.this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
     }
 
-
-    @Override
-    public boolean onContextItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case 0:
-                removeKegiatan(item.getGroupId());
-                break;
-            case 1:
-                editKegiatan(item.getGroupId());
-                break;
-        }
-        return super.onContextItemSelected(item);
-    }
-
-
-    private void removeKegiatan(int position) {
-        mRef.child(kegiatanItem.get(position).id).removeValue();
-    }
-
-    private void editKegiatan(int position) {
-
-    }
-
     @Override
     protected void onStart() {
         super.onStart();
@@ -259,13 +235,5 @@ public class HalamanProfil extends AppCompatActivity {
     private void toastMessage(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
-
-
-//
-//    @Override
-//    public void onRefresh() {
-//        updateList();
-//    }
-
 }
 

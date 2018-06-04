@@ -21,6 +21,8 @@ import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.Marker;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -45,8 +47,12 @@ public class CreateActivity extends AppCompatActivity {
     private EditText etNama;
     private TextView tvLocResult;
     private TextView tvTimeResult;
-    public static String nama;
+    private Marker mMarker;
+    private GoogleMap mMap;
+    private String id;
+    public static Kegiatan kegiatan;
 
+//    private PlaceInfo mPlace;
 
     DatabaseReference mDatabase;
     int PLACE_PICKER_REQUEST = 1;
@@ -90,7 +96,7 @@ public class CreateActivity extends AppCompatActivity {
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                createKegiatan();
+                    createKegiatan();
             }
         });
 
@@ -104,6 +110,7 @@ public class CreateActivity extends AppCompatActivity {
                     //menjalankan place picker
                     startActivityForResult(builder.build(CreateActivity.this), PLACE_PICKER_REQUEST);
 
+
                     // check apabila <a title="Solusi Tidak Bisa Download Google Play Services di Android" href="http://www.twoh.co/2014/11/solusi-tidak-bisa-download-google-play-services-di-android/" target="_blank">Google Play Services tidak terinstall</a> di HP
                 } catch (GooglePlayServicesRepairableException e) {
                     e.printStackTrace();
@@ -114,11 +121,51 @@ public class CreateActivity extends AppCompatActivity {
 
         });
 
+        if (kegiatan != null)
+        {
+            etDateResult.setText(kegiatan.tanggal);
+            etNama.setText(kegiatan.nama);
+            etDesc.setText(kegiatan.deskripsi);
+            tvTimeResult.setText(kegiatan.waktu);
+            tvLocResult.setText(kegiatan.lokasi);
+            this.id = kegiatan.id;
+            updateKegiatan();
+        }
+
     }
 
 
 
+    private  void updateKegiatan()
+    {
+        //getting the values to save
+        String date = etDateResult.getText().toString().trim();
+        String nama = etNama.getText().toString().trim();
+        String desc = etDesc.getText().toString().trim();
+        String time = tvTimeResult.getText().toString().trim();
+        String loc = tvLocResult.getText().toString().trim();
 
+
+        //checking if the value is provided
+        if (!TextUtils.isEmpty(nama)) {
+            //creating an Artist Object
+            Kegiatan kegiatan = new Kegiatan(nama, date, time, desc, id, loc);
+
+            //Saving the Artist
+            mDatabase.child(id).setValue(kegiatan);
+
+            //setting edittext to blank again
+            etNama.setText("");
+
+            //displaying a success toast
+            Toast.makeText(this, "Event added", Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(CreateActivity.this, HalamanUtama.class);
+            startActivity(intent);
+        } else {
+            //if the value is not given displaying a toast
+            Toast.makeText(this, "Please enter a name", Toast.LENGTH_LONG).show();
+        }
+    }
 
     private void createKegiatan() {
         //getting the values to save
@@ -129,32 +176,31 @@ public class CreateActivity extends AppCompatActivity {
         String loc = tvLocResult.getText().toString().trim();
 
 
+        //checking if the value is provided
+        if (!TextUtils.isEmpty(nama)) {
 
-            //checking if the value is provided
-            if (!TextUtils.isEmpty(nama)) {
+            //getting a unique id using push().getKey() method
+            //it will create a unique id and we will use it as the Primary Key for our Artist
+            String id = mDatabase.push().getKey();
 
-                //getting a unique id using push().getKey() method
-                //it will create a unique id and we will use it as the Primary Key for our Artist
-                String id = mDatabase.push().getKey();
+            //creating an Artist Object
+            Kegiatan kegiatan = new Kegiatan(nama, date, time, desc, id, loc);
 
-                //creating an Artist Object
-                Kegiatan kegiatan = new Kegiatan(nama, date, time, desc, id, loc);
+            //Saving the Artist
+            mDatabase.child(id).setValue(kegiatan);
 
-                //Saving the Artist
-                mDatabase.child(id).setValue(kegiatan);
+            //setting edittext to blank again
+            etNama.setText("");
 
-                //setting edittext to blank again
-                etNama.setText("");
-
-                //displaying a success toast
-                Toast.makeText(this, "Event added", Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(CreateActivity.this, HalamanUtama.class);
-                startActivity(intent);
-            } else {
-                //if the value is not given displaying a toast
-                Toast.makeText(this, "Please enter a name", Toast.LENGTH_LONG).show();
-            }
+            //displaying a success toast
+            Toast.makeText(this, "Event added", Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(CreateActivity.this, HalamanUtama.class);
+            startActivity(intent);
+        } else {
+            //if the value is not given displaying a toast
+            Toast.makeText(this, "Please enter a name", Toast.LENGTH_LONG).show();
         }
+    }
 
 
     private void showDateDialog() {
@@ -199,6 +245,7 @@ public class CreateActivity extends AppCompatActivity {
                 Place place = PlacePicker.getPlace(data, this);
                 //text view bisa dimasukkan dari sini
                 tvLocResult.setText(place.getName());
+
             }
         }
     }

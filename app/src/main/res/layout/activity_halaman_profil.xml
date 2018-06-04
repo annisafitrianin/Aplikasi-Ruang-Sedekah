@@ -70,7 +70,9 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_category"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            app:stackFromEnd="false"
+            app:reverseLayout="false"/>
     <!--</android.support.v4.widget.SwipeRefreshLayout>-->
 
 

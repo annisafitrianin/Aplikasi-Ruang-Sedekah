@@ -1,7 +1,9 @@
 package ap.annisafitriani.ruangsedekah.Adapter;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
 
@@ -36,7 +39,6 @@ public class ListBerandaAdapter extends RecyclerView.Adapter<ListBerandaAdapter.
     EditText etDesc;
 
 
-
     public ListBerandaAdapter(List<Kegiatan> listKegiatan, DatabaseReference mRef, EditText etNama,
                               EditText etDateResult,EditText etWaktu, EditText etLokasi,EditText etDesc   ) {
         this.listKegiatan = listKegiatan;
@@ -52,6 +54,7 @@ public class ListBerandaAdapter extends RecyclerView.Adapter<ListBerandaAdapter.
     @Override
     public CategoryViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemRow = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_row_beranda, parent, false);
+        context = parent.getContext();
         return new CategoryViewHolder(itemRow);
     }
 
@@ -69,22 +72,41 @@ public class ListBerandaAdapter extends RecyclerView.Adapter<ListBerandaAdapter.
             @Override
             public void onClick(View view) {
                 mRef.child(kegiatan.getId()).removeValue();
+                AlertDialog.Builder alert = new AlertDialog.Builder(context);
+                alert.setTitle("delete data");
+                alert.setMessage("Do you want to delete?");
+                alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Toast.makeText(context, "nice", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Toast.makeText(context, "bad", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                alert.create().show();
             }
+
+
         });
+
+
+
         holder.btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                activity.startActivity(new Intent(activity, CreateActivity.class));
-                etNama.setText(kegiatan.getNama());
-                etDateResult.setText(kegiatan.getTanggal());
-                etWaktu.setText(kegiatan.getWaktu());
-                etLokasi.setText(kegiatan.getLokasi());
-                etDesc.setText(kegiatan.getDeskripsi());
-                CreateActivity.nama = kegiatan.getId();
-                listKegiatan.remove(holder.getAdapterPosition());
-                notifyItemChanged(position);
-
+                Intent intent = new Intent(context, CreateActivity.class);
+                context.startActivity(intent);
+//                etNama.setText(kegiatan.getNama());
+//                etDateResult.setText(kegiatan.getTanggal());
+//                etWaktu.setText(kegiatan.getWaktu());
+//                etLokasi.setText(kegiatan.getLokasi());
+//                etDesc.setText(kegiatan.getDeskripsi());
+//                listKegiatan.remove(holder.getAdapterPosition());
+//                notifyItemChanged(position);
             }
         });
 
@@ -133,12 +155,6 @@ public class ListBerandaAdapter extends RecyclerView.Adapter<ListBerandaAdapter.
             locLokasi = (ImageView) itemView.findViewById(R.id.img_loc);
             btnHapus = (Button) itemView.findViewById(R.id.btn_hapus);
             btnEdit = (Button) itemView.findViewById(R.id.btn_edit);
-
-
-
-
-
-
         }
     }
 }
