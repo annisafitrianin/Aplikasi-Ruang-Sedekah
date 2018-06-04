@@ -8,13 +8,7 @@
     android:background="@color/colorAccent"
     tools:context="ap.annisafitriani.ruangsedekah.Activity.CreateActivity">
 
-<<<<<<< HEAD
-    <!--<ScrollView-->
-        <!--android:id="@+id/login_form"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent">-->
-=======
->>>>>>> markerMap
+
 
     <RelativeLayout
 
@@ -172,10 +166,5 @@
 
     </RelativeLayout>
 
-<<<<<<< HEAD
-
-    <!--</ScrollView>-->
-=======
->>>>>>> markerMap
 
 </LinearLayout>
