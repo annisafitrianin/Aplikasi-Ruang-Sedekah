@@ -377,7 +377,7 @@ public class Maps extends Fragment implements OnMapReadyCallback,
 
     private void addMarkerToMap(ArrayList<Kegiatan> mListKegiatan, GoogleMap googleMap) {
         for (int i = 0; i < mListKegiatan.size(); i++) {
-            LatLng position = new LatLng(mListKegiatan.get(i).getLat(), mListKegiatan.get(i).getLng());
+            LatLng position = new LatLng(mListKegiatan.get(i).getLat(), mListKegiatan.get(i).getLang());
             googleMap.addMarker(new MarkerOptions().position(position));
 
             Log.d("setMarkerMap", "all set-" + i);
