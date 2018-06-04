@@ -58,7 +58,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         mFirebaseDatabase = FirebaseDatabase.getInstance();
-//        myRef = mFirebaseDatabase.getReference();
+        myRef = mFirebaseDatabase.getReference();
         FirebaseUser user = mAuth.getCurrentUser();
 
         mAuthListener = new FirebaseAuth.AuthStateListener() {
@@ -69,7 +69,7 @@ public class RegistrationActivity extends AppCompatActivity {
                 if (user != null) {
                     // User is signed in
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
-  //                  toastMessage("Successfully signed in with: " + user.getEmail());
+                    //                  toastMessage("Successfully signed in with: " + user.getEmail());
                 } else {
                     // User is signed out
                     Log.d(TAG, "onAuthStateChanged:signed_out");
@@ -167,7 +167,6 @@ public class RegistrationActivity extends AppCompatActivity {
                                 myRef.child("Member").child(myRef.push().getKey()).setValue(user);
                             }
                             startActivity(new Intent(RegistrationActivity.this, HalamanUtama.class));
-                            finish();
                         } else {
                             //display some message here
                             Toast.makeText(RegistrationActivity.this, "Registration Error", Toast.LENGTH_LONG).show();
