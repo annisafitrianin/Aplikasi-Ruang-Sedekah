@@ -1,10 +1,12 @@
 package ap.annisafitriani.ruangsedekah.Model;
 
+import java.io.Serializable;
+
 /**
  * Created by Hp on 4/18/2018.
  */
 
-public class Kegiatan {
+public class Kegiatan implements Serializable {
 
     public String nama, deskripsi, photo, tanggal, waktu, id, lokasi;
     public Double lang, lat;

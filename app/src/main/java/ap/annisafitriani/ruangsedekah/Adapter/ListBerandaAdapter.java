@@ -93,20 +93,12 @@ public class ListBerandaAdapter extends RecyclerView.Adapter<ListBerandaAdapter.
 
         });
 
-
-
         holder.btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, CreateActivity.class);
+                intent.putExtra("kegiatan", kegiatan);
                 context.startActivity(intent);
-//                etNama.setText(kegiatan.getNama());
-//                etDateResult.setText(kegiatan.getTanggal());
-//                etWaktu.setText(kegiatan.getWaktu());
-//                etLokasi.setText(kegiatan.getLokasi());
-//                etDesc.setText(kegiatan.getDeskripsi());
-//                listKegiatan.remove(holder.getAdapterPosition());
-//                notifyItemChanged(position);
             }
         });
 

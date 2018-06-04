@@ -96,6 +96,9 @@ public class CreateActivity extends AppCompatActivity {
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (kegiatan != null)
+                    updateKegiatan();
+                else
                     createKegiatan();
             }
         });
@@ -121,6 +124,8 @@ public class CreateActivity extends AppCompatActivity {
 
         });
 
+        kegiatan = (Kegiatan) getIntent().getSerializableExtra("kegiatan");
+
         if (kegiatan != null)
         {
             etDateResult.setText(kegiatan.tanggal);
@@ -129,7 +134,6 @@ public class CreateActivity extends AppCompatActivity {
             tvTimeResult.setText(kegiatan.waktu);
             tvLocResult.setText(kegiatan.lokasi);
             this.id = kegiatan.id;
-            updateKegiatan();
         }
 
     }
@@ -159,7 +163,7 @@ public class CreateActivity extends AppCompatActivity {
 
             //displaying a success toast
             Toast.makeText(this, "Event added", Toast.LENGTH_LONG).show();
-            Intent intent = new Intent(CreateActivity.this, HalamanUtama.class);
+            Intent intent = new Intent(CreateActivity.this, HalamanProfil.class);
             startActivity(intent);
         } else {
             //if the value is not given displaying a toast
