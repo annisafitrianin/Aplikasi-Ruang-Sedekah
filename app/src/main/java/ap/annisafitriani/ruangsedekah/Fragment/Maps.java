@@ -118,6 +118,7 @@ public class Maps extends Fragment implements OnMapReadyCallback, GoogleApiClien
 
 
         mylocation = mView.findViewById(R.id.current_location);
+        createEvent = mView.findViewById(R.id.create_event);
 
         mylocation.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -145,7 +146,6 @@ public class Maps extends Fragment implements OnMapReadyCallback, GoogleApiClien
         }
 
 
-        createEvent = mView.findViewById(R.id.create_event);
 
         createEvent.setOnClickListener(new View.OnClickListener() {
             @Override
