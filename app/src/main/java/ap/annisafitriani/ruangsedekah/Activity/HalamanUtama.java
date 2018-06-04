@@ -241,7 +241,6 @@ public class HalamanUtama extends AppCompatActivity implements View.OnClickListe
     private int[] tabIcons = {
             R.drawable.ic_maps,
             R.drawable.ic_timeline,
-            R.drawable.ic_notification
     };
     private android.app.Notification myNotification;
     private NotificationManager notificationManager;

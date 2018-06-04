@@ -33,7 +33,6 @@ import ap.annisafitriani.ruangsedekah.R;
 
 public class HalamanProfil extends AppCompatActivity {
 
-
     private TextView tvEmail;
     private TextView tvNama;
     public String userId;
@@ -58,8 +57,6 @@ public class HalamanProfil extends AppCompatActivity {
     private EditText deskripsi;
     private SwipeRefreshLayout mySwipeRefreshLayout;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,14 +77,10 @@ public class HalamanProfil extends AppCompatActivity {
         rvCategory.setAdapter(adapter);
 
         tvEmail = (TextView) findViewById(R.id.tv_email);
-        
+        tvNama = (TextView) findViewById(R.id.tv_name);
         mAuth = FirebaseAuth.getInstance();
         final FirebaseUser user = mAuth.getCurrentUser();
         userId = mAuth.getCurrentUser().getUid();
-
-
-//        userId = user.getUid();
-//        user = FirebaseAuth.getInstance().getCurrentUser();
 
         profilUser();
         updateList();
@@ -122,7 +115,9 @@ public class HalamanProfil extends AppCompatActivity {
                     toastMessage("Successfully signed out.");
                 }
             }
-        };}
+        };
+
+    }
 
 
     private void profilUser(){
@@ -136,44 +131,37 @@ public class HalamanProfil extends AppCompatActivity {
         }
         }
     private void updateList() {
-        Query query = mRef.child("Kegiatan").orderByChild("userId").equalTo(user.getUid());
-//
-//        query.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-////                kegiatanItem.add(dataSnapshot.getValue(Kegiatan.class));
-////                adapter.notifyDataSetChanged();
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//
-//            }
-//        });
+//        Query query = mRef.child("Kegiatan").orderByChild("userId").equalTo(user.getUid());
 
-        query.addChildEventListener(new ChildEventListener() {
+//        query.addValueEventListener(new ValueEventListener() {
+        mRef.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+
                 kegiatanItem.add(dataSnapshot.getValue(Kegiatan.class));
                 adapter.notifyDataSetChanged();
             }
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
                 Kegiatan kegiatan = dataSnapshot.getValue(Kegiatan.class);
                 int index = getItemIndex(kegiatan);
 
                 kegiatanItem.set(index, kegiatan);
                 adapter.notifyItemChanged(index);
+
             }
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
+
                 Kegiatan kegiatan = dataSnapshot.getValue(Kegiatan.class);
                 int index = getItemIndex(kegiatan);
 
                 kegiatanItem.remove(index);
                 adapter.notifyDataSetChanged();
+
             }
 
             @Override
@@ -186,8 +174,53 @@ public class HalamanProfil extends AppCompatActivity {
 
             }
         });
-
-    //    myswiperefreshlayout.setRefreshing(false);
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                kegiatanItem.add(dataSnapshot.getValue(Kegiatan.class));
+//                adapter.notifyDataSetChanged();
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//
+//            }
+//        });
+//
+//        query.addChildEventListener(new ChildEventListener() {
+//            @Override
+//            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+//                kegiatanItem.add(dataSnapshot.getValue(Kegiatan.class));
+//                adapter.notifyDataSetChanged();
+//            }
+//
+//            @Override
+//            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+//                Kegiatan kegiatan = dataSnapshot.getValue(Kegiatan.class);
+//                int index = getItemIndex(kegiatan);
+//
+//                kegiatanItem.set(index, kegiatan);
+//                adapter.notifyItemChanged(index);
+//            }
+//
+//            @Override
+//            public void onChildRemoved(DataSnapshot dataSnapshot) {
+//                Kegiatan kegiatan = dataSnapshot.getValue(Kegiatan.class);
+//                int index = getItemIndex(kegiatan);
+//
+//                kegiatanItem.remove(index);
+//                adapter.notifyDataSetChanged();
+//            }
+//
+//            @Override
+//            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//
+//            }
+//        });
     }
 
     private int getItemIndex(Kegiatan kegiatan) {

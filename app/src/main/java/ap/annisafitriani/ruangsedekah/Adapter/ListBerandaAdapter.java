@@ -71,20 +71,21 @@ public class ListBerandaAdapter extends RecyclerView.Adapter<ListBerandaAdapter.
         holder.btnHapus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mRef.child(kegiatan.getId()).removeValue();
+
                 AlertDialog.Builder alert = new AlertDialog.Builder(context);
                 alert.setTitle("delete data");
                 alert.setMessage("Do you want to delete?");
                 alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        Toast.makeText(context, "nice", Toast.LENGTH_SHORT).show();
+                        mRef.child(kegiatan.getId()).removeValue();
+                        Toast.makeText(context, "delete completed", Toast.LENGTH_SHORT).show();
                     }
                 });
                 alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        Toast.makeText(context, "bad", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "eror delete", Toast.LENGTH_SHORT).show();
                     }
                 });
                 alert.create().show();
