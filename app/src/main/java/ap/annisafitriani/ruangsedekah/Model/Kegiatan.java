@@ -7,19 +7,22 @@ package ap.annisafitriani.ruangsedekah.Model;
 public class Kegiatan {
 
     public String nama, deskripsi, photo, tanggal, waktu, lokasi, id;
+    public double lat,lang;
 
 
-    public Kegiatan(String nama, String tanggal, String waktu, String deskripsi, String id, String lokasi) {
+    public Kegiatan() { }
+
+    public Kegiatan(String nama, String deskripsi, String photo, String tanggal,
+                    String waktu, String lokasi, String id, Double lat, Double lng) {
         this.nama = nama;
         this.deskripsi = deskripsi;
+        this.photo = photo;
         this.tanggal = tanggal;
         this.waktu = waktu;
-        this.id = id;
         this.lokasi = lokasi;
-    }
-
-    public Kegiatan() {
-
+        this.id = id;
+        this.lat = lat;
+        this.lang = lng;
     }
 
     public String getNama() {
@@ -28,6 +31,22 @@ public class Kegiatan {
 
     public void setNama(String nama) {
         this.nama = nama;
+    }
+
+    public String getDeskripsi() {
+        return deskripsi;
+    }
+
+    public void setDeskripsi(String deskripsi) {
+        this.deskripsi = deskripsi;
+    }
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
     }
 
     public String getTanggal() {
@@ -43,7 +62,6 @@ public class Kegiatan {
     }
 
     public void setWaktu(String waktu) {
-
         this.waktu = waktu;
     }
 
@@ -55,14 +73,6 @@ public class Kegiatan {
         this.lokasi = lokasi;
     }
 
-    public String getDeskripsi() {
-        return deskripsi;
-    }
-
-    public void setDeskripsi(String deskripsi) {
-        this.deskripsi = deskripsi;
-    }
-
     public String getId() {
         return id;
     }
@@ -71,12 +81,19 @@ public class Kegiatan {
         this.id = id;
     }
 
-    public String getPhoto() {
-        return photo;
+    public double getLat() {
+        return lat;
     }
 
-    public void setPhoto(String photo) {
-        this.photo = photo;
+    public void setLat(double lat) {
+        this.lat = lat;
     }
 
+    public double getLng() {
+        return lang;
+    }
+
+    public void setLng(double lng) {
+        this.lang = lng;
+    }
 }

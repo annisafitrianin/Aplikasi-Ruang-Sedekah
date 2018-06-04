@@ -49,6 +49,8 @@ public class CreateActivity extends AppCompatActivity {
     private TextView tvTimeResult;
     private Marker mMarker;
     private GoogleMap mMap;
+
+    private double lat,lng;
 //    private PlaceInfo mPlace;
 
     DatabaseReference mDatabase;
@@ -141,7 +143,7 @@ public class CreateActivity extends AppCompatActivity {
             String id = mDatabase.push().getKey();
 
             //creating an Artist Object
-            Kegiatan kegiatan = new Kegiatan(nama, date, time, desc, id, loc);
+            Kegiatan kegiatan = new Kegiatan(nama,desc,"photo",date,time,loc,id,lat,lng);
 
             //Saving the Artist
             mDatabase.child(id).setValue(kegiatan);
@@ -202,6 +204,8 @@ public class CreateActivity extends AppCompatActivity {
                 Place place = PlacePicker.getPlace(data, this);
                 //text view bisa dimasukkan dari sini
                 tvLocResult.setText(place.getName());
+                lat = place.getLatLng().latitude;
+                lng = place.getLatLng().longitude;
 
             }
         }

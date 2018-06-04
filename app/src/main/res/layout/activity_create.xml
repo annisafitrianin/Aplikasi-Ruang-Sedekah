@@ -1,164 +1,165 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/colorAccent"
+    android:orientation="vertical"
     tools:context="ap.annisafitriani.ruangsedekah.Activity.CreateActivity">
 
-    <ScrollView
+    <LinearLayout
         android:id="@+id/login_form"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-    <RelativeLayout
-
-        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:layout_weight="3"
-        >
-        <EditText
-            android:id="@+id/et_DateResult"
-            android:layout_width="210dp"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="date" />
-        <Button
-            android:id="@+id/btn_pickdate"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:text="Pick Date"
-            android:background="@color/colorPrimary"
-            android:textColor="@color/colorAccent"
-            android:layout_toRightOf="@+id/et_DateResult"/>
-
-</RelativeLayout>
-
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
         android:orientation="vertical">
 
+        <RelativeLayout
 
-        <ImageButton
-            android:id="@+id/ib_time"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/textInputLayout"
-            android:layout_marginLeft="43dp"
-            android:layout_marginStart="43dp"
-            android:layout_marginTop="13dp"
-            android:background="@color/colorPrimary"
-            app:srcCompat="@drawable/ic_time"
-            android:textColor="@color/colorAccent" />
-        <TextView
-            android:id="@+id/tv_time"
-            android:layout_width="50dp"
-            android:layout_height="20dp"
-            android:text="Time"
-            android:layout_toRightOf="@+id/ib_time"
-            android:layout_toEndOf="@+id/ib_time"
-            android:layout_alignTop="@+id/ib_time"
-            android:layout_marginLeft="10dp"
-            android:textColor="#000000"
-            />
-
-        <TextView
-            android:id="@+id/tv_timeResult"
-            android:layout_width="50dp"
-            android:layout_height="20dp"
-            android:layout_alignLeft="@+id/tv_time"
-            android:layout_alignStart="@+id/tv_time"
-            android:layout_below="@+id/tv_time"
-            android:text="08.00"
-            android:textColor="#000000"/>
-
-
-
-        <ImageButton
-            android:id="@+id/ib_loc"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginStart="16dp"
-            android:layout_toRightOf="@+id/tv_time"
-            android:layout_toEndOf="@+id/tv_time"
-            android:layout_alignTop="@+id/tv_time"
-            android:background="@color/colorPrimary"
-            app:srcCompat="@drawable/ic_location"
-            android:textColor="@color/colorAccent" />
-        <TextView
-            android:id="@+id/tv_loc"
-            android:layout_width="70dp"
-            android:layout_height="20dp"
-            android:text="Location"
-            android:layout_toRightOf="@+id/ib_loc"
-            android:layout_toEndOf="@+id/ib_loc"
-            android:layout_alignTop="@+id/ib_loc"
-            android:layout_marginLeft="10dp"
-            android:textColor="#000000"
-            />
-
-        <TextView
-            android:id="@+id/tv_locResult"
-            android:layout_width="wrap_content"
-            android:layout_height="20dp"
-            android:layout_alignLeft="@+id/tv_loc"
-            android:layout_alignStart="@+id/tv_loc"
-            android:layout_below="@+id/tv_loc"
-            android:text="Universitas Brawijaya"
-            android:textColor="#000000"/>
-
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/textInputLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:gravity="center">
 
-            <AutoCompleteTextView
-                android:id="@+id/et_namaKegiatan"
+            <EditText
+                android:id="@+id/et_DateResult"
+                android:layout_width="210dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="date" />
+
+            <Button
+                android:id="@+id/btn_pickdate"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/et_DateResult"
+                android:background="@color/colorPrimary"
+                android:text="Pick Date"
+                android:textColor="@color/colorAccent" />
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+
+            <ImageButton
+                android:id="@+id/ib_time"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/textInputLayout"
+                android:layout_marginLeft="43dp"
+                android:layout_marginStart="43dp"
+                android:layout_marginTop="13dp"
+                android:background="@color/colorPrimary"
+                android:textColor="@color/colorAccent"
+                app:srcCompat="@drawable/ic_time" />
+
+            <TextView
+                android:id="@+id/tv_time"
+                android:layout_width="50dp"
+                android:layout_height="20dp"
+                android:layout_alignTop="@+id/ib_time"
+                android:layout_marginLeft="10dp"
+                android:layout_toEndOf="@+id/ib_time"
+                android:layout_toRightOf="@+id/ib_time"
+                android:text="Time"
+                android:textColor="#000000" />
+
+            <TextView
+                android:id="@+id/tv_timeResult"
+                android:layout_width="50dp"
+                android:layout_height="20dp"
+                android:layout_alignLeft="@+id/tv_time"
+                android:layout_alignStart="@+id/tv_time"
+                android:layout_below="@+id/tv_time"
+                android:text="08.00"
+                android:textColor="#000000" />
+
+
+            <ImageButton
+                android:id="@+id/ib_loc"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignTop="@+id/tv_time"
+                android:layout_marginLeft="10dp"
+                android:layout_marginStart="16dp"
+                android:layout_toEndOf="@+id/tv_time"
+                android:layout_toRightOf="@+id/tv_time"
+                android:background="@color/colorPrimary"
+                android:textColor="@color/colorAccent"
+                app:srcCompat="@drawable/ic_location" />
+
+            <TextView
+                android:id="@+id/tv_loc"
+                android:layout_width="70dp"
+                android:layout_height="20dp"
+                android:layout_alignTop="@+id/ib_loc"
+                android:layout_marginLeft="10dp"
+                android:layout_toEndOf="@+id/ib_loc"
+                android:layout_toRightOf="@+id/ib_loc"
+                android:text="Location"
+                android:textColor="#000000" />
+
+            <TextView
+                android:id="@+id/tv_locResult"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_alignLeft="@+id/tv_loc"
+                android:layout_alignStart="@+id/tv_loc"
+                android:layout_below="@+id/tv_loc"
+                android:text="Universitas Brawijaya"
+                android:textColor="#000000" />
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/textInputLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <AutoCompleteTextView
+                    android:id="@+id/et_namaKegiatan"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:hint="Nama Kegiatan"
+                    android:inputType="textEmailAddress"
+                    android:maxLines="1"
+                    android:singleLine="true" />
+
+            </android.support.design.widget.TextInputLayout>
+
+
+            <EditText
+                android:id="@+id/et_desc"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:hint="Nama Kegiatan"
-                android:inputType="textEmailAddress"
-                android:maxLines="1"
-                android:singleLine="true" />
-
-        </android.support.design.widget.TextInputLayout>
+                android:layout_below="@+id/ib_time"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="25dp"
+                android:hint="description"
+                android:inputType="textMultiLine" />
 
 
-        <EditText
-            android:id="@+id/et_desc"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/ib_time"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="25dp"
-            android:hint="description"
-            android:inputType="textMultiLine" />
+            <Button
+                android:id="@+id/btn_submit"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_alignEnd="@+id/et_desc"
+                android:layout_alignRight="@+id/et_desc"
+                android:layout_below="@+id/et_desc"
+                android:background="@color/colorPrimary"
+                android:text="Submit"
+                android:textColor="@color/colorAccent" />
 
 
-        <Button
-            android:id="@+id/btn_submit"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_alignEnd="@+id/et_desc"
-            android:layout_alignRight="@+id/et_desc"
-            android:layout_below="@+id/et_desc"
-            android:background="@color/colorPrimary"
-            android:text="Submit"
-            android:textColor="@color/colorAccent" />
+        </RelativeLayout>
 
+    </LinearLayout>
 
-    </RelativeLayout>
-
-    </ScrollView>
-
-</LinearLayout>
+</ScrollView>

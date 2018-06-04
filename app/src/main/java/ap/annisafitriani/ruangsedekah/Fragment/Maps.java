@@ -4,9 +4,12 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.BitmapFactory;
 import android.location.Address;
+import android.location.Criteria;
 import android.location.Geocoder;
 import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -24,21 +27,30 @@ import android.widget.Toast;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import ap.annisafitriani.ruangsedekah.Activity.CreateActivity;
 import ap.annisafitriani.ruangsedekah.Adapter.CustomInfoWindowAdapter;
@@ -50,25 +62,6 @@ public class Maps extends Fragment implements OnMapReadyCallback,
 
     private Kegiatan mKegiatan;
 
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-
-        Log.d(TAG, "onMapReady: map is ready");
-        mMap = googleMap;
-
-        if (mLocationPermissionsGranted) {
-            getDeviceLocation();
-
-            if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION)
-                    != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(),
-                    Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                return;
-            }
-            mMap.setMyLocationEnabled(true);
-            mMap.getUiSettings().setMyLocationButtonEnabled(false);
-
-        }
-    }
 
     private GoogleMap mMap;
     MapView mMapView;
@@ -91,6 +84,8 @@ public class Maps extends Fragment implements OnMapReadyCallback,
 
     private FusedLocationProviderClient mFusedLocationProviderClient;
     private GoogleApiClient mGoogleApiClient;
+
+    private ArrayList<Kegiatan> mListKegiatan = new ArrayList<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -120,11 +115,32 @@ public class Maps extends Fragment implements OnMapReadyCallback,
             }
         });
 
-
+        initMap();
         getLocationPermission();
         hideSoftKeyboard();
 
+        //untuk fetch semua data dari firebase
+        //fetchKegiatanDataFromFirebase(mMap);
         return mView;
+    }
+
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        MapsInitializer.initialize(getContext());
+        Log.d(TAG, "onMapReady: map is ready");
+        mMap = googleMap;
+        fetchKegiatanDataFromFirebase(mMap);
+        if (mLocationPermissionsGranted) {
+            getDeviceLocation();
+            if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION)
+                    != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(),
+                    Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                return;
+            }
+            mMap.setMyLocationEnabled(true);
+            mMap.getUiSettings().setMyLocationButtonEnabled(false);
+        }
     }
 
     @Override
@@ -149,28 +165,36 @@ public class Maps extends Fragment implements OnMapReadyCallback,
         Log.d(TAG, "getDeviceLocation: getting the devices current location");
 
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getActivity());
+        final LocationRequest locationRequest = LocationRequest.create();
+        locationRequest.setInterval(5000);
+        locationRequest.setFastestInterval(1000);
 
         try {
             if (mLocationPermissionsGranted) {
-
-                final Task location = mFusedLocationProviderClient.getLastLocation();
-                location.addOnCompleteListener(new OnCompleteListener() {
+                mFusedLocationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
                     @Override
-                    public void onComplete(@NonNull Task task) {
-                        if (task.isSuccessful()) {
-                            Log.d(TAG, "onComplete: found location!");
-                            Location currentLocation = (Location) task.getResult();
-
-                            moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()),
-                                    DEFAULT_ZOOM,
-                                    "My Location");
-
-                        } else {
-                            Log.d(TAG, "onComplete: current location is null");
-                            Toast.makeText(getContext(), "unable to get current location", Toast.LENGTH_SHORT).show();
+                    public void onSuccess(Location location) {
+                        if (location != null) {
+                            locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+                            moveCamera(new LatLng(location.getLatitude(), location.getLongitude()), DEFAULT_ZOOM, "my Marker");
                         }
                     }
                 });
+
+
+//                final Task location = mFusedLocationProviderClient.getLastLocation();
+//                location.addOnCompleteListener(new OnCompleteListener() {
+//                    @Override
+//                    public void onComplete(@NonNull Task task) {
+//                        if (task.isSuccessful()) {
+//                            Log.d(TAG, "onComplete: found location!");
+//
+//                        } else {
+//                            Log.d(TAG, "onComplete: current location is null");
+//                            Toast.makeText(getContext(), "unable to get current location", Toast.LENGTH_SHORT).show();
+//                        }
+//                    }
+//                });
             }
         } catch (SecurityException e) {
             Log.e(TAG, "getDeviceLocation: SecurityException: " + e.getMessage());
@@ -208,19 +232,19 @@ public class Maps extends Fragment implements OnMapReadyCallback,
         }
     }
 
-    private void geoLocate(){
+    private void geoLocate() {
         Log.d(TAG, "geoLocate: geolocating");
 
 
         Geocoder geocoder = new Geocoder(getContext());
         List<Address> list = new ArrayList<>();
-        try{
+        try {
             list = geocoder.getFromLocationName("", 1);
-        }catch (IOException e){
-            Log.e(TAG, "geoLocate: IOException: " + e.getMessage() );
+        } catch (IOException e) {
+            Log.e(TAG, "geoLocate: IOException: " + e.getMessage());
         }
 
-        if(list.size() > 0){
+        if (list.size() > 0) {
             Address address = list.get(0);
 
             Log.d(TAG, "geoLocate: found a location: " + address.toString());
@@ -235,7 +259,7 @@ public class Maps extends Fragment implements OnMapReadyCallback,
         Log.d(TAG, "moveCamera: moving the camera to: lat: " + latLng.latitude + ", lng: " + latLng.longitude);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
 
-        if(!title.equals("My Location")){
+        if (!title.equals("My Location")) {
             MarkerOptions options = new MarkerOptions()
                     .position(latLng)
                     .title(title);
@@ -257,7 +281,7 @@ public class Maps extends Fragment implements OnMapReadyCallback,
             fm.beginTransaction().replace(R.id.maps, supportMapFragment).commit();
         }
         supportMapFragment.getMapAsync(this);
-        ;
+
     }
 
     private void getLocationPermission() {
@@ -324,5 +348,39 @@ public class Maps extends Fragment implements OnMapReadyCallback,
             mGoogleApiClient.disconnect();
         }
 
+    }
+
+    private void fetchKegiatanDataFromFirebase(final GoogleMap googleMap) {
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Kegiatan");
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+
+                    mKegiatan = ds.getValue(Kegiatan.class);
+                    if (mKegiatan != null) {
+                        Log.d("fetching", String.valueOf(mKegiatan.getLat()));
+                        Log.d("fetching_lat", String.valueOf(mKegiatan.lat));
+                        mListKegiatan.add(mKegiatan);
+                    }
+                    addMarkerToMap(mListKegiatan,googleMap);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void addMarkerToMap(ArrayList<Kegiatan> mListKegiatan, GoogleMap googleMap) {
+        for (int i = 0; i < mListKegiatan.size(); i++) {
+            LatLng position = new LatLng(mListKegiatan.get(i).getLat(), mListKegiatan.get(i).getLng());
+            googleMap.addMarker(new MarkerOptions().position(position));
+
+            Log.d("setMarkerMap", "all set-" + i);
+        }
     }
 }
