@@ -8,11 +8,11 @@ import java.io.Serializable;
 
 public class Kegiatan implements Serializable {
 
-    public String nama, deskripsi, photo, tanggal, waktu, id, lokasi;
+    public String nama, deskripsi, tanggal, waktu, id, lokasi, userId;
     public Double lang, lat;
 
 
-    public Kegiatan(String nama, String tanggal, String waktu, String deskripsi, String id, String lokasi) {
+    public Kegiatan(String nama, String tanggal, String waktu, String deskripsi, String id, String lokasi, String userId, Double lat, Double lang) {
         this.nama = nama;
         this.deskripsi = deskripsi;
         this.tanggal = tanggal;
@@ -21,6 +21,7 @@ public class Kegiatan implements Serializable {
         this.lokasi = lokasi;
         this.lat = lat;
         this.lang = lang;
+        this.userId = userId;
 
     }
 
@@ -93,12 +94,11 @@ public class Kegiatan implements Serializable {
         this.lang = lang;
     }
 
-    public String getPhoto() {
-        return photo;
+    public String getIdUser() {
+        return userId;
     }
 
-    public void setPhoto(String photo) {
-        this.photo = photo;
+    public void setIdUser(String idUser) {
+        this.userId = idUser;
     }
-
 }

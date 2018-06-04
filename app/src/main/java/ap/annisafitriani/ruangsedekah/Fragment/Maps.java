@@ -36,6 +36,8 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -78,6 +80,12 @@ public class Maps extends Fragment implements OnMapReadyCallback, GoogleApiClien
     private GoogleApiClient mGoogleApiClient;
     private Marker mMarker;
 
+
+    private FirebaseDatabase mFirebaseDatabase;
+    private FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener mAuthListener;
+    private DatabaseReference myRef;
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
 
@@ -107,16 +115,7 @@ public class Maps extends Fragment implements OnMapReadyCallback, GoogleApiClien
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle SavedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_maps, container, false);
 
-        createEvent = mView.findViewById(R.id.create_event);
 
-        createEvent.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                Intent intent = new Intent(getContext(), CreateActivity.class);
-                startActivity(intent);
-            }
-        });
 
         mylocation = mView.findViewById(R.id.current_location);
 
@@ -132,6 +131,31 @@ public class Maps extends Fragment implements OnMapReadyCallback, GoogleApiClien
         getLocationPermission();
         hideSoftKeyboard();
 
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = mAuth.getCurrentUser();
+
+        if (user != null) {
+            // User is signed in
+            Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
+            //                  toastMessage("Successfully signed in with: " + user.getEmail());
+        } else {
+            mylocation.setVisibility(View.GONE);
+            createEvent.setVisibility(View.GONE);
+
+        }
+
+
+        createEvent = mView.findViewById(R.id.create_event);
+
+        createEvent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FirebaseUser user = mAuth.getCurrentUser();
+                Intent intent = new Intent(getContext(), CreateActivity.class);
+                intent.putExtra("userId", user.getUid());
+                startActivity(intent);
+            }
+        });
 
         return mView;
     }
@@ -252,8 +276,6 @@ public class Maps extends Fragment implements OnMapReadyCallback, GoogleApiClien
         }
 
         hideSoftKeyboard();
-
-
     }
 
     private void initMap() {

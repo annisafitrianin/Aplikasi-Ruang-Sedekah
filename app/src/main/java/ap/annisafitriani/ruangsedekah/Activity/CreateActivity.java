@@ -52,6 +52,8 @@ public class CreateActivity extends AppCompatActivity {
     private String id;
     public static Kegiatan kegiatan;
 
+    private double lang, lat;
+
 //    private PlaceInfo mPlace;
 
     DatabaseReference mDatabase;
@@ -135,10 +137,7 @@ public class CreateActivity extends AppCompatActivity {
             tvLocResult.setText(kegiatan.lokasi);
             this.id = kegiatan.id;
         }
-
     }
-
-
 
     private  void updateKegiatan()
     {
@@ -148,12 +147,15 @@ public class CreateActivity extends AppCompatActivity {
         String desc = etDesc.getText().toString().trim();
         String time = tvTimeResult.getText().toString().trim();
         String loc = tvLocResult.getText().toString().trim();
+        String userId = kegiatan.userId;
+        Double lat = kegiatan.lat;
+        Double lang = kegiatan.lang;
 
 
         //checking if the value is provided
         if (!TextUtils.isEmpty(nama)) {
             //creating an Artist Object
-            Kegiatan kegiatan = new Kegiatan(nama, date, time, desc, id, loc);
+            Kegiatan kegiatan = new Kegiatan(nama, date, time, desc, id, loc, userId, lat, lang) ;
 
             //Saving the Artist
             mDatabase.child(id).setValue(kegiatan);
@@ -178,6 +180,9 @@ public class CreateActivity extends AppCompatActivity {
         String desc = etDesc.getText().toString().trim();
         String time = tvTimeResult.getText().toString().trim();
         String loc = tvLocResult.getText().toString().trim();
+        String userId = getIntent().getStringExtra("userId");
+        double lat = this.lat;
+        double lang = this.lang;
 
 
         //checking if the value is provided
@@ -188,7 +193,7 @@ public class CreateActivity extends AppCompatActivity {
             String id = mDatabase.push().getKey();
 
             //creating an Artist Object
-            Kegiatan kegiatan = new Kegiatan(nama, date, time, desc, id, loc);
+            Kegiatan kegiatan = new Kegiatan(nama, date, time, desc, id, loc, userId, lat, lang);
 
             //Saving the Artist
             mDatabase.child(id).setValue(kegiatan);
@@ -249,6 +254,9 @@ public class CreateActivity extends AppCompatActivity {
                 Place place = PlacePicker.getPlace(data, this);
                 //text view bisa dimasukkan dari sini
                 tvLocResult.setText(place.getName());
+                lat = place.getLatLng().latitude;
+                lang = place.getLatLng().longitude;
+
 
             }
         }

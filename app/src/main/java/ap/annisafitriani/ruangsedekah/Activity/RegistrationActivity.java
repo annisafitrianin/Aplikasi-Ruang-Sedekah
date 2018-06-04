@@ -142,9 +142,9 @@ public class RegistrationActivity extends AppCompatActivity {
             return;
         }
 
-        final String userId = myRef.push().getKey();
-        User user = new User(email, password, nama, no_hp, userId);
-        myRef.child(userId).setValue(user);
+//        final String userId = myRef.push().getKey();
+//        User user = new User(email, password, nama, no_hp, userId);
+//        myRef.child(userId).setValue(user);
 
         progressBar.setVisibility(View.VISIBLE);
 
@@ -163,8 +163,8 @@ public class RegistrationActivity extends AppCompatActivity {
                             inputNoHp.setText("");
 
                             if (task.isSuccessful()) {
-                                User user = new User(email, password, nama, no_hp, userId);
-                                myRef.child("Member").child(myRef.push().getKey()).setValue(user);
+                                User user = new User(email, password, nama, no_hp, mAuth.getCurrentUser().getUid());
+                                myRef.child("Users").child(mAuth.getCurrentUser().getUid()).setValue(user);
                             }
                             startActivity(new Intent(RegistrationActivity.this, HalamanUtama.class));
                         } else {

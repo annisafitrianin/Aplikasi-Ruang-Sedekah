@@ -21,6 +21,8 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,10 +50,6 @@ public class HalamanProfil extends AppCompatActivity {
     FirebaseAuth.AuthStateListener mAuthListener;
     FirebaseUser user;
 
-
-//    public SwipeRefreshLayout myswiperefreshlayout;
-
-
     private static final String TAG = "HalamanProfil";
     private EditText nama;
     private EditText tanggal;
@@ -77,16 +75,6 @@ public class HalamanProfil extends AppCompatActivity {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         rvCategory.setLayoutManager(linearLayoutManager);
-
-//        mySwipeRefreshLayout = (SwipeRefreshLayout) mySwipeRefreshLayout.findViewById(R.id.swiperefresh);
-//        mySwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-//            @Override
-//            public void onRefresh() {
-//                Toast.makeText(getApplicationContext(), "on refresh", Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//        mySwipeRefreshLayout.setRefreshing(false);
-//
 
         adapter = new ListBerandaAdapter(kegiatanItem, mRef, nama, tanggal, waktu, lokasi, deskripsi);
         rvCategory.setAdapter(adapter);
@@ -146,23 +134,24 @@ public class HalamanProfil extends AppCompatActivity {
             }
 
         }
-
-//        myswiperefreshlayout = findViewById(R.id.swiperefresh);
-//        myswiperefreshlayout.setOnRefreshListener(this);
-
-
-
-
-
         }
-
-
-
-
-
-
     private void updateList() {
-        mRef.addChildEventListener(new ChildEventListener() {
+        Query query = mRef.child("Kegiatan").orderByChild("userId").equalTo(user.getUid());
+//
+//        query.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+////                kegiatanItem.add(dataSnapshot.getValue(Kegiatan.class));
+////                adapter.notifyDataSetChanged();
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//
+//            }
+//        });
+
+        query.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 kegiatanItem.add(dataSnapshot.getValue(Kegiatan.class));
