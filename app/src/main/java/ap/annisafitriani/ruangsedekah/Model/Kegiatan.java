@@ -1,10 +1,12 @@
 package ap.annisafitriani.ruangsedekah.Model;
 
+import java.io.Serializable;
+
 /**
  * Created by Hp on 4/18/2018.
  */
 
-public class Kegiatan {
+public class Kegiatan implements Serializable {
 
     public String nama, deskripsi, photo, tanggal, waktu, lokasi, id;
     public double lat,lang;
@@ -12,18 +14,20 @@ public class Kegiatan {
 
     public Kegiatan() { }
 
-    public Kegiatan(String nama, String deskripsi, String photo, String tanggal,
-                    String waktu, String lokasi, String id, Double lat, Double lng) {
+    public Kegiatan(String nama, String tanggal, String waktu, String deskripsi, String id, String lokasi, String userId, Double lat, Double lang) {
+
         this.nama = nama;
         this.deskripsi = deskripsi;
         this.photo = photo;
         this.tanggal = tanggal;
         this.waktu = waktu;
         this.lokasi = lokasi;
-        this.id = id;
         this.lat = lat;
-        this.lang = lng;
+        this.lang = lang;
+
+
     }
+
 
     public String getNama() {
         return nama;
@@ -95,5 +99,6 @@ public class Kegiatan {
 
     public void setLng(double lng) {
         this.lang = lng;
+
     }
 }

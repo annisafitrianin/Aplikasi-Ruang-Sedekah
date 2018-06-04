@@ -38,8 +38,6 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDjA-SQQj8yTaE43FZiWnRlmvNInWBBuUw" />
 
-
-
         <activity android:name=".Activity.HalamanAwal">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -62,13 +60,14 @@
              sign the APK for publishing.
              You can define the keys for the debug and release targets in src/debug/ and src/release/.
         -->
-        <activity android:name=".Activity.HalamanProfil"
-            android:theme="@style/HalamanUtamaStyle"/>
-
+        <activity
+            android:name=".Activity.HalamanProfil"
+            android:theme="@style/HalamanUtamaStyle" />
         <activity android:name=".Activity.CreateActivity">
-            <!--<meta-data-->
-                <!--android:name="com.google.android.maps.v2.API_KEY"-->
-                <!--android:value="AIzaSyA0RRcUqghJ2Jsl2pKMAddq3rDXal0khC0" />-->
+
+            <!-- <meta-data -->
+            <!-- android:name="com.google.android.maps.v2.API_KEY" -->
+            <!-- android:value="AIzaSyA0RRcUqghJ2Jsl2pKMAddq3rDXal0khC0" /> -->
         </activity>
     </application>
 

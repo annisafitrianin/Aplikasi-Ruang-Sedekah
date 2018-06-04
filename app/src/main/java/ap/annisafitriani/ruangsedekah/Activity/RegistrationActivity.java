@@ -69,7 +69,7 @@ public class RegistrationActivity extends AppCompatActivity {
                 if (user != null) {
                     // User is signed in
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
-  //                  toastMessage("Successfully signed in with: " + user.getEmail());
+                    //                  toastMessage("Successfully signed in with: " + user.getEmail());
                 } else {
                     // User is signed out
                     Log.d(TAG, "onAuthStateChanged:signed_out");
@@ -142,9 +142,9 @@ public class RegistrationActivity extends AppCompatActivity {
             return;
         }
 
-        final String userId = myRef.push().getKey();
-        User user = new User(email, password, nama, no_hp, userId);
-        myRef.child(userId).setValue(user);
+//        final String userId = myRef.push().getKey();
+//        User user = new User(email, password, nama, no_hp, userId);
+//        myRef.child(userId).setValue(user);
 
         progressBar.setVisibility(View.VISIBLE);
 
@@ -163,11 +163,10 @@ public class RegistrationActivity extends AppCompatActivity {
                             inputNoHp.setText("");
 
                             if (task.isSuccessful()) {
-                                User user = new User(email, password, nama, no_hp, userId);
-                                myRef.child("Users").child(myRef.push().getKey()).setValue(user);
+                                User user = new User(email, password, nama, no_hp, mAuth.getCurrentUser().getUid());
+                                myRef.child("Users").child(mAuth.getCurrentUser().getUid()).setValue(user);
                             }
                             startActivity(new Intent(RegistrationActivity.this, HalamanUtama.class));
-                            finish();
                         } else {
                             //display some message here
                             Toast.makeText(RegistrationActivity.this, "Registration Error", Toast.LENGTH_LONG).show();

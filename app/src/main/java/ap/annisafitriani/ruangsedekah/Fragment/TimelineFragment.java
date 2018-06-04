@@ -4,12 +4,14 @@ package ap.annisafitriani.ruangsedekah.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -35,6 +37,7 @@ public class TimelineFragment extends Fragment {
     List<Kegiatan> kegiatanItem;
     DatabaseReference mRef;
     FirebaseDatabase mDatabase;
+    SwipeRefreshLayout mySwipeRefreshLayout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -55,6 +58,16 @@ public class TimelineFragment extends Fragment {
 
         adapter = new ListTimelineAdapter(kegiatanItem);
         rvCategory.setAdapter(adapter);
+
+
+//        mySwipeRefreshLayout = (SwipeRefreshLayout) mySwipeRefreshLayout.findViewById(R.id.timeline);
+//        mySwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+//            @Override
+//            public void onRefresh() {
+//                Toast.makeText(getContext(), "on refresh", Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//        mySwipeRefreshLayout.setRefreshing(false);
 
         updateList();
         hideSoftKeyboard();

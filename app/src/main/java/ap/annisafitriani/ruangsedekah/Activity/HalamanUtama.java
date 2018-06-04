@@ -194,6 +194,7 @@
 
 package ap.annisafitriani.ruangsedekah.Activity;
 
+import android.annotation.SuppressLint;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -213,6 +214,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -242,7 +246,7 @@ public class HalamanUtama extends AppCompatActivity implements View.OnClickListe
     private android.app.Notification myNotification;
     private NotificationManager notificationManager;
 
-    //   private FirebaseAuth mAuth;
+       private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
 
     @Override
@@ -263,12 +267,20 @@ public class HalamanUtama extends AppCompatActivity implements View.OnClickListe
         setupTabIcons();
         this.notificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
 
+        mAuth = FirebaseAuth.getInstance();
+
+
+
+
         setupFirebaseListener();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_item, menu);
+        FirebaseUser user = mAuth.getCurrentUser();
+        if (user != null) {
+            getMenuInflater().inflate(R.menu.menu_item, menu);
+        }
         return true;
     }
 
