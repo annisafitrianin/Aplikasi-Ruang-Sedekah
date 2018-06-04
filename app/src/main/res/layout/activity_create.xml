@@ -1,30 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorAccent"
     android:orientation="vertical"
-    android:gravity="center_horizontal"
     tools:context="ap.annisafitriani.ruangsedekah.Activity.CreateActivity">
 
+    <LinearLayout
+        android:id="@+id/login_form"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <RelativeLayout
 
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:paddingTop="80dp"
-
-            >
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:gravity="center">
 
             <EditText
                 android:id="@+id/et_DateResult"
-                android:layout_width="190dp"
+                android:layout_width="210dp"
                 android:layout_height="wrap_content"
                 android:ems="10"
-
                 android:inputType="date" />
 
             <Button
@@ -40,9 +41,9 @@
 
 
         <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
             android:orientation="vertical">
 
 
@@ -55,7 +56,7 @@
                 android:layout_below="@+id/textInputLayout"
                 android:layout_marginLeft="43dp"
                 android:layout_marginStart="43dp"
-                android:layout_marginTop="25dp"
+                android:layout_marginTop="13dp"
                 android:background="@color/colorPrimary"
                 android:textColor="@color/colorAccent"
                 app:srcCompat="@drawable/ic_time" />
@@ -129,24 +130,17 @@
                     android:hint="Nama Kegiatan"
                     android:inputType="textEmailAddress"
                     android:maxLines="1"
-                    android:paddingTop="25dp"
                     android:singleLine="true" />
 
             </android.support.design.widget.TextInputLayout>
 
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
 
             <EditText
                 android:id="@+id/et_desc"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/ib_time"
                 android:layout_centerHorizontal="true"
-                android:layout_gravity="center"
                 android:layout_marginTop="25dp"
                 android:hint="description"
                 android:inputType="textMultiLine" />
@@ -159,21 +153,13 @@
                 android:layout_alignEnd="@+id/et_desc"
                 android:layout_alignRight="@+id/et_desc"
                 android:layout_below="@+id/et_desc"
-                android:layout_marginTop="15dp"
                 android:background="@color/colorPrimary"
                 android:text="Submit"
-
-
                 android:textColor="@color/colorAccent" />
 
-            <!--<ProgressBar-->
-                <!--android:id="@+id/progressBar"-->
-                <!--android:layout_width="0dp"-->
-                <!--android:layout_height="0dp"-->
-                <!--android:visibility="gone"-->
-                <!--tools:layout_editor_absoluteX="0dp"-->
-                <!--tools:layout_editor_absoluteY="0dp" />-->
 
         </RelativeLayout>
 
-</LinearLayout>
+    </LinearLayout>
+
+</ScrollView>
