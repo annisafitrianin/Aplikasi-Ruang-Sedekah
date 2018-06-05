@@ -21,6 +21,12 @@
             android:layout_weight="3"
             android:gravity="center"
             android:layout_marginTop="60dp">
+||||||| merged common ancestors
+            android:gravity="center">
+>>>>>>>>> Temporary merge branch 2
+=======
+            android:gravity="center">
+>>>>>>> f04ff73f77766dfd4bfba4e78ab0703f07a1ab69
 
             <EditText
                 android:id="@+id/et_DateResult"

@@ -85,23 +85,6 @@ public class HalamanProfil extends AppCompatActivity {
         updateList();
         hideSoftKeyboard();
 
-
-
-//        mRef = FirebaseDatabase.getInstance().getReference();
-//        mRef.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                String username = dataSnapshot.child("Users").child(userId).child("username").getValue(String.class);
-//                tvNama.setText(username);
-//            }
-//
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//
-//            }
-//        });
-
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -151,30 +134,6 @@ public class HalamanProfil extends AppCompatActivity {
         mRef.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-//                kegiatanItem.add(dataSnapshot.getValue(Kegiatan.class));
-//                adapter.notifyDataSetChanged();
-
-//                Kegiatan x = (Kegiatan) dataSnapshot.getValue(Kegiatan.class);
-//                Toast.makeText(HalamanProfil.this, x.lokasi, Toast.LENGTH_LONG).show();
-////                if (x.getUserId().equals(userId)){
-////                    Toast.makeText(HalamanProfil.this, getString(R.string.auth_failed), Toast.LENGTH_LONG).show();
-//////                    kegiatanItem.add(x);
-//////                    adapter.notifyDataSetChanged();
-////                }
-
-//                Toast.makeText(HalamanProfil.this, dataSnapshot.toString(), Toast.LENGTH_LONG).show();
-//                if (dataSnapshot.child("userId").getValue().equals(userId)) {
-//                    kegiatanItem.add(dataSnapshot.getValue(Kegiatan.class));
-//                    adapter.notifyDataSetChanged();
-//                }
-
-
-//                for (DataSnapshot data : dataSnapshot.getChildren()){
-//                    Toast.makeText(HalamanProfil.this, "aaaaaaaaaaaaaaaaaaaa", Toast.LENGTH_LONG).show();
-//
-//                    kegiatanItem.add(data.getValue(Kegiatan.class));
-//                    adapter.notifyDataSetChanged();
-//                }
 
             }
 
@@ -206,53 +165,6 @@ public class HalamanProfil extends AppCompatActivity {
 
             }
         });
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                kegiatanItem.add(dataSnapshot.getValue(Kegiatan.class));
-//                adapter.notifyDataSetChanged();
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//
-//            }
-//        });
-//
-//        query.addChildEventListener(new ChildEventListener() {
-//            @Override
-//            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-//                kegiatanItem.add(dataSnapshot.getValue(Kegiatan.class));
-//                adapter.notifyDataSetChanged();
-//            }
-//
-//            @Override
-//            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-//                Kegiatan kegiatan = dataSnapshot.getValue(Kegiatan.class);
-//                int index = getItemIndex(kegiatan);
-//
-//                kegiatanItem.set(index, kegiatan);
-//                adapter.notifyItemChanged(index);
-//            }
-//
-//            @Override
-//            public void onChildRemoved(DataSnapshot dataSnapshot) {
-//                Kegiatan kegiatan = dataSnapshot.getValue(Kegiatan.class);
-//                int index = getItemIndex(kegiatan);
-//
-//                kegiatanItem.remove(index);
-//                adapter.notifyDataSetChanged();
-//            }
-//
-//            @Override
-//            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-//
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//
-//            }
-//        });
     }
 
     private int getItemIndex(Kegiatan kegiatan) {

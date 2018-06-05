@@ -54,6 +54,8 @@ public class CreateActivity extends AppCompatActivity {
 
     private double lang, lat;
 
+//    private PlaceInfo mPlace;
+
     DatabaseReference mDatabase;
     int PLACE_PICKER_REQUEST = 1;
 
@@ -65,15 +67,16 @@ public class CreateActivity extends AppCompatActivity {
 
         dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
 
+
         etDateResult = (EditText) findViewById(R.id.et_DateResult);
         btnPickDate = (Button) findViewById(R.id.btn_pickdate);
         ibTime = (ImageButton) findViewById(R.id.ib_time);
+
         ibLoc = (ImageButton) findViewById(R.id.ib_loc);
         etNama = (EditText) findViewById(R.id.et_namaKegiatan);
         etDesc = (EditText) findViewById(R.id.et_desc);
         tvLocResult = (TextView) findViewById(R.id.tv_locResult);
         tvTimeResult = (TextView) findViewById(R.id.tv_timeResult);
-        btnSubmit = (Button) findViewById(R.id.btn_submit);
 
         btnPickDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,6 +84,7 @@ public class CreateActivity extends AppCompatActivity {
                 showDateDialog();
             }
         });
+        btnSubmit = (Button) findViewById(R.id.btn_submit);
 
         ibTime.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,6 +92,8 @@ public class CreateActivity extends AppCompatActivity {
                 showTimeDialog();
             }
         });
+
+        mDatabase = FirebaseDatabase.getInstance().getReference("Kegiatan");
 
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,6 +105,7 @@ public class CreateActivity extends AppCompatActivity {
             }
         });
 
+        //TODO: coba pake placebuilder mbak
         ibLoc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -119,11 +126,10 @@ public class CreateActivity extends AppCompatActivity {
 
         });
 
-        mDatabase = FirebaseDatabase.getInstance().getReference("Kegiatan");
-
         kegiatan = (Kegiatan) getIntent().getSerializableExtra("kegiatan");
 
-        if (kegiatan != null) {
+        if (kegiatan != null)
+        {
             etDateResult.setText(kegiatan.tanggal);
             etNama.setText(kegiatan.nama);
             etDesc.setText(kegiatan.deskripsi);
@@ -133,7 +139,8 @@ public class CreateActivity extends AppCompatActivity {
         }
     }
 
-    private void updateKegiatan() {
+    private  void updateKegiatan()
+    {
         //getting the values to save
         String date = etDateResult.getText().toString().trim();
         String nama = etNama.getText().toString().trim();
@@ -144,22 +151,30 @@ public class CreateActivity extends AppCompatActivity {
         Double lat = kegiatan.lat;
         Double lang = kegiatan.lang;
 
-        if (!TextUtils.isEmpty(nama)) {
-            Kegiatan kegiatan = new Kegiatan(nama, date, time, desc, id, loc, userId, lat, lang);
 
+        //checking if the value is provided
+        if (!TextUtils.isEmpty(nama)) {
+            //creating an Artist Object
+            Kegiatan kegiatan = new Kegiatan(nama, date, time, desc, id, loc, userId, lat, lang) ;
+
+            //Saving the Artist
             mDatabase.child(id).setValue(kegiatan);
 
+            //setting edittext to blank again
             etNama.setText("");
 
-            Toast.makeText(this, "Informasi Sedekah Berhasil Diperbarui", Toast.LENGTH_LONG).show();
+            //displaying a success toast
+            Toast.makeText(this, "Event added", Toast.LENGTH_LONG).show();
             Intent intent = new Intent(CreateActivity.this, HalamanProfil.class);
             startActivity(intent);
         } else {
-            Toast.makeText(this, "Masukkan Nama Kegiatan", Toast.LENGTH_LONG).show();
+            //if the value is not given displaying a toast
+            Toast.makeText(this, "Please enter a name", Toast.LENGTH_LONG).show();
         }
     }
 
     private void createKegiatan() {
+        //getting the values to save
         String date = etDateResult.getText().toString().trim();
         String nama = etNama.getText().toString().trim();
         String desc = etDesc.getText().toString().trim();
@@ -169,21 +184,30 @@ public class CreateActivity extends AppCompatActivity {
         double lat = this.lat;
         double lang = this.lang;
 
+
+        //checking if the value is provided
         if (!TextUtils.isEmpty(nama)) {
 
+            //getting a unique id using push().getKey() method
+            //it will create a unique id and we will use it as the Primary Key for our Artist
             String id = mDatabase.push().getKey();
 
+            //creating an Artist Object
             Kegiatan kegiatan = new Kegiatan(nama, date, time, desc, id, loc, userId, lat, lang);
 
+            //Saving the Artist
             mDatabase.child(id).setValue(kegiatan);
 
+            //setting edittext to blank again
             etNama.setText("");
 
-            Toast.makeText(this, "Informasi Sedekah Berhasil Ditambahkan", Toast.LENGTH_LONG).show();
+            //displaying a success toast
+            Toast.makeText(this, "Event added", Toast.LENGTH_LONG).show();
             Intent intent = new Intent(CreateActivity.this, HalamanUtama.class);
             startActivity(intent);
         } else {
-            Toast.makeText(this, "Masukkan Nama Kegiatan", Toast.LENGTH_LONG).show();
+            //if the value is not given displaying a toast
+            Toast.makeText(this, "Please enter a name", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -239,7 +263,8 @@ public class CreateActivity extends AppCompatActivity {
     }
 
 
-    private void hideSoftKeyboard() {
+
+    private void hideSoftKeyboard(){
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
     }
 }
