@@ -164,9 +164,11 @@ public class CreateActivity extends AppCompatActivity {
             etNama.setText("");
 
             //displaying a success toast
-            Toast.makeText(this, "Event added", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Event updated", Toast.LENGTH_LONG).show();
             Intent intent = new Intent(CreateActivity.this, HalamanProfil.class);
+//            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
+            finish();
         } else {
             //if the value is not given displaying a toast
             Toast.makeText(this, "Please enter a name", Toast.LENGTH_LONG).show();
@@ -204,6 +206,7 @@ public class CreateActivity extends AppCompatActivity {
             //displaying a success toast
             Toast.makeText(this, "Event added", Toast.LENGTH_LONG).show();
             Intent intent = new Intent(CreateActivity.this, HalamanUtama.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
         } else {
             //if the value is not given displaying a toast

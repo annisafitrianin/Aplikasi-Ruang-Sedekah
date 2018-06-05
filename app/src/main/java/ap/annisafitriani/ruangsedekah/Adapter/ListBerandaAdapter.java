@@ -100,6 +100,7 @@ public class ListBerandaAdapter extends RecyclerView.Adapter<ListBerandaAdapter.
                 Intent intent = new Intent(context, CreateActivity.class);
                 intent.putExtra("kegiatan", kegiatan);
                 context.startActivity(intent);
+                ((Activity)context).finish();
             }
         });
 

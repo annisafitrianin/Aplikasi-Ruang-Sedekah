@@ -291,12 +291,11 @@ public class HalamanUtama extends AppCompatActivity implements View.OnClickListe
         if (id == R.id.menu_profil) {
             Intent intent = new Intent(this, HalamanProfil.class);
             startActivity(intent);
-            finish();
         } else if (id == R.id.menu_logout) {
             Toast.makeText(this, "menu_logout clicked", Toast.LENGTH_SHORT).show();
             Log.d(TAG, "onClick: attempting to sign out the user.");
             FirebaseAuth.getInstance().signOut();
-            Intent intent = new Intent(this, LoginActivity.class);
+            Intent intent = new Intent(this, HalamanAwal.class);
             startActivity(intent);
             finish();
         } else if (id == R.id.home) {
