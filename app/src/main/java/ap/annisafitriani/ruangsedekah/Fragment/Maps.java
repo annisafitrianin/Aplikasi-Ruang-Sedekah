@@ -39,30 +39,37 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import com.google.android.gms.tasks.Task;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import ap.annisafitriani.ruangsedekah.Activity.CreateActivity;
 import ap.annisafitriani.ruangsedekah.Adapter.CustomInfoWindowAdapter;
 import ap.annisafitriani.ruangsedekah.Model.Kegiatan;
 import ap.annisafitriani.ruangsedekah.R;
 
-public class Maps extends Fragment implements OnMapReadyCallback,
-        GoogleApiClient.OnConnectionFailedListener {
+public class Maps extends Fragment implements OnMapReadyCallback, GoogleApiClient.OnConnectionFailedListener {
 
     private Kegiatan mKegiatan;
+    private DatabaseReference mDatabase;
+    private DatabaseReference refDatabase;
 
 
     private GoogleMap mMap;
@@ -86,7 +93,6 @@ public class Maps extends Fragment implements OnMapReadyCallback,
 
     private FusedLocationProviderClient mFusedLocationProviderClient;
     private GoogleApiClient mGoogleApiClient;
-
     private Marker mMarker;
 
 
@@ -95,25 +101,25 @@ public class Maps extends Fragment implements OnMapReadyCallback,
     private FirebaseAuth.AuthStateListener mAuthListener;
     private DatabaseReference myRef;
 
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-
-        Log.d(TAG, "onMapReady: map is ready");
-        mMap = googleMap;
-
-        if (mLocationPermissionsGranted) {
-            getDeviceLocation();
-
-            if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION)
-                    != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(),
-                    Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                return;
-            }
-            mMap.setMyLocationEnabled(true);
-            mMap.getUiSettings().setMyLocationButtonEnabled(false);
-
-        }
-    }
+//    @Override
+//    public void onMapReady(GoogleMap googleMap) {
+//
+//        Log.d(TAG, "onMapReady: map is ready");
+//        mMap = googleMap;
+//
+//        if (mLocationPermissionsGranted) {
+//            getDeviceLocation();
+//
+//            if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION)
+//                    != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(),
+//                    Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+//                return;
+//            }
+//            mMap.setMyLocationEnabled(true);
+//            mMap.getUiSettings().setMyLocationButtonEnabled(false);
+//
+//        }
+//    }
 
     private ArrayList<Kegiatan> mListKegiatan = new ArrayList<>();
 
@@ -126,20 +132,9 @@ public class Maps extends Fragment implements OnMapReadyCallback,
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle SavedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_maps, container, false);
 
-        createEvent = mView.findViewById(R.id.create_event);
-        mAuth = FirebaseAuth.getInstance();
-
-        createEvent.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FirebaseUser user = mAuth.getCurrentUser();
-                Intent intent = new Intent(getContext(), CreateActivity.class);
-                intent.putExtra("userId", user.getUid());
-                startActivity(intent);
-            }
-        });
 
         mylocation = mView.findViewById(R.id.current_location);
+        createEvent = mView.findViewById(R.id.create_event);
 
         mylocation.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -148,14 +143,18 @@ public class Maps extends Fragment implements OnMapReadyCallback,
             }
         });
 
-
         initMap();
-
         getLocationPermission();
         hideSoftKeyboard();
 
         //untuk fetch semua data dari firebase
         //fetchKegiatanDataFromFirebase(mMap);
+
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("Kegiatan");
+
+        getLocationPermission();
+        hideSoftKeyboard();
+
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser user = mAuth.getCurrentUser();
 
@@ -169,6 +168,7 @@ public class Maps extends Fragment implements OnMapReadyCallback,
 
         }
 
+
         createEvent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -180,6 +180,27 @@ public class Maps extends Fragment implements OnMapReadyCallback,
         });
 
         return mView;
+    }
+
+
+
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        MapsInitializer.initialize(getContext());
+        Log.d(TAG, "onMapReady: map is ready");
+        mMap = googleMap;
+        fetchKegiatanDataFromFirebase(mMap);
+        if (mLocationPermissionsGranted) {
+            getDeviceLocation();
+            if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION)
+                    != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(),
+                    Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                return;
+            }
+            mMap.setMyLocationEnabled(true);
+            mMap.getUiSettings().setMyLocationButtonEnabled(false);
+        }
     }
 
     @Override
@@ -260,7 +281,7 @@ public class Maps extends Fragment implements OnMapReadyCallback,
                         .position(latLng)
                         .title(kegiatan.getNama())
                         .snippet(snippet);
-                mMap.addMarker(options);
+                mMarker = mMap.addMarker(options);
 
             } catch (NullPointerException e) {
                 Log.e(TAG, "moveCamera: NullPointerException: " + e.getMessage());
@@ -306,8 +327,6 @@ public class Maps extends Fragment implements OnMapReadyCallback,
         }
 
         hideSoftKeyboard();
-
-
     }
 
     private void initMap() {
@@ -369,6 +388,7 @@ public class Maps extends Fragment implements OnMapReadyCallback,
             }
         }
     }
+
 
     private void hideSoftKeyboard() {
         this.getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
