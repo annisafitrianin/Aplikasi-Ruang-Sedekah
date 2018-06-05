@@ -28,6 +28,7 @@ import java.util.List;
 
 import ap.annisafitriani.ruangsedekah.Adapter.ListBerandaAdapter;
 import ap.annisafitriani.ruangsedekah.Model.Kegiatan;
+import ap.annisafitriani.ruangsedekah.Model.User;
 import ap.annisafitriani.ruangsedekah.R;
 
 public class HalamanProfil extends AppCompatActivity {
@@ -103,15 +104,21 @@ public class HalamanProfil extends AppCompatActivity {
 
 
     private void profilUser(){
-
-        FirebaseUser user = mAuth.getCurrentUser();
-        if (user != null){
-            if (user.getEmail() != null){
-                tvEmail.setText(user.getEmail());
+        DatabaseReference userRef = mDatabase.getReference("Users");
+        Query query = userRef.child(userId);
+        query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                tvEmail.setText(dataSnapshot.child("email").getValue().toString());
+                tvNama.setText(dataSnapshot.child("username").getValue().toString());
             }
 
-        }
-        }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
     private void updateList() {
         final Query query = mRef.orderByChild("userId").equalTo(userId);
         if(query != null) {

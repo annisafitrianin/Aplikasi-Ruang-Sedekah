@@ -246,7 +246,7 @@ public class HalamanUtama extends AppCompatActivity implements View.OnClickListe
     private android.app.Notification myNotification;
     private NotificationManager notificationManager;
 
-       private FirebaseAuth mAuth;
+    private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
 
     @Override
