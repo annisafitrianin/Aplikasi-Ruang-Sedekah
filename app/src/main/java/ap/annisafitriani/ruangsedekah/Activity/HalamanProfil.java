@@ -7,7 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -109,10 +108,10 @@ public class HalamanProfil extends AppCompatActivity {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
-                    toastMessage("Successfully signed in with: " + user.getEmail());
+                    //toastMessage("Successfully signed in with: " + user.getEmail());
                 } else {
                     Log.d(TAG, "onAuthStateChanged:signed_out");
-                    toastMessage("Successfully signed out.");
+                    //toastMessage("Successfully signed out.");
                 }
             }
         };
@@ -131,37 +130,70 @@ public class HalamanProfil extends AppCompatActivity {
         }
         }
     private void updateList() {
-//        Query query = mRef.child("Kegiatan").orderByChild("userId").equalTo(user.getUid());
+        final Query query = mRef.orderByChild("userId").equalTo(userId);
+        if(query != null) {
+            query.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    for (DataSnapshot data : dataSnapshot.getChildren()){
+                        kegiatanItem.add(data.getValue(Kegiatan.class));
+                        adapter.notifyDataSetChanged();
+                    }
+                }
 
-//        query.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+        }
+
         mRef.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+//                kegiatanItem.add(dataSnapshot.getValue(Kegiatan.class));
+//                adapter.notifyDataSetChanged();
 
-                kegiatanItem.add(dataSnapshot.getValue(Kegiatan.class));
-                adapter.notifyDataSetChanged();
+//                Kegiatan x = (Kegiatan) dataSnapshot.getValue(Kegiatan.class);
+//                Toast.makeText(HalamanProfil.this, x.lokasi, Toast.LENGTH_LONG).show();
+////                if (x.getUserId().equals(userId)){
+////                    Toast.makeText(HalamanProfil.this, getString(R.string.auth_failed), Toast.LENGTH_LONG).show();
+//////                    kegiatanItem.add(x);
+//////                    adapter.notifyDataSetChanged();
+////                }
+
+//                Toast.makeText(HalamanProfil.this, dataSnapshot.toString(), Toast.LENGTH_LONG).show();
+//                if (dataSnapshot.child("userId").getValue().equals(userId)) {
+//                    kegiatanItem.add(dataSnapshot.getValue(Kegiatan.class));
+//                    adapter.notifyDataSetChanged();
+//                }
+
+
+//                for (DataSnapshot data : dataSnapshot.getChildren()){
+//                    Toast.makeText(HalamanProfil.this, "aaaaaaaaaaaaaaaaaaaa", Toast.LENGTH_LONG).show();
+//
+//                    kegiatanItem.add(data.getValue(Kegiatan.class));
+//                    adapter.notifyDataSetChanged();
+//                }
+
             }
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
                 Kegiatan kegiatan = dataSnapshot.getValue(Kegiatan.class);
                 int index = getItemIndex(kegiatan);
 
                 kegiatanItem.set(index, kegiatan);
                 adapter.notifyItemChanged(index);
-
             }
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-
                 Kegiatan kegiatan = dataSnapshot.getValue(Kegiatan.class);
                 int index = getItemIndex(kegiatan);
 
                 kegiatanItem.remove(index);
                 adapter.notifyDataSetChanged();
-
             }
 
             @Override

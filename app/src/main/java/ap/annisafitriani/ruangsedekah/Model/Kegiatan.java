@@ -94,11 +94,11 @@ public class Kegiatan implements Serializable {
         this.lang = lang;
     }
 
-    public String getIdUser() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setIdUser(String idUser) {
-        this.userId = idUser;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 }

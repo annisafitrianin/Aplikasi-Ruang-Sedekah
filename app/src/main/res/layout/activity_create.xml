@@ -19,7 +19,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="3"
-            android:gravity="center">
+            android:gravity="center"
+            android:layout_marginTop="60dp">
 
             <EditText
                 android:id="@+id/et_DateResult"

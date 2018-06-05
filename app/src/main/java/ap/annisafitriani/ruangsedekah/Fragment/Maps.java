@@ -37,10 +37,13 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -85,6 +88,15 @@ public class Maps extends Fragment implements OnMapReadyCallback,
     private FusedLocationProviderClient mFusedLocationProviderClient;
     private GoogleApiClient mGoogleApiClient;
 
+    private Marker mMarker;
+
+
+    private FirebaseDatabase mFirebaseDatabase;
+    private FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener mAuthListener;
+    private DatabaseReference myRef;
+
+
     private ArrayList<Kegiatan> mListKegiatan = new ArrayList<>();
 
     @Override
@@ -97,11 +109,14 @@ public class Maps extends Fragment implements OnMapReadyCallback,
         mView = inflater.inflate(R.layout.fragment_maps, container, false);
 
         createEvent = mView.findViewById(R.id.create_event);
+        mAuth = FirebaseAuth.getInstance();
 
         createEvent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                FirebaseUser user = mAuth.getCurrentUser();
                 Intent intent = new Intent(getContext(), CreateActivity.class);
+                intent.putExtra("userId", user.getUid());
                 startActivity(intent);
             }
         });
