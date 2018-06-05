@@ -101,4 +101,11 @@ public class Kegiatan implements Serializable {
     public void setUserId(String userId) {
         this.userId = userId;
     }
+
+    @Override
+    public String toString() {
+        return "Waktu: " + waktu + "\n" +
+                "Tanggal : " + tanggal + "\n" +
+                "Lokasi : " + lokasi + "|" + deskripsi;
+    }
 }

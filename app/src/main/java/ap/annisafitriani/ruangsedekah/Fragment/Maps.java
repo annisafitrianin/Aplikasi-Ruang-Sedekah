@@ -22,6 +22,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -436,10 +438,49 @@ public class Maps extends Fragment implements OnMapReadyCallback, GoogleApiClien
 
     private void addMarkerToMap(ArrayList<Kegiatan> mListKegiatan, GoogleMap googleMap) {
         for (int i = 0; i < mListKegiatan.size(); i++) {
+            final Kegiatan kgtn = mListKegiatan.get(i);
             LatLng position = new LatLng(mListKegiatan.get(i).getLat(), mListKegiatan.get(i).getLang());
-            googleMap.addMarker(new MarkerOptions().position(position));
+            Marker mMark = googleMap.addMarker(new MarkerOptions().position(position)
+                    .title(kgtn.nama)
+                    .snippet(kgtn.toString()));
 
-            Log.d("setMarkerMap", "all set-" + i);
+            googleMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
+
+                private View view = getLayoutInflater().inflate(R.layout.marker_view, null);
+
+                @Override
+                public View getInfoWindow(Marker marker) {
+                    final TextView titleUi = ((TextView) view.findViewById(R.id.worldmap_infowindow_username));
+                    String title = marker.getTitle();
+                    if (title != null) titleUi.setText(title);
+                    else titleUi.setText("-");
+
+                    String[] strings = marker.getSnippet().split("[|]");
+
+//                    String[] strings = {"aaaa", "bbbbb"};
+
+                    final TextView snippetUi = ((TextView) view.findViewById(R.id.worldmap_infowindow_name));
+                    if (strings[0] != null) snippetUi.setText(strings[0]);
+                    else snippetUi.setText("-");
+
+                    final TextView decUi = ((TextView) view.findViewById(R.id.worldmap_infowindow_details));
+                    if (strings[1] != null) decUi.setText(strings[1]);
+                    else snippetUi.setText("-");
+
+                    return view;
+                }
+
+                @Override
+                public View getInfoContents(Marker marker) {
+                    if (marker != null && marker.isInfoWindowShown()) {
+                        marker.hideInfoWindow();
+                        marker.showInfoWindow();
+                    }
+                    return null;
+                }
+            });
+
+
         }
     }
 }
