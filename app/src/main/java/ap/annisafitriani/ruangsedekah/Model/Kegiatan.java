@@ -8,9 +8,9 @@ import java.io.Serializable;
 
 public class Kegiatan implements Serializable {
 
-
     public String nama, deskripsi, tanggal, waktu, id, lokasi, userId;
     public Double lang, lat;
+
 
     public Kegiatan(String nama, String tanggal, String waktu, String deskripsi, String id, String lokasi, String userId, Double lat, Double lang) {
         this.nama = nama;
@@ -21,9 +21,13 @@ public class Kegiatan implements Serializable {
         this.lokasi = lokasi;
         this.lat = lat;
         this.lang = lang;
+        this.userId = userId;
+
     }
 
-    public Kegiatan() {}
+    public Kegiatan() {
+
+    }
 
     public String getNama() {
         return nama;
@@ -73,7 +77,6 @@ public class Kegiatan implements Serializable {
     public void setId(String id) {
         this.id = id;
     }
-
 
     public Double getLat() {
         return lat;
