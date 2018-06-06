@@ -1,14 +1,21 @@
 package ap.annisafitriani.ruangsedekah.Adapter;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.List;
+import com.bumptech.glide.Glide;
 
+import java.util.List;
+import java.util.Map;
+
+import ap.annisafitriani.ruangsedekah.Fragment.Maps;
 import ap.annisafitriani.ruangsedekah.Model.Kegiatan;
 import ap.annisafitriani.ruangsedekah.R;
 
@@ -39,18 +46,23 @@ public class ListTimelineAdapter extends RecyclerView.Adapter<ListTimelineAdapte
         holder.tvTanggal.setText(kegiatan.getTanggal());
         holder.tvWaktu.setText(kegiatan.getWaktu());
         holder.tvDesc.setText(kegiatan.getDeskripsi());
-//
-//        holder.itemView.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
-//            @Override
-//            public void onCreateContextMenu(ContextMenu contextMenu, View view, ContextMenu.ContextMenuInfo contextMenuInfo) {
-//                contextMenu.add(holder.getAdapterPosition(), 0, 0, "Hapus");
-//                contextMenu.add(holder.getAdapterPosition(), 1, 0, "Edit");
-//            }
-//        });
 
+        holder.tvNama.setText(kegiatan.nama);
+
+//
 //        Glide.with(context)
 //                .load(kegiatan.getLokasi())
 //                .into(holder.locLokasi);
+//
+//        holder.locLokasi.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(context, Maps.class);
+//
+//                context.startActivity(intent);
+//                ((Activity)context).finish();
+//            }
+//        });
 
     }
 
@@ -63,7 +75,7 @@ public class ListTimelineAdapter extends RecyclerView.Adapter<ListTimelineAdapte
         TextView tvNama;
         TextView tvTanggal;
         TextView tvWaktu;
-        //        ImageView locLokasi;
+        ImageView locLokasi;
         TextView tvDesc;
 
         public CategoryViewHolder(View itemView) {
@@ -72,7 +84,7 @@ public class ListTimelineAdapter extends RecyclerView.Adapter<ListTimelineAdapte
             tvTanggal = (TextView) itemView.findViewById(R.id.tv_item_tanggal);
             tvWaktu = (TextView) itemView.findViewById(R.id.tv_item_waktu);
             tvDesc = (TextView) itemView.findViewById(R.id.tv_item_desc);
-//            locLokasi = (ImageView) itemView.findViewById(R.id.img_loc);
+            locLokasi = (ImageView) itemView.findViewById(R.id.img_loc);
 
         }
     }

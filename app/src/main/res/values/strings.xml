@@ -3,8 +3,8 @@
     <string name="nama">Name</string>
     <string name="mobile_number">Mobile Number</string>
     <string name="email">Email</string>
-    <string name="minimum_password">Password too short, enter minimum 6 characters!</string>
-    <string name="auth_failed">Authentication failed, check your email and password or sign up</string>
+    <string name="minimum_password">Password Terlalu Pendek, masukkan minimal 6 karakter</string>
+    <string name="auth_failed">Email dan Password Salah, Periksa Lagi</string>
     <string name="password">Password</string>
     <string name="logo_golang">Logo</string>
     <string name="sign_in">Sign In</string>

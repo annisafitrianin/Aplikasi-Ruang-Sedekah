@@ -20,10 +20,7 @@
         <item name="colorPrimary">@color/backgroundfragment</item>
     </style>
 
-
-
-
-
-
-
+    <style name="DialogTheme" parent="Theme.AppCompat.Light">
+        <item name="colorAccent">@color/picker</item>
+    </style>
 </resources>

@@ -325,7 +325,7 @@ public class Maps extends Fragment implements OnMapReadyCallback, GoogleApiClien
             MarkerOptions options = new MarkerOptions()
                     .position(latLng)
                     .title(title);
-            mMap.addMarker(options);
+         //   mMap.addMarker(options);
         }
 
         hideSoftKeyboard();

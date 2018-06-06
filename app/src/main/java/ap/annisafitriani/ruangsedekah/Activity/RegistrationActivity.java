@@ -156,7 +156,7 @@ public class RegistrationActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         //checking if success
                         if (!email.equals("") && !password.equals("") && !nama.equals("") && !no_hp.equals("")) {
-                            Toast.makeText(RegistrationActivity.this, "Successfully registered", Toast.LENGTH_LONG).show();
+                            Toast.makeText(RegistrationActivity.this, "Pengguna Behasil ditambahkan", Toast.LENGTH_LONG).show();
                             inputEmail.setText("");
                             inputPassword.setText("");
                             inputNama.setText("");

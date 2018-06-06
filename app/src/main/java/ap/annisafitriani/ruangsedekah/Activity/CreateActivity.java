@@ -1,5 +1,6 @@
 package ap.annisafitriani.ruangsedekah.Activity;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
@@ -152,27 +153,35 @@ public class CreateActivity extends AppCompatActivity {
         Double lang = kegiatan.lang;
 
 
-        //checking if the value is provided
-        if (!TextUtils.isEmpty(nama)) {
-            //creating an Artist Object
-            Kegiatan kegiatan = new Kegiatan(nama, date, time, desc, id, loc, userId, lat, lang) ;
 
-            //Saving the Artist
-            mDatabase.child(id).setValue(kegiatan);
+//        String id = mDatabase.push().getKey();
 
-            //setting edittext to blank again
-            etNama.setText("");
+        //creating an Artist Object
+        Kegiatan kegiatan = new Kegiatan(nama, date, time, desc, id, loc, userId, lat, lang);
 
+        //Saving the Artist
+
+        mDatabase.child(id).setValue(kegiatan);
+
+
+        if (TextUtils.isEmpty(nama)) {
+            Toast.makeText(this, "Masukkan Nama Kegiatan", Toast.LENGTH_LONG).show();
+        } else if (TextUtils.isEmpty(date)) {
+            Toast.makeText(this, "Pilih Tanggal Kegiatan", Toast.LENGTH_LONG).show();
+        }else if (TextUtils.isEmpty(time)) {
+            Toast.makeText(this, "Pilih Waktu Kegiatan", Toast.LENGTH_LONG).show();
+        }else if (TextUtils.isEmpty(loc)) {
+            Toast.makeText(this, "Pilih Lokasi Kegiatan", Toast.LENGTH_LONG).show();
+        }else{
             //displaying a success toast
-            Toast.makeText(this, "Event updated", Toast.LENGTH_LONG).show();
-            Intent intent = new Intent(CreateActivity.this, HalamanProfil.class);
-//            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            Toast.makeText(this, "Kegiatan Berhasil diedit", Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(CreateActivity.this, HalamanUtama.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
-            finish();
-        } else {
-            //if the value is not given displaying a toast
-            Toast.makeText(this, "Please enter a name", Toast.LENGTH_LONG).show();
         }
+
+
+
     }
 
     private void createKegiatan() {
@@ -187,38 +196,39 @@ public class CreateActivity extends AppCompatActivity {
         double lang = this.lang;
 
 
-        //checking if the value is provided
-        if (!TextUtils.isEmpty(nama)) {
+        String id = mDatabase.push().getKey();
 
-            //getting a unique id using push().getKey() method
-            //it will create a unique id and we will use it as the Primary Key for our Artist
-            String id = mDatabase.push().getKey();
+        //creating an Artist Object
+        Kegiatan kegiatan = new Kegiatan(nama, date, time, desc, id, loc, userId, lat, lang);
 
-            //creating an Artist Object
-            Kegiatan kegiatan = new Kegiatan(nama, date, time, desc, id, loc, userId, lat, lang);
+        //Saving the Artist
+        mDatabase.child(id).setValue(kegiatan);
 
-            //Saving the Artist
-            mDatabase.child(id).setValue(kegiatan);
 
-            //setting edittext to blank again
-            etNama.setText("");
-
+        if (TextUtils.isEmpty(nama)) {
+            Toast.makeText(this, "Masukkan Nama Kegiatan", Toast.LENGTH_LONG).show();
+        } else if (TextUtils.isEmpty(date)) {
+            Toast.makeText(this, "Pilih Tanggal Kegiatan", Toast.LENGTH_LONG).show();
+        }else if (TextUtils.isEmpty(time)) {
+            Toast.makeText(this, "Pilih Waktu Kegiatan", Toast.LENGTH_LONG).show();
+        }else if (TextUtils.isEmpty(loc)) {
+            Toast.makeText(this, "Pilih Lokasi Kegiatan", Toast.LENGTH_LONG).show();
+        }else{
             //displaying a success toast
-            Toast.makeText(this, "Event added", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Kegiatan Baru ditambahkan", Toast.LENGTH_LONG).show();
             Intent intent = new Intent(CreateActivity.this, HalamanUtama.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
-        } else {
-            //if the value is not given displaying a toast
-            Toast.makeText(this, "Please enter a name", Toast.LENGTH_LONG).show();
         }
+
+
     }
 
 
     private void showDateDialog() {
         Calendar newCalendar = Calendar.getInstance();
 
-        datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+        datePickerDialog = new DatePickerDialog(this, AlertDialog.THEME_DEVICE_DEFAULT_DARK, new DatePickerDialog.OnDateSetListener() {
 
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
@@ -233,7 +243,7 @@ public class CreateActivity extends AppCompatActivity {
 
     private void showTimeDialog() {
         Calendar calendar = Calendar.getInstance();
-        timePickerDialog = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
+        timePickerDialog = new TimePickerDialog(this, AlertDialog.THEME_DEVICE_DEFAULT_DARK, new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                 Calendar newTime = Calendar.getInstance();

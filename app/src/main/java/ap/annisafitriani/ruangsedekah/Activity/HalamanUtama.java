@@ -292,8 +292,8 @@ public class HalamanUtama extends AppCompatActivity implements View.OnClickListe
             Intent intent = new Intent(this, HalamanProfil.class);
             startActivity(intent);
         } else if (id == R.id.menu_logout) {
-            Toast.makeText(this, "menu_logout clicked", Toast.LENGTH_SHORT).show();
-            Log.d(TAG, "onClick: attempting to sign out the user.");
+            Toast.makeText(this, "Logout", Toast.LENGTH_SHORT).show();
+            //Log.d(TAG, "onClick: attempting to sign out the user.");
             FirebaseAuth.getInstance().signOut();
             Intent intent = new Intent(this, HalamanAwal.class);
             startActivity(intent);
@@ -369,8 +369,8 @@ public class HalamanUtama extends AppCompatActivity implements View.OnClickListe
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
-                    Log.d(TAG, "onAuthStateChanged: signed in: " + user.getUid());
-                    Toast.makeText(HalamanUtama.this, user.getUid().toString() , Toast.LENGTH_LONG).show();
+                    Log.d(TAG, "Login Sebagai" + user.getUid());
+              //      Toast.makeText(HalamanUtama.this, "Login Sebagai: " + user.getUid().toString() , Toast.LENGTH_LONG).show();
                 } else {
 //                    Log.d(TAG, "onAuthStateChanged: signed_out");
 //                    Toast.makeText(HalamanUtama.this, "Signed out", Toast.LENGTH_SHORT).show();

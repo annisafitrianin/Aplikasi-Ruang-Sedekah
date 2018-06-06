@@ -38,7 +38,7 @@ public class HalamanAwal extends AppCompatActivity {
             public void onClick(View view) {
                 Intent myIntent = new Intent(getApplicationContext(), LoginActivity.class);
                 startActivity(myIntent);
-                finish();
+//                finish();
             }
         });
         btnRegis = findViewById(R.id.btn_regis);
@@ -47,7 +47,7 @@ public class HalamanAwal extends AppCompatActivity {
             public void onClick(View view) {
                 Intent myIntent = new Intent(getApplicationContext(), RegistrationActivity.class);
                 startActivity(myIntent);
-                finish();
+          //      finish();
             }
         });
 

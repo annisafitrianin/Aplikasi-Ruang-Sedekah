@@ -82,6 +82,7 @@ public class HalamanProfil extends AppCompatActivity {
         final FirebaseUser user = mAuth.getCurrentUser();
         userId = mAuth.getCurrentUser().getUid();
 
+
         profilUser();
         updateList();
         hideSoftKeyboard();
@@ -91,7 +92,7 @@ public class HalamanProfil extends AppCompatActivity {
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
-                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
+                    Log.d(TAG, "onAuthStateChanged:signed_i" + user.getUid());
                     //toastMessage("Successfully signed in with: " + user.getEmail());
                 } else {
                     Log.d(TAG, "onAuthStateChanged:signed_out");
