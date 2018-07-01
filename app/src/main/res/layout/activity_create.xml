@@ -18,9 +18,9 @@
 
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginTop="60dp"
             android:layout_weight="3"
-            android:gravity="center"
-            android:layout_marginTop="60dp">
+            android:gravity="center">
 
             <EditText
                 android:id="@+id/et_DateResult"
@@ -70,7 +70,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_toEndOf="@+id/ib_time"
                 android:layout_toRightOf="@+id/ib_time"
-                android:text="Time"
+                android:text="Waktu"
                 android:textColor="#000000" />
 
             <TextView
@@ -105,7 +105,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_toEndOf="@+id/ib_loc"
                 android:layout_toRightOf="@+id/ib_loc"
-                android:text="Location"
+                android:text="Lokasi"
                 android:textColor="#000000" />
 
             <TextView
@@ -121,16 +121,18 @@
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/textInputLayout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp">
 
                 <AutoCompleteTextView
                     android:id="@+id/et_namaKegiatan"
-                    android:layout_width="300dp"
+                    android:layout_width="310dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:hint="Nama Kegiatan"
                     android:inputType="textEmailAddress"
                     android:maxLines="1"
+
                     android:singleLine="true" />
 
             </android.support.design.widget.TextInputLayout>
@@ -138,12 +140,12 @@
 
             <EditText
                 android:id="@+id/et_desc"
-                android:layout_width="300dp"
+                android:layout_width="310dp"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/ib_time"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="25dp"
-                android:hint="description"
+                android:hint="Deskripsi Kegiatan"
                 android:inputType="textMultiLine" />
 
 

@@ -1,16 +1,22 @@
 package ap.annisafitriani.ruangsedekah.Fragment;
 
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.firebase.database.ChildEventListener;
@@ -18,9 +24,15 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 import ap.annisafitriani.ruangsedekah.Adapter.ListTimelineAdapter;
 import ap.annisafitriani.ruangsedekah.Model.Kegiatan;
@@ -38,6 +50,12 @@ public class TimelineFragment extends Fragment {
     DatabaseReference mRef;
     FirebaseDatabase mDatabase;
     SwipeRefreshLayout mySwipeRefreshLayout;
+
+    Spinner spinner;
+    ArrayAdapter<String>dataAdapter;
+  //  List<Date> dates;
+    String[] categories = {"Lokasi", "Waktu"};
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -59,16 +77,29 @@ public class TimelineFragment extends Fragment {
         adapter = new ListTimelineAdapter(kegiatanItem);
         rvCategory.setAdapter(adapter);
 
+        spinner = (Spinner) view.findViewById(R.id.spinner);
+        dataAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_activated_1, categories);
+        spinner.setAdapter(dataAdapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                switch (i){
+                    case 0:
 
-//        mySwipeRefreshLayout = (SwipeRefreshLayout) mySwipeRefreshLayout.findViewById(R.id.timeline);
-//        mySwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-//            @Override
-//            public void onRefresh() {
-//                Toast.makeText(getContext(), "on refresh", Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//        mySwipeRefreshLayout.setRefreshing(false);
+                        break;
 
+                    case 1:
+
+
+                    break;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
         updateList();
         hideSoftKeyboard();
         return view;
@@ -76,30 +107,33 @@ public class TimelineFragment extends Fragment {
 
 
 
+
     private void updateList() {
         mRef.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                kegiatanItem.add(dataSnapshot.getValue(Kegiatan.class));
-                adapter.notifyDataSetChanged();
-            }
+
+                    kegiatanItem.add(dataSnapshot.getValue(Kegiatan.class));
+                    adapter.notifyDataSetChanged();
+                }
+
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-//                Kegiatan kegiatan = dataSnapshot.getValue(Kegiatan.class);
-//                int index = getItemIndex(kegiatan);
-//
-//                kegiatanItem.set(index, kegiatan);
-//                adapter.notifyItemChanged(index);
+                Kegiatan kegiatan = dataSnapshot.getValue(Kegiatan.class);
+                int index = getItemIndex(kegiatan);
+
+                kegiatanItem.set(index, kegiatan);
+                adapter.notifyItemChanged(index);
             }
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-//                Kegiatan kegiatan = dataSnapshot.getValue(Kegiatan.class);
-//                int index = getItemIndex(kegiatan);
-//
-//                kegiatanItem.remove(index);
-//                adapter.notifyItemRemoved(index);
+                Kegiatan kegiatan = dataSnapshot.getValue(Kegiatan.class);
+                int index = getItemIndex(kegiatan);
+
+                kegiatanItem.remove(index);
+                adapter.notifyItemRemoved(index);
             }
 
             @Override

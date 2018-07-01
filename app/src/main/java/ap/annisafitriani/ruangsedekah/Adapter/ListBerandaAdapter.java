@@ -74,16 +74,16 @@ public class ListBerandaAdapter extends RecyclerView.Adapter<ListBerandaAdapter.
 
                 AlertDialog.Builder alert = new AlertDialog.Builder(context);
                 alert.setTitle("delete data");
-                alert.setMessage("Apakah Anda Yakin Akan Menghapus Data?");
-                alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                alert.setMessage("Apakah anda yakin akan menghapus informasi?");
+                alert.setPositiveButton("Ya", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         mRef.child(kegiatan.getId()).removeValue();
-                        Toast.makeText(context, "Informasi Dihapus", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "Informasi Kegiatan Dihapus", Toast.LENGTH_SHORT).show();
 
                     }
                 });
-                alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                alert.setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         Toast.makeText(context, "", Toast.LENGTH_SHORT).show();

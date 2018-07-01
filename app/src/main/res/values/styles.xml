@@ -9,7 +9,7 @@
     </style>
 
     <style name="SplashTheme" parent="AppTheme">
-        <item name="android:windowBackground">@android:color/white</item>m
+        <item name="android:windowBackground">@android:color/white</item>
     </style>
     <style name="AppTheme.Button" parent="Widget.AppCompat.Button.Borderless.Colored">
         <item name="colorButtonNormal">@color/colorButton</item>
@@ -22,5 +22,9 @@
 
     <style name="DialogTheme" parent="Theme.AppCompat.Light">
         <item name="colorAccent">@color/picker</item>
+    </style>
+
+    <style name="spinnerItemStyle" parent="android:Widget.TextView.SpinnerItem">
+
     </style>
 </resources>

@@ -174,7 +174,7 @@ public class CreateActivity extends AppCompatActivity {
             Toast.makeText(this, "Pilih Lokasi Kegiatan", Toast.LENGTH_LONG).show();
         }else{
             //displaying a success toast
-            Toast.makeText(this, "Kegiatan Berhasil diedit", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Informasi berhasil diedit", Toast.LENGTH_LONG).show();
             Intent intent = new Intent(CreateActivity.this, HalamanUtama.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
@@ -207,12 +207,16 @@ public class CreateActivity extends AppCompatActivity {
 
         if (TextUtils.isEmpty(nama)) {
             Toast.makeText(this, "Masukkan Nama Kegiatan", Toast.LENGTH_LONG).show();
+            return;
         } else if (TextUtils.isEmpty(date)) {
             Toast.makeText(this, "Pilih Tanggal Kegiatan", Toast.LENGTH_LONG).show();
+            return;
         }else if (TextUtils.isEmpty(time)) {
             Toast.makeText(this, "Pilih Waktu Kegiatan", Toast.LENGTH_LONG).show();
+            return;
         }else if (TextUtils.isEmpty(loc)) {
             Toast.makeText(this, "Pilih Lokasi Kegiatan", Toast.LENGTH_LONG).show();
+            return;
         }else{
             //displaying a success toast
             Toast.makeText(this, "Kegiatan Baru ditambahkan", Toast.LENGTH_LONG).show();
