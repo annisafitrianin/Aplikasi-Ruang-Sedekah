@@ -24,6 +24,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import ap.annisafitriani.ruangsedekah.Adapter.ListBerandaAdapter;
@@ -41,7 +42,7 @@ public class HalamanProfil extends AppCompatActivity {
 
     RecyclerView rvCategory;
     ListBerandaAdapter adapter;
-    List<Kegiatan> kegiatanItem;
+    LinkedList<Kegiatan> kegiatanItem;
 
     DatabaseReference mRef;
     FirebaseDatabase mDatabase;
@@ -65,7 +66,7 @@ public class HalamanProfil extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance();
         mRef = mDatabase.getReference("Kegiatan");
 
-        kegiatanItem = new ArrayList<>();
+        kegiatanItem = new LinkedList<>();
         rvCategory = (RecyclerView) findViewById(R.id.rv_category);
         rvCategory.setHasFixedSize(true);
 
@@ -127,7 +128,7 @@ public class HalamanProfil extends AppCompatActivity {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     for (DataSnapshot data : dataSnapshot.getChildren()){
-                        kegiatanItem.add(data.getValue(Kegiatan.class));
+                        kegiatanItem.addFirst(data.getValue(Kegiatan.class));
                         adapter.notifyDataSetChanged();
                     }
                 }

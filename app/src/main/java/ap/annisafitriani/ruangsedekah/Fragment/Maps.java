@@ -123,7 +123,29 @@ public class Maps extends Fragment implements OnMapReadyCallback, GoogleApiClien
 //        }
 //    }
 
+    DataPassListener mCallback;
+
     private ArrayList<Kegiatan> mListKegiatan = new ArrayList<>();
+
+    public interface DataPassListener{
+        public void passData(double lat, double lang);
+    }
+
+    @Override
+    public void onAttach(Context context)
+    {
+        super.onAttach(context);
+        // This makes sure that the host activity has implemented the callback interface
+        // If not, it throws an exception
+        try
+        {
+            mCallback = (DataPassListener) context;
+        }
+        catch (ClassCastException e)
+        {
+            throw new ClassCastException(context.toString()+ " must implement OnImageClickListener");
+        }
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -239,6 +261,7 @@ public class Maps extends Fragment implements OnMapReadyCallback, GoogleApiClien
                         if (location != null) {
                             locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
                             moveCamera(new LatLng(location.getLatitude(), location.getLongitude()), DEFAULT_ZOOM, "my Marker");
+                            mCallback.passData(location.getLatitude(), location.getLongitude());
                         }
                     }
                 });

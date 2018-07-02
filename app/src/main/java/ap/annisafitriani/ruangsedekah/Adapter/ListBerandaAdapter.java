@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import ap.annisafitriani.ruangsedekah.Activity.CreateActivity;
@@ -27,8 +28,8 @@ import ap.annisafitriani.ruangsedekah.R;
  * Created by Hp on 4/18/2018.
  */
 
-public class ListBerandaAdapter extends RecyclerView.Adapter<ListBerandaAdapter.CategoryViewHolder> {
-    List<Kegiatan> listKegiatan;
+public class ListBerandaAdapter extends RecyclerView.Adapter<ListBerandaAdapter.CategoryViewHolder>  {
+    LinkedList<Kegiatan> listKegiatan;
     private Activity activity;
     Context context;
     DatabaseReference mRef;
@@ -39,7 +40,7 @@ public class ListBerandaAdapter extends RecyclerView.Adapter<ListBerandaAdapter.
     EditText etDesc;
 
 
-    public ListBerandaAdapter(List<Kegiatan> listKegiatan, DatabaseReference mRef, EditText etNama,
+    public ListBerandaAdapter(LinkedList<Kegiatan> listKegiatan, DatabaseReference mRef, EditText etNama,
                               EditText etDateResult,EditText etWaktu, EditText etLokasi,EditText etDesc   ) {
         this.listKegiatan = listKegiatan;
         this.mRef = mRef;

@@ -222,6 +222,7 @@ import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -230,10 +231,10 @@ import ap.annisafitriani.ruangsedekah.Fragment.TimelineFragment;
 import ap.annisafitriani.ruangsedekah.R;
 
 
-public class HalamanUtama extends AppCompatActivity implements View.OnClickListener {
+public class HalamanUtama extends AppCompatActivity implements View.OnClickListener, Maps.DataPassListener {
 
     private static final String TAG = "HalamanUtama";
-
+    TimelineFragment timelineFragment = new TimelineFragment();
     private Toolbar toolbar;
     private TabLayout tabLayout;
     private ViewPager viewPager;
@@ -263,12 +264,11 @@ public class HalamanUtama extends AppCompatActivity implements View.OnClickListe
 
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
-        adapter = new ViewPagerAdapter(getSupportFragmentManager());
+//        adapter = new ViewPagerAdapter(getSupportFragmentManager());
         setupTabIcons();
         this.notificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
 
         mAuth = FirebaseAuth.getInstance();
-
 
 
 
@@ -311,9 +311,10 @@ public class HalamanUtama extends AppCompatActivity implements View.OnClickListe
     }
 
     private void setupViewPager(ViewPager viewPager) {
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        adapter = new ViewPagerAdapter(getSupportFragmentManager(), timelineFragment);
         adapter.addFragment(new Maps(), "MAPS");
-        adapter.addFragment(new TimelineFragment(), "TIMELINE");
+        adapter.addFragment(timelineFragment, "TIMELINE");
+
         viewPager.setAdapter(adapter);
     }
 
@@ -332,13 +333,22 @@ public class HalamanUtama extends AppCompatActivity implements View.OnClickListe
         this.notificationManager.notify(12, this.myNotification);
     }
 
+    @Override
+    public void passData(double lat, double lang) {
 
-    static class ViewPagerAdapter extends FragmentPagerAdapter {
+        adapter.passData(lat, lang);
+    }
+
+
+    static class ViewPagerAdapter extends FragmentPagerAdapter implements Maps.DataPassListener{
         private final List<Fragment> mFragmentList = new ArrayList<>();
         private final List<String> mFragmentTitleList = new ArrayList<>();
 
-        public ViewPagerAdapter(FragmentManager manager) {
+        public TimelineFragment timelineFragment;
+
+        public ViewPagerAdapter(FragmentManager manager, TimelineFragment timelineFragment) {
             super(manager);
+            this.timelineFragment = timelineFragment;
         }
 
         @Override
@@ -359,6 +369,12 @@ public class HalamanUtama extends AppCompatActivity implements View.OnClickListe
         @Override
         public CharSequence getPageTitle(int position) {
             return mFragmentTitleList.get(position);
+        }
+
+        @Override
+        public void passData(double lat, double lang) {
+            Log.d(TAG, "" + lang + lat);
+            ((TimelineFragment)mFragmentList.get(1)).passData(lat, lang);
         }
     }
 
