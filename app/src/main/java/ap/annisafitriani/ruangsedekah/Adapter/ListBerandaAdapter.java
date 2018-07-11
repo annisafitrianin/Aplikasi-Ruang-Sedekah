@@ -28,7 +28,7 @@ import ap.annisafitriani.ruangsedekah.R;
  * Created by Hp on 4/18/2018.
  */
 
-public class ListBerandaAdapter extends RecyclerView.Adapter<ListBerandaAdapter.CategoryViewHolder>  {
+public class ListBerandaAdapter extends RecyclerView.Adapter<ListBerandaAdapter.CategoryViewHolder> {
     LinkedList<Kegiatan> listKegiatan;
     private Activity activity;
     Context context;
@@ -41,7 +41,7 @@ public class ListBerandaAdapter extends RecyclerView.Adapter<ListBerandaAdapter.
 
 
     public ListBerandaAdapter(LinkedList<Kegiatan> listKegiatan, DatabaseReference mRef, EditText etNama,
-                              EditText etDateResult,EditText etWaktu, EditText etLokasi,EditText etDesc   ) {
+                              EditText etDateResult, EditText etWaktu, EditText etLokasi, EditText etDesc) {
         this.listKegiatan = listKegiatan;
         this.mRef = mRef;
         this.etNama = etNama;
@@ -102,7 +102,7 @@ public class ListBerandaAdapter extends RecyclerView.Adapter<ListBerandaAdapter.
                 Intent intent = new Intent(context, CreateActivity.class);
                 intent.putExtra("kegiatan", kegiatan);
                 context.startActivity(intent);
-                ((Activity)context).finish();
+                ((Activity) context).finish();
             }
         });
 
@@ -115,15 +115,11 @@ public class ListBerandaAdapter extends RecyclerView.Adapter<ListBerandaAdapter.
 //        });
 
 
-
-
-
 //        Glide.with(context)
 //                .load(kegiatan.getLokasi())
 //                .into(holder.locLokasi);
 
     }
-
 
 
     @Override
@@ -139,7 +135,6 @@ public class ListBerandaAdapter extends RecyclerView.Adapter<ListBerandaAdapter.
         TextView tvDesc;
         Button btnHapus;
         Button btnEdit;
-
 
 
         public CategoryViewHolder(View itemView) {

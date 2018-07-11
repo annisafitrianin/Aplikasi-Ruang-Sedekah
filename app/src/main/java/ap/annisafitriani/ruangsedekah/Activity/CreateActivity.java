@@ -106,7 +106,6 @@ public class CreateActivity extends AppCompatActivity {
             }
         });
 
-        //TODO: coba pake placebuilder mbak
         ibLoc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -153,17 +152,6 @@ public class CreateActivity extends AppCompatActivity {
         Double lang = kegiatan.lang;
 
 
-
-//        String id = mDatabase.push().getKey();
-
-        //creating an Artist Object
-        Kegiatan kegiatan = new Kegiatan(nama, date, time, desc, id, loc, userId, lat, lang);
-
-        //Saving the Artist
-
-        mDatabase.child(id).setValue(kegiatan);
-
-
         if (TextUtils.isEmpty(nama)) {
             Toast.makeText(this, "Masukkan Nama Kegiatan", Toast.LENGTH_LONG).show();
         } else if (TextUtils.isEmpty(date)) {
@@ -173,6 +161,14 @@ public class CreateActivity extends AppCompatActivity {
         }else if (TextUtils.isEmpty(loc)) {
             Toast.makeText(this, "Pilih Lokasi Kegiatan", Toast.LENGTH_LONG).show();
         }else{
+
+            //creating an Artist Object
+            Kegiatan kegiatan = new Kegiatan(nama, date, time, desc, id, loc, userId, lat, lang);
+
+            //Saving the Artist
+
+            mDatabase.child(id).setValue(kegiatan);
+
             //displaying a success toast
             Toast.makeText(this, "Informasi berhasil diedit", Toast.LENGTH_LONG).show();
             Intent intent = new Intent(CreateActivity.this, HalamanUtama.class);
@@ -181,6 +177,7 @@ public class CreateActivity extends AppCompatActivity {
         }
 
 
+//        String id = mDatabase.push().getKey();
 
     }
 
@@ -196,15 +193,6 @@ public class CreateActivity extends AppCompatActivity {
         double lang = this.lang;
 
 
-        String id = mDatabase.push().getKey();
-
-        //creating an Artist Object
-        Kegiatan kegiatan = new Kegiatan(nama, date, time, desc, id, loc, userId, lat, lang);
-
-        //Saving the Artist
-        mDatabase.child(id).setValue(kegiatan);
-
-
         if (TextUtils.isEmpty(nama)) {
             Toast.makeText(this, "Masukkan Nama Kegiatan", Toast.LENGTH_LONG).show();
             return;
@@ -218,14 +206,20 @@ public class CreateActivity extends AppCompatActivity {
             Toast.makeText(this, "Pilih Lokasi Kegiatan", Toast.LENGTH_LONG).show();
             return;
         }else{
+            String id = mDatabase.push().getKey();
+
+            //creating an Artist Object
+            Kegiatan kegiatan = new Kegiatan(nama, date, time, desc, id, loc, userId, lat, lang);
+
+            //Saving the Artist
+            mDatabase.child(id).setValue(kegiatan);
+
             //displaying a success toast
             Toast.makeText(this, "Kegiatan Baru ditambahkan", Toast.LENGTH_LONG).show();
             Intent intent = new Intent(CreateActivity.this, HalamanUtama.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
         }
-
-
     }
 
 

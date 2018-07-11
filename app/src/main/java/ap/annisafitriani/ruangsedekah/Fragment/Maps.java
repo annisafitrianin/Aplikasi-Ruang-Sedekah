@@ -475,12 +475,10 @@ public class Maps extends Fragment implements OnMapReadyCallback, GoogleApiClien
                 public View getInfoWindow(Marker marker) {
                     final TextView titleUi = ((TextView) view.findViewById(R.id.worldmap_infowindow_username));
                     String title = marker.getTitle();
+
                     if (title != null) titleUi.setText(title);
                     else titleUi.setText("-");
-
                     String[] strings = marker.getSnippet().split("[|]");
-
-//                    String[] strings = {"aaaa", "bbbbb"};
 
                     final TextView snippetUi = ((TextView) view.findViewById(R.id.worldmap_infowindow_name));
                     if (strings[0] != null) snippetUi.setText(strings[0]);

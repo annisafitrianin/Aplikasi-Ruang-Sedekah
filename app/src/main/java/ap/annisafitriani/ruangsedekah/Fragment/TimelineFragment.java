@@ -92,7 +92,7 @@ public class TimelineFragment extends Fragment implements Maps.DataPassListener 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                switch (i){
+                switch (i) {
                     case 0:
                         kegiatanItem.clear();
                         updateList();
@@ -103,13 +103,13 @@ public class TimelineFragment extends Fragment implements Maps.DataPassListener 
                         mRef.addChildEventListener(new ChildEventListener() {
                             @Override
                             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-
+                                // euclidean distance
                                 double distance = Math.sqrt(
                                         Math.pow(dataSnapshot.getValue(Kegiatan.class).lang - lang, 2) +
                                                 Math.pow(dataSnapshot.getValue(Kegiatan.class).lat - lat, 2)
                                 );
 
-                                if (distance < 2) {
+                                if (distance < 0.050) {
                                     kegiatanItem.addFirst(dataSnapshot.getValue(Kegiatan.class));
                                     adapter.notifyDataSetChanged();
                                 }

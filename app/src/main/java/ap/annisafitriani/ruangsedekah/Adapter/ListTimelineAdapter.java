@@ -27,6 +27,7 @@ public class ListTimelineAdapter extends RecyclerView.Adapter<ListTimelineAdapte
     List<Kegiatan> listKegiatan;
     Context context;
 
+
     public ListTimelineAdapter(List<Kegiatan> listKegiatan) {
         this.listKegiatan = listKegiatan;
     }
@@ -49,20 +50,20 @@ public class ListTimelineAdapter extends RecyclerView.Adapter<ListTimelineAdapte
 
         holder.tvNama.setText(kegiatan.nama);
 
-//
-//        Glide.with(context)
-//                .load(kegiatan.getLokasi())
-//                .into(holder.locLokasi);
-//
-//        holder.locLokasi.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(context, Maps.class);
-//
-//                context.startActivity(intent);
-//                ((Activity)context).finish();
-//            }
-//        });
+
+        Glide.with(context)
+                .load(kegiatan.getLokasi())
+                .into(holder.locLokasi);
+
+        holder.locLokasi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, Maps.class);
+
+                context.startActivity(intent);
+                ((Activity)context).finish();
+            }
+        });
 
     }
 
