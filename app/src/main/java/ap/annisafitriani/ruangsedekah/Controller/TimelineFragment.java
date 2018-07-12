@@ -22,6 +22,8 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -32,6 +34,7 @@ import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import ap.annisafitriani.ruangsedekah.Model.Kegiatan;
+import ap.annisafitriani.ruangsedekah.Model.Lokasi;
 import ap.annisafitriani.ruangsedekah.R;
 
 
@@ -43,6 +46,7 @@ public class TimelineFragment extends Fragment implements MapFragment.DataPassLi
     RecyclerView rvCategory;
     ListTimelineAdapter adapter;
     LinkedList<Kegiatan> kegiatanItem;
+    LinkedList<Lokasi> lokasi;
     DatabaseReference mRef;
     FirebaseDatabase mDatabase;
     SwipeRefreshLayout mySwipeRefreshLayout;
@@ -64,7 +68,7 @@ public class TimelineFragment extends Fragment implements MapFragment.DataPassLi
         mRef = mDatabase.getReference("Kegiatan");
 
         kegiatanItem = new LinkedList<>();
-
+        lokasi = new LinkedList<>();
         rvCategory = (RecyclerView) view.findViewById(R.id.rv_category);
         rvCategory.setHasFixedSize(true);
 
@@ -106,12 +110,30 @@ public class TimelineFragment extends Fragment implements MapFragment.DataPassLi
                                     if (days >= 0) {
                                         // euclidean distance
                                         double distance = Math.sqrt(
-                                                Math.pow(dataSnapshot.getValue(Kegiatan.class).lang - lang, 2) +
-                                                        Math.pow(dataSnapshot.getValue(Kegiatan.class).lat - lat, 2)
+                                                Math.pow(dataSnapshot.getValue(Kegiatan.class).getLokasi().getLang() - lang, 2) +
+                                                        Math.pow(dataSnapshot.getValue(Kegiatan.class).getLokasi().getLat() - lat, 2)
                                         );
 
                                         if (distance < 0.050) {
-                                            kegiatanItem.addFirst(dataSnapshot.getValue(Kegiatan.class));
+                                            final Kegiatan kegiatan = dataSnapshot.getValue(Kegiatan.class);
+                                            Query query = FirebaseDatabase.getInstance().getReference("Lokasi")
+                                                    .orderByChild("kegiatanId").equalTo(kegiatan.getId());
+                                            query.addValueEventListener(new ValueEventListener() {
+                                                @Override
+                                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                                    kegiatan.getLokasi().setKegiatanId(dataSnapshot.child("kegiatanId").getValue().toString());
+                                                    kegiatan.getLokasi().setLang(Double.parseDouble(dataSnapshot.child("lang").getValue().toString()));
+                                                    kegiatan.getLokasi().setLat(Double.parseDouble(dataSnapshot.child("lat").getValue().toString()));
+                                                    kegiatan.getLokasi().setLokasiId(dataSnapshot.child("lokasiId").getValue().toString());
+                                                    kegiatan.getLokasi().setNamaTempat(dataSnapshot.child("namaTempat").getValue().toString());
+                                                }
+
+                                                @Override
+                                                public void onCancelled(DatabaseError databaseError) {
+
+                                                }
+                                            });
+                                            kegiatanItem.addFirst(kegiatan);
                                             adapter.notifyDataSetChanged();
                                         }
                                     }
@@ -157,7 +179,6 @@ public class TimelineFragment extends Fragment implements MapFragment.DataPassLi
                         mRef.addChildEventListener(new ChildEventListener() {
                             @Override
                             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-
                                 Calendar currentDate = Calendar.getInstance();
                                 SimpleDateFormat dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
                                 String dateString = dateFormatter.format(currentDate.getTime());
@@ -169,7 +190,25 @@ public class TimelineFragment extends Fragment implements MapFragment.DataPassLi
                                     long days = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
 
                                     if (days >=0 && days <= 30) {
-                                        kegiatanItem.addFirst(dataSnapshot.getValue(Kegiatan.class));
+                                        final Kegiatan kegiatan = dataSnapshot.getValue(Kegiatan.class);
+                                        Query query = FirebaseDatabase.getInstance().getReference("Lokasi")
+                                                .orderByChild("kegiatanId").equalTo(kegiatan.getId());
+                                        query.addValueEventListener(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                                kegiatan.getLokasi().setKegiatanId(dataSnapshot.child("kegiatanId").getValue().toString());
+                                                kegiatan.getLokasi().setLang(Double.parseDouble(dataSnapshot.child("lang").getValue().toString()));
+                                                kegiatan.getLokasi().setLat(Double.parseDouble(dataSnapshot.child("lat").getValue().toString()));
+                                                kegiatan.getLokasi().setLokasiId(dataSnapshot.child("lokasiId").getValue().toString());
+                                                kegiatan.getLokasi().setNamaTempat(dataSnapshot.child("namaTempat").getValue().toString());
+                                            }
+
+                                            @Override
+                                            public void onCancelled(DatabaseError databaseError) {
+
+                                            }
+                                        });
+                                        kegiatanItem.addFirst(kegiatan);
                                         adapter.notifyDataSetChanged();
                                     }
 
@@ -238,7 +277,25 @@ public class TimelineFragment extends Fragment implements MapFragment.DataPassLi
                     long days = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
 
                     if (days >= 0) {
-                        kegiatanItem.addFirst(dataSnapshot.getValue(Kegiatan.class));
+                        final Kegiatan kegiatan = dataSnapshot.getValue(Kegiatan.class);
+//                        Query query = FirebaseDatabase.getInstance().getReference("Lokasi")
+//                                .orderByChild("kegiatanId").equalTo(kegiatan.getId());
+//                        query.addValueEventListener(new ValueEventListener() {
+//                            @Override
+//                            public void onDataChange(DataSnapshot dataSnapshot) {
+//                                kegiatan.getLokasi().setKegiatanId(dataSnapshot.child("kegiatanId").getValue().toString());
+//                                kegiatan.getLokasi().setLang(Double.parseDouble(dataSnapshot.child("lang").getValue().toString()));
+//                                kegiatan.getLokasi().setLat(Double.parseDouble(dataSnapshot.child("lat").getValue().toString()));
+//                                kegiatan.getLokasi().setLokasiId(dataSnapshot.child("lokasiId").getValue().toString());
+//                                kegiatan.getLokasi().setNamaTempat(dataSnapshot.child("namaTempat").getValue().toString());
+//                            }
+//
+//                            @Override
+//                            public void onCancelled(DatabaseError databaseError) {
+//
+//                            }
+//                        });
+                        kegiatanItem.addFirst(kegiatan);
                         adapter.notifyDataSetChanged();
                     }
 

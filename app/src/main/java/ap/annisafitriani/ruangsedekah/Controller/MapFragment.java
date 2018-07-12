@@ -42,6 +42,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -395,9 +396,25 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
 
                     mKegiatan = ds.getValue(Kegiatan.class);
+//                    Query query = FirebaseDatabase.getInstance().getReference("Lokasi")
+//                            .orderByChild("kegiatanId").equalTo(mKegiatan.getId());
+//                    query.addValueEventListener(new ValueEventListener() {
+//                        @Override
+//                        public void onDataChange(DataSnapshot dataSnapshot) {
+//                            mKegiatan.getLokasi().setKegiatanId(dataSnapshot.child("kegiatanId").getValue().toString());
+//                            mKegiatan.getLokasi().setLang(Double.parseDouble(dataSnapshot.child("lang").getValue().toString()));
+//                            mKegiatan.getLokasi().setLat(Double.parseDouble(dataSnapshot.child("lat").getValue().toString()));
+//                            mKegiatan.getLokasi().setLokasiId(dataSnapshot.child("lokasiId").getValue().toString());
+//                            mKegiatan.getLokasi().setNamaTempat(dataSnapshot.child("namaTempat").getValue().toString());
+//                        }
+//
+//                        @Override
+//                        public void onCancelled(DatabaseError databaseError) {
+//
+//                        }
+//                    });
+
                     if (mKegiatan != null) {
-                        Log.d("fetching", String.valueOf(mKegiatan.getLat()));
-                        Log.d("fetching_lat", String.valueOf(mKegiatan.lat));
                         mListKegiatan.add(mKegiatan);
                     }
                     addMarkerToMap(mListKegiatan,googleMap);
@@ -414,9 +431,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
     private void addMarkerToMap(ArrayList<Kegiatan> mListKegiatan, GoogleMap googleMap) {
         for (int i = 0; i < mListKegiatan.size(); i++) {
             final Kegiatan kgtn = mListKegiatan.get(i);
-            LatLng position = new LatLng(mListKegiatan.get(i).getLat(), mListKegiatan.get(i).getLang());
+            LatLng position = new LatLng(mListKegiatan.get(i).getLokasi().getLat(), mListKegiatan.get(i).getLokasi().getLang());
             Marker mMark = googleMap.addMarker(new MarkerOptions().position(position)
-                    .title(kgtn.nama)
+                    .title(kgtn.getNama())
                     .snippet(kgtn.toString()));
 
             googleMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {

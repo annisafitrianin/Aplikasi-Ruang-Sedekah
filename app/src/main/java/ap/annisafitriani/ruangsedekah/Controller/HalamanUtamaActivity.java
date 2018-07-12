@@ -289,6 +289,7 @@ public class HalamanUtamaActivity extends AppCompatActivity implements View.OnCl
         if (id == R.id.menu_profil) {
             Intent intent = new Intent(this, HalamanProfilActivity.class);
             startActivity(intent);
+//            finish();
         } else if (id == R.id.menu_logout) {
             Toast.makeText(this, "Logout", Toast.LENGTH_SHORT).show();
             //Log.d(TAG, "onClick: attempting to sign out the user.");

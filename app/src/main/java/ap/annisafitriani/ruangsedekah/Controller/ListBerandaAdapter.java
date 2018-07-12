@@ -47,7 +47,6 @@ public class ListBerandaAdapter extends RecyclerView.Adapter<ListBerandaAdapter.
         this.etWaktu = etWaktu;
         this.etLokasi = etLokasi;
         this.etDesc = etDesc;
-
     }
 
     @Override
@@ -62,10 +61,10 @@ public class ListBerandaAdapter extends RecyclerView.Adapter<ListBerandaAdapter.
 
         final Kegiatan kegiatan = listKegiatan.get(position);
 
-        holder.tvNama.setText(kegiatan.nama);
-        holder.tvTanggal.setText(kegiatan.tanggal);
-        holder.tvWaktu.setText(kegiatan.waktu);
-        holder.tvDesc.setText(kegiatan.deskripsi);
+        holder.tvNama.setText(kegiatan.getNama());
+        holder.tvTanggal.setText(kegiatan.getTanggal());
+        holder.tvWaktu.setText(kegiatan.getWaktu());
+        holder.tvDesc.setText(kegiatan.getDeskripsi());
 
         holder.btnHapus.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,20 +102,6 @@ public class ListBerandaAdapter extends RecyclerView.Adapter<ListBerandaAdapter.
                 ((Activity) context).finish();
             }
         });
-
-//        holder.itemView.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
-//            @Override
-//            public void onCreateContextMenu(ContextMenu menu, View view, ContextMenu.ContextMenuInfo menuInfo) {
-//                menu.add(holder.getAdapterPosition(), 0, 0, "Hapus");
-//                menu.add(holder.getAdapterPosition(), 1, 0, "Edit");
-//            }
-//        });
-
-
-//        Glide.with(context)
-//                .load(kegiatan.getLokasi())
-//                .into(holder.locLokasi);
-
     }
 
 

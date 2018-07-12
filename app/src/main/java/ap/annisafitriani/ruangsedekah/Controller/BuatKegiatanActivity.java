@@ -32,6 +32,7 @@ import java.util.Calendar;
 import java.util.Locale;
 
 import ap.annisafitriani.ruangsedekah.Model.Kegiatan;
+import ap.annisafitriani.ruangsedekah.Model.Lokasi;
 import ap.annisafitriani.ruangsedekah.R;
 
 
@@ -130,12 +131,12 @@ public class BuatKegiatanActivity extends AppCompatActivity {
 
         if (kegiatan != null)
         {
-            etDateResult.setText(kegiatan.tanggal);
-            etNama.setText(kegiatan.nama);
-            etDesc.setText(kegiatan.deskripsi);
-            tvTimeResult.setText(kegiatan.waktu);
-            tvLocResult.setText(kegiatan.lokasi);
-            this.id = kegiatan.id;
+            etDateResult.setText(kegiatan.getTanggal());
+            etNama.setText(kegiatan.getNama());
+            etDesc.setText(kegiatan.getDeskripsi());
+            tvTimeResult.setText(kegiatan.getWaktu());
+            tvLocResult.setText(kegiatan.getLokasi().getNamaTempat());
+            this.id = kegiatan.getId();
         }
     }
 
@@ -147,9 +148,15 @@ public class BuatKegiatanActivity extends AppCompatActivity {
         String desc = etDesc.getText().toString().trim();
         String time = tvTimeResult.getText().toString().trim();
         String loc = tvLocResult.getText().toString().trim();
-        String userId = kegiatan.userId;
-        Double lat = kegiatan.lat;
-        Double lang = kegiatan.lang;
+        String userId = kegiatan.getUserId();
+        Double lat = this.lat;
+        Double lang = this.lang;
+        Lokasi lokasi = new Lokasi();
+        lokasi.setLokasiId(kegiatan.getLokasi().getLokasiId());
+        lokasi.setLang(lang);
+        lokasi.setLat(lat);
+        lokasi.setKegiatanId(kegiatan.getId());
+        lokasi.setNamaTempat(loc);
 
 
         if (TextUtils.isEmpty(nama)) {
@@ -163,11 +170,11 @@ public class BuatKegiatanActivity extends AppCompatActivity {
         }else{
 
             //creating an Artist Object
-            Kegiatan kegiatan = new Kegiatan(nama, date, time, desc, id, loc, userId, lat, lang);
+            Kegiatan kegiatan = new Kegiatan(nama, date, time, desc, id, lokasi, userId);
 
             //Saving the Artist
-
             mDatabase.child(id).setValue(kegiatan);
+//            FirebaseDatabase.getInstance().getReference("Lokasi").child(lokasi.getLokasiId()).setValue(lokasi);
 
             //displaying a success toast
             Toast.makeText(this, "Informasi berhasil diedit", Toast.LENGTH_LONG).show();
@@ -175,10 +182,6 @@ public class BuatKegiatanActivity extends AppCompatActivity {
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
         }
-
-
-//        String id = mDatabase.push().getKey();
-
     }
 
     private void createKegiatan() {
@@ -191,7 +194,10 @@ public class BuatKegiatanActivity extends AppCompatActivity {
         String userId = getIntent().getStringExtra("userId");
         double lat = this.lat;
         double lang = this.lang;
-
+        Lokasi lokasi = new Lokasi();
+        lokasi.setLat(lat);
+        lokasi.setLang(lang);
+        lokasi.setNamaTempat(loc);
 
         if (TextUtils.isEmpty(nama)) {
             Toast.makeText(this, "Masukkan Nama Kegiatan", Toast.LENGTH_LONG).show();
@@ -207,12 +213,16 @@ public class BuatKegiatanActivity extends AppCompatActivity {
             return;
         }else{
             String id = mDatabase.push().getKey();
+            String lokasiId = FirebaseDatabase.getInstance().getReference("Lokasi").push().getKey();
+            lokasi.setKegiatanId(id);
+            lokasi.setLokasiId(lokasiId);
 
             //creating an Artist Object
-            Kegiatan kegiatan = new Kegiatan(nama, date, time, desc, id, loc, userId, lat, lang);
+            Kegiatan kegiatan = new Kegiatan(nama, date, time, desc, id, lokasi, userId);
 
             //Saving the Artist
             mDatabase.child(id).setValue(kegiatan);
+//            FirebaseDatabase.getInstance().getReference("Lokasi").child(lokasiId).setValue(lokasi);
 
             //displaying a success toast
             Toast.makeText(this, "Kegiatan Baru ditambahkan", Toast.LENGTH_LONG).show();
@@ -267,8 +277,6 @@ public class BuatKegiatanActivity extends AppCompatActivity {
                 tvLocResult.setText(place.getName());
                 lat = place.getLatLng().latitude;
                 lang = place.getLatLng().longitude;
-
-
             }
         }
     }

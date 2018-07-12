@@ -62,7 +62,7 @@ public class ListTimelineAdapter extends RecyclerView.Adapter<ListTimelineAdapte
         holder.tvWaktu.setText(kegiatan.getWaktu());
         holder.tvDesc.setText(kegiatan.getDeskripsi());
 
-        holder.tvNama.setText(kegiatan.nama);
+        holder.tvNama.setText(kegiatan.getNama());
 
         holder.locLokasi.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,14 +70,14 @@ public class ListTimelineAdapter extends RecyclerView.Adapter<ListTimelineAdapte
                 for (int i = 0; i < markerList.size(); i++)
                 {
                     Log.d("LISTTIMELINEADAPTER", markerList.get(i).getTitle());
-                    if (kegiatan.nama.equals(markerList.get(i).getTitle()))
+                    if (kegiatan.getNama().equals(markerList.get(i).getTitle()))
                     {
                         markerList.get(i).showInfoWindow();
                         break;
                     }
                 }
 
-                LatLng location = new LatLng(kegiatan.lat, kegiatan.lang);
+                LatLng location = new LatLng(kegiatan.getLokasi().getLat(), kegiatan.getLokasi().getLang());
                 CameraPosition INIT = new CameraPosition.Builder().target(location).zoom(15.5F).bearing(300F) // orientation
                         .build();
 

@@ -124,7 +124,26 @@ public class HalamanProfilActivity extends AppCompatActivity {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     for (DataSnapshot data : dataSnapshot.getChildren()){
-                        kegiatanItem.addFirst(data.getValue(Kegiatan.class));
+                        final Kegiatan kegiatan = data.getValue(Kegiatan.class);
+//                        Query query = FirebaseDatabase.getInstance().getReference("Lokasi")
+//                                .orderByChild("kegiatanId").equalTo(kegiatan.getId());
+//                        query.addValueEventListener(new ValueEventListener() {
+//                            @Override
+//                            public void onDataChange(DataSnapshot dataSnapshot) {
+//                                kegiatan.getLokasi().setKegiatanId(dataSnapshot.child("kegiatanId").getValue().toString());
+//                                kegiatan.getLokasi().setLang(Double.parseDouble(dataSnapshot.child("lang").getValue().toString()));
+//                                kegiatan.getLokasi().setLat(Double.parseDouble(dataSnapshot.child("lat").getValue().toString()));
+//                                kegiatan.getLokasi().setLokasiId(dataSnapshot.child("lokasiId").getValue().toString());
+//                                kegiatan.getLokasi().setNamaTempat(dataSnapshot.child("namaTempat").getValue().toString());
+//                            }
+//
+//                            @Override
+//                            public void onCancelled(DatabaseError databaseError) {
+//
+//                            }
+//                        });
+
+                        kegiatanItem.addFirst(kegiatan);
                         adapter.notifyDataSetChanged();
                     }
                 }
@@ -144,7 +163,26 @@ public class HalamanProfilActivity extends AppCompatActivity {
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                Kegiatan kegiatan = dataSnapshot.getValue(Kegiatan.class);
+                final Kegiatan kegiatan = dataSnapshot.getValue(Kegiatan.class);
+
+//                Query query = FirebaseDatabase.getInstance().getReference("Lokasi")
+//                        .orderByChild("kegiatanId").equalTo(kegiatan.getId());
+//                query.addValueEventListener(new ValueEventListener() {
+//                    @Override
+//                    public void onDataChange(DataSnapshot dataSnapshot) {
+//                        kegiatan.getLokasi().setKegiatanId(dataSnapshot.child("kegiatanId").getValue().toString());
+//                        kegiatan.getLokasi().setLang(Double.parseDouble(dataSnapshot.child("lang").getValue().toString()));
+//                        kegiatan.getLokasi().setLat(Double.parseDouble(dataSnapshot.child("lat").getValue().toString()));
+//                        kegiatan.getLokasi().setLokasiId(dataSnapshot.child("lokasiId").getValue().toString());
+//                        kegiatan.getLokasi().setNamaTempat(dataSnapshot.child("namaTempat").getValue().toString());
+//                    }
+//
+//                    @Override
+//                    public void onCancelled(DatabaseError databaseError) {
+//
+//                    }
+//                });
+
                 int index = getItemIndex(kegiatan);
 
                 kegiatanItem.set(index, kegiatan);
@@ -176,7 +214,7 @@ public class HalamanProfilActivity extends AppCompatActivity {
 
         int index = -1;
         for (int i = 0; i < kegiatanItem.size(); i++) {
-            if (kegiatanItem.get(i).id.equals(kegiatan.id)) {
+            if (kegiatanItem.get(i).getId().equals(kegiatan.getId())) {
                 index = i;
                 break;
             }
