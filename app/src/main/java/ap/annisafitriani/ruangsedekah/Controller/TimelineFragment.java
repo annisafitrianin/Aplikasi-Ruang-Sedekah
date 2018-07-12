@@ -93,15 +93,31 @@ public class TimelineFragment extends Fragment implements MapFragment.DataPassLi
                         mRef.addChildEventListener(new ChildEventListener() {
                             @Override
                             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                                // euclidean distance
-                                double distance = Math.sqrt(
-                                        Math.pow(dataSnapshot.getValue(Kegiatan.class).lang - lang, 2) +
-                                                Math.pow(dataSnapshot.getValue(Kegiatan.class).lat - lat, 2)
-                                );
+                                Calendar currentDate = Calendar.getInstance();
+                                SimpleDateFormat dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
+                                String dateString = dateFormatter.format(currentDate.getTime());
 
-                                if (distance < 0.050) {
-                                    kegiatanItem.addFirst(dataSnapshot.getValue(Kegiatan.class));
-                                    adapter.notifyDataSetChanged();
+                                try {
+                                    Date current = dateFormatter.parse(dateString);
+                                    Date eventDate = dateFormatter.parse(dataSnapshot.child("tanggal").getValue().toString());
+                                    long diff = eventDate.getTime() - current.getTime();
+                                    long days = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+
+                                    if (days >= 0) {
+                                        // euclidean distance
+                                        double distance = Math.sqrt(
+                                                Math.pow(dataSnapshot.getValue(Kegiatan.class).lang - lang, 2) +
+                                                        Math.pow(dataSnapshot.getValue(Kegiatan.class).lat - lat, 2)
+                                        );
+
+                                        if (distance < 0.050) {
+                                            kegiatanItem.addFirst(dataSnapshot.getValue(Kegiatan.class));
+                                            adapter.notifyDataSetChanged();
+                                        }
+                                    }
+
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
                                 }
                             }
 
@@ -152,7 +168,7 @@ public class TimelineFragment extends Fragment implements MapFragment.DataPassLi
                                     long diff = eventDate.getTime() - current.getTime();
                                     long days = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
 
-                                    if (days <= 30) {
+                                    if (days >=0 && days <= 30) {
                                         kegiatanItem.addFirst(dataSnapshot.getValue(Kegiatan.class));
                                         adapter.notifyDataSetChanged();
                                     }
@@ -211,9 +227,25 @@ public class TimelineFragment extends Fragment implements MapFragment.DataPassLi
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
-                    kegiatanItem.addFirst(dataSnapshot.getValue(Kegiatan.class));
-                    adapter.notifyDataSetChanged();
+                Calendar currentDate = Calendar.getInstance();
+                SimpleDateFormat dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
+                String dateString = dateFormatter.format(currentDate.getTime());
+
+                try {
+                    Date current = dateFormatter.parse(dateString);
+                    Date eventDate = dateFormatter.parse(dataSnapshot.child("tanggal").getValue().toString());
+                    long diff = eventDate.getTime() - current.getTime();
+                    long days = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+
+                    if (days >= 0) {
+                        kegiatanItem.addFirst(dataSnapshot.getValue(Kegiatan.class));
+                        adapter.notifyDataSetChanged();
+                    }
+
+                } catch (ParseException e) {
+                    e.printStackTrace();
                 }
+            }
 
 
             @Override
