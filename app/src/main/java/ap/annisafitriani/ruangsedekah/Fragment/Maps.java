@@ -128,7 +128,7 @@ public class Maps extends Fragment implements OnMapReadyCallback, GoogleApiClien
     private ArrayList<Kegiatan> mListKegiatan = new ArrayList<>();
 
     public interface DataPassListener{
-        public void passData(double lat, double lang);
+        public void passData(double lat, double lang, GoogleMap mMap);
     }
 
     @Override
@@ -261,7 +261,7 @@ public class Maps extends Fragment implements OnMapReadyCallback, GoogleApiClien
                         if (location != null) {
                             locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
                             moveCamera(new LatLng(location.getLatitude(), location.getLongitude()), DEFAULT_ZOOM, "my Marker");
-                            mCallback.passData(location.getLatitude(), location.getLongitude());
+                            mCallback.passData(location.getLatitude(), location.getLongitude(), mMap);
                         }
                     }
                 });
@@ -466,6 +466,8 @@ public class Maps extends Fragment implements OnMapReadyCallback, GoogleApiClien
             Marker mMark = googleMap.addMarker(new MarkerOptions().position(position)
                     .title(kgtn.nama)
                     .snippet(kgtn.toString()));
+
+
 
             googleMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
 

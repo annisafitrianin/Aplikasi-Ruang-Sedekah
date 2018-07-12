@@ -219,6 +219,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.GoogleMap;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -334,9 +335,9 @@ public class HalamanUtama extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
-    public void passData(double lat, double lang) {
+    public void passData(double lat, double lang, GoogleMap mMap) {
 
-        adapter.passData(lat, lang);
+        adapter.passData(lat, lang, mMap);
     }
 
 
@@ -372,9 +373,9 @@ public class HalamanUtama extends AppCompatActivity implements View.OnClickListe
         }
 
         @Override
-        public void passData(double lat, double lang) {
+        public void passData(double lat, double lang, GoogleMap mMap) {
             Log.d(TAG, "" + lang + lat);
-            ((TimelineFragment)mFragmentList.get(1)).passData(lat, lang);
+            ((TimelineFragment)mFragmentList.get(1)).passData(lat, lang, mMap);
         }
     }
 

@@ -18,6 +18,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
+import com.google.android.gms.maps.GoogleMap;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -57,8 +58,9 @@ public class TimelineFragment extends Fragment implements Maps.DataPassListener 
     FirebaseDatabase mDatabase;
     SwipeRefreshLayout mySwipeRefreshLayout;
 
-    public double lat;
-    public double lang;
+    double lat;
+    double lang;
+    GoogleMap mMap;
 
     Spinner spinner;
     ArrayAdapter<String>dataAdapter;
@@ -210,13 +212,11 @@ public class TimelineFragment extends Fragment implements Maps.DataPassListener 
 
             }
         });
-//        updateList();
+
+
         hideSoftKeyboard();
         return view;
     }
-
-
-
 
     private void updateList() {
         mRef.addChildEventListener(new ChildEventListener() {
@@ -275,9 +275,10 @@ public class TimelineFragment extends Fragment implements Maps.DataPassListener 
     }
 
     @Override
-    public void passData(double lat, double lang) {
-        Log.d("TL fragment", "" + lat + lang );
+    public void passData(double lat, double lang, GoogleMap mMap) {
         this.lat = lat;
         this.lang = lang;
+        this.mMap = mMap;
+        adapter.passData(lat, lang, mMap);
     }
 }
