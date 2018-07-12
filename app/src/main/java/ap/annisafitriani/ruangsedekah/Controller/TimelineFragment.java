@@ -1,15 +1,12 @@
-package ap.annisafitriani.ruangsedekah.Fragment;
+package ap.annisafitriani.ruangsedekah.Controller;
 
 
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,29 +24,20 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Locale;
-import java.util.Map;
-import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
-import ap.annisafitriani.ruangsedekah.Adapter.ListTimelineAdapter;
 import ap.annisafitriani.ruangsedekah.Model.Kegiatan;
 import ap.annisafitriani.ruangsedekah.R;
-
-import static com.google.android.gms.plus.PlusOneDummyView.TAG;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class TimelineFragment extends Fragment implements Maps.DataPassListener {
+public class TimelineFragment extends Fragment implements MapFragment.DataPassListener {
 
     RecyclerView rvCategory;
     ListTimelineAdapter adapter;

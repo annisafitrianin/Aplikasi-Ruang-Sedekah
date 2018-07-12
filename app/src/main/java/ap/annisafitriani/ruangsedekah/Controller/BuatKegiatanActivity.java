@@ -1,4 +1,4 @@
-package ap.annisafitriani.ruangsedekah.Activity;
+package ap.annisafitriani.ruangsedekah.Controller;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
@@ -35,7 +35,7 @@ import ap.annisafitriani.ruangsedekah.Model.Kegiatan;
 import ap.annisafitriani.ruangsedekah.R;
 
 
-public class CreateActivity extends AppCompatActivity {
+public class BuatKegiatanActivity extends AppCompatActivity {
     private DatePickerDialog datePickerDialog;
     private TimePickerDialog timePickerDialog;
     private SimpleDateFormat dateFormatter;
@@ -63,7 +63,7 @@ public class CreateActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create);
+        setContentView(R.layout.activity_buat_kegiatan);
         hideSoftKeyboard();
 
         dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
@@ -113,7 +113,7 @@ public class CreateActivity extends AppCompatActivity {
                 PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
                 try {
                     //menjalankan place picker
-                    startActivityForResult(builder.build(CreateActivity.this), PLACE_PICKER_REQUEST);
+                    startActivityForResult(builder.build(BuatKegiatanActivity.this), PLACE_PICKER_REQUEST);
 
 
                     // check apabila <a title="Solusi Tidak Bisa Download Google Play Services di Android" href="http://www.twoh.co/2014/11/solusi-tidak-bisa-download-google-play-services-di-android/" target="_blank">Google Play Services tidak terinstall</a> di HP
@@ -171,7 +171,7 @@ public class CreateActivity extends AppCompatActivity {
 
             //displaying a success toast
             Toast.makeText(this, "Informasi berhasil diedit", Toast.LENGTH_LONG).show();
-            Intent intent = new Intent(CreateActivity.this, HalamanUtama.class);
+            Intent intent = new Intent(BuatKegiatanActivity.this, HalamanUtamaActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
         }
@@ -216,7 +216,7 @@ public class CreateActivity extends AppCompatActivity {
 
             //displaying a success toast
             Toast.makeText(this, "Kegiatan Baru ditambahkan", Toast.LENGTH_LONG).show();
-            Intent intent = new Intent(CreateActivity.this, HalamanUtama.class);
+            Intent intent = new Intent(BuatKegiatanActivity.this, HalamanUtamaActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
         }

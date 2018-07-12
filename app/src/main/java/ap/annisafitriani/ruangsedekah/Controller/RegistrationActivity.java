@@ -1,4 +1,4 @@
-package ap.annisafitriani.ruangsedekah.Activity;
+package ap.annisafitriani.ruangsedekah.Controller;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -23,7 +23,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import ap.annisafitriani.ruangsedekah.Model.User;
+import ap.annisafitriani.ruangsedekah.Model.Member;
 import ap.annisafitriani.ruangsedekah.R;
 
 public class RegistrationActivity extends AppCompatActivity {
@@ -67,11 +67,11 @@ public class RegistrationActivity extends AppCompatActivity {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
 
                 if (user != null) {
-                    // User is signed in
+                    // Member is signed in
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
                     //                  toastMessage("Successfully signed in with: " + user.getEmail());
                 } else {
-                    // User is signed out
+                    // Member is signed out
                     Log.d(TAG, "onAuthStateChanged:signed_out");
                     toastMessage("Successfully signed out.");
                 }
@@ -143,7 +143,7 @@ public class RegistrationActivity extends AppCompatActivity {
         }
 
 //        final String userId = myRef.push().getKey();
-//        User user = new User(email, password, nama, no_hp, userId);
+//        Member user = new Member(email, password, nama, no_hp, userId);
 //        myRef.child(userId).setValue(user);
 
         progressBar.setVisibility(View.VISIBLE);
@@ -163,10 +163,10 @@ public class RegistrationActivity extends AppCompatActivity {
                             inputNoHp.setText("");
 
                             if (task.isSuccessful()) {
-                                User user = new User(email, password, nama, no_hp, mAuth.getCurrentUser().getUid());
+                                Member user = new Member(email, password, nama, no_hp, mAuth.getCurrentUser().getUid());
                                 myRef.child("Users").child(mAuth.getCurrentUser().getUid()).setValue(user);
                             }
-                            startActivity(new Intent(RegistrationActivity.this, HalamanUtama.class));
+                            startActivity(new Intent(RegistrationActivity.this, HalamanUtamaActivity.class));
                         } else {
                             //display some message here
                             Toast.makeText(RegistrationActivity.this, "registrasi gagal", Toast.LENGTH_LONG).show();

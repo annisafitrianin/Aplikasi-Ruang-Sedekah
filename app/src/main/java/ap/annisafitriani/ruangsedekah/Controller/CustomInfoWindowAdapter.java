@@ -1,4 +1,4 @@
-package ap.annisafitriani.ruangsedekah.Adapter;
+package ap.annisafitriani.ruangsedekah.Controller;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -11,7 +11,7 @@ import com.google.android.gms.maps.model.Marker;
 import ap.annisafitriani.ruangsedekah.R;
 
 /**
- * Created by User on 10/2/2017.
+ * Created by Member on 10/2/2017.
  */
 
 public class CustomInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {

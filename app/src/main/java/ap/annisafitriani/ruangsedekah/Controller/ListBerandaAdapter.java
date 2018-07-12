@@ -1,4 +1,4 @@
-package ap.annisafitriani.ruangsedekah.Adapter;
+package ap.annisafitriani.ruangsedekah.Controller;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -18,9 +18,7 @@ import android.widget.Toast;
 import com.google.firebase.database.DatabaseReference;
 
 import java.util.LinkedList;
-import java.util.List;
 
-import ap.annisafitriani.ruangsedekah.Activity.CreateActivity;
 import ap.annisafitriani.ruangsedekah.Model.Kegiatan;
 import ap.annisafitriani.ruangsedekah.R;
 
@@ -99,7 +97,7 @@ public class ListBerandaAdapter extends RecyclerView.Adapter<ListBerandaAdapter.
         holder.btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, CreateActivity.class);
+                Intent intent = new Intent(context, BuatKegiatanActivity.class);
                 intent.putExtra("kegiatan", kegiatan);
                 context.startActivity(intent);
                 ((Activity) context).finish();

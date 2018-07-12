@@ -1,4 +1,4 @@
-package ap.annisafitriani.ruangsedekah.Activity;
+package ap.annisafitriani.ruangsedekah.Controller;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -23,16 +23,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
 
-import ap.annisafitriani.ruangsedekah.Adapter.ListBerandaAdapter;
 import ap.annisafitriani.ruangsedekah.Model.Kegiatan;
-import ap.annisafitriani.ruangsedekah.Model.User;
 import ap.annisafitriani.ruangsedekah.R;
 
-public class HalamanProfil extends AppCompatActivity {
+public class HalamanProfilActivity extends AppCompatActivity {
 
     private TextView tvEmail;
     private TextView tvNama;
@@ -50,7 +46,7 @@ public class HalamanProfil extends AppCompatActivity {
     FirebaseAuth.AuthStateListener mAuthListener;
     FirebaseUser user;
 
-    private static final String TAG = "HalamanProfil";
+    private static final String TAG = "HalamanProfilActivity";
     private EditText nama;
     private EditText tanggal;
     private EditText waktu;
@@ -190,7 +186,7 @@ public class HalamanProfil extends AppCompatActivity {
     }
 
     private void hideSoftKeyboard() {
-        HalamanProfil.this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        HalamanProfilActivity.this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
     }
 
     @Override

@@ -27,14 +27,14 @@
 //import java.util.ArrayList;
 //import java.util.List;
 //
-//import ap.annisafitriani.ruangsedekah.Fragment.Maps;
-//import ap.annisafitriani.ruangsedekah.Fragment.TimelineFragment;
+//import ap.annisafitriani.ruangsedekah.Controller.MapFragment;
+//import ap.annisafitriani.ruangsedekah.Controller.TimelineFragment;
 //import ap.annisafitriani.ruangsedekah.R;
 //
 //
-//public class HalamanUtama extends AppCompatActivity implements View.OnClickListener {
+//public class HalamanUtamaActivity extends AppCompatActivity implements View.OnClickListener {
 //
-//    private static final String TAG = "HalamanUtama";
+//    private static final String TAG = "HalamanUtamaActivity";
 //
 //    private Toolbar toolbar;
 //    private TabLayout tabLayout;
@@ -83,7 +83,7 @@
 //        int id = item.getItemId();
 //
 //        if (id == R.id.menu_profil) {
-//            Intent intent = new Intent(this, HalamanProfil.class);
+//            Intent intent = new Intent(this, HalamanProfilActivity.class);
 //            startActivity(intent);
 //            finish();
 //        } else if (id == R.id.menu_logout) {
@@ -104,14 +104,14 @@
 //
 //    private void setupViewPager(ViewPager viewPager) {
 //        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-//        adapter.addFragment(new Maps(), "MAPS");
+//        adapter.addFragment(new MapFragment(), "MAPS");
 //        adapter.addFragment(new TimelineFragment(), "TIMELINE");
 //        viewPager.setAdapter(adapter);
 //    }
 //
 //    @Override
 //    public void onClick(View view) {
-//        Intent intent = new Intent(this, HalamanUtama.class);
+//        Intent intent = new Intent(this, HalamanUtamaActivity.class);
 //        PendingIntent pendingIntent = PendingIntent.getActivity(this, 77, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 //        this.myNotification = new NotificationCompat.Builder(this)
 //                .setContentTitle("Judul Notifikasi")
@@ -164,8 +164,8 @@
 //                    Log.d(TAG, "onAuthStateChanged: signed in: " + user.getUid());
 //                } else {
 //                    Log.d(TAG, "onAuthStateChanged: signed_out");
-//                    Toast.makeText(HalamanUtama.this, "Signed out", Toast.LENGTH_SHORT).show();
-//                    Intent intent = new Intent(HalamanUtama.this, LoginActivity.class);
+//                    Toast.makeText(HalamanUtamaActivity.this, "Signed out", Toast.LENGTH_SHORT).show();
+//                    Intent intent = new Intent(HalamanUtamaActivity.this, LoginActivity.class);
 //                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 //                    startActivity(intent);
 //                }
@@ -192,9 +192,8 @@
 //}
 
 
-package ap.annisafitriani.ruangsedekah.Activity;
+package ap.annisafitriani.ruangsedekah.Controller;
 
-import android.annotation.SuppressLint;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -214,27 +213,21 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
-import ap.annisafitriani.ruangsedekah.Fragment.Maps;
-import ap.annisafitriani.ruangsedekah.Fragment.TimelineFragment;
 import ap.annisafitriani.ruangsedekah.R;
 
 
-public class HalamanUtama extends AppCompatActivity implements View.OnClickListener, Maps.DataPassListener {
+public class HalamanUtamaActivity extends AppCompatActivity implements View.OnClickListener, MapFragment.DataPassListener {
 
-    private static final String TAG = "HalamanUtama";
+    private static final String TAG = "HalamanUtamaActivity";
     TimelineFragment timelineFragment = new TimelineFragment();
     private Toolbar toolbar;
     private TabLayout tabLayout;
@@ -290,13 +283,13 @@ public class HalamanUtama extends AppCompatActivity implements View.OnClickListe
         int id = item.getItemId();
 
         if (id == R.id.menu_profil) {
-            Intent intent = new Intent(this, HalamanProfil.class);
+            Intent intent = new Intent(this, HalamanProfilActivity.class);
             startActivity(intent);
         } else if (id == R.id.menu_logout) {
             Toast.makeText(this, "Logout", Toast.LENGTH_SHORT).show();
             //Log.d(TAG, "onClick: attempting to sign out the user.");
             FirebaseAuth.getInstance().signOut();
-            Intent intent = new Intent(this, HalamanAwal.class);
+            Intent intent = new Intent(this, HalamanAwalActivity.class);
             startActivity(intent);
             finish();
         } else if (id == R.id.home) {
@@ -313,7 +306,7 @@ public class HalamanUtama extends AppCompatActivity implements View.OnClickListe
 
     private void setupViewPager(ViewPager viewPager) {
         adapter = new ViewPagerAdapter(getSupportFragmentManager(), timelineFragment);
-        adapter.addFragment(new Maps(), "MAPS");
+        adapter.addFragment(new MapFragment(), "MAPS");
         adapter.addFragment(timelineFragment, "TIMELINE");
 
         viewPager.setAdapter(adapter);
@@ -321,7 +314,7 @@ public class HalamanUtama extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
-        Intent intent = new Intent(this, HalamanUtama.class);
+        Intent intent = new Intent(this, HalamanUtamaActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 77, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         this.myNotification = new NotificationCompat.Builder(this)
                 .setContentTitle("Judul Notifikasi")
@@ -341,7 +334,7 @@ public class HalamanUtama extends AppCompatActivity implements View.OnClickListe
     }
 
 
-    static class ViewPagerAdapter extends FragmentPagerAdapter implements Maps.DataPassListener{
+    static class ViewPagerAdapter extends FragmentPagerAdapter implements MapFragment.DataPassListener{
         private final List<Fragment> mFragmentList = new ArrayList<>();
         private final List<String> mFragmentTitleList = new ArrayList<>();
 
@@ -387,11 +380,11 @@ public class HalamanUtama extends AppCompatActivity implements View.OnClickListe
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
                     Log.d(TAG, "Login Sebagai" + user.getUid());
-              //      Toast.makeText(HalamanUtama.this, "Login Sebagai: " + user.getUid().toString() , Toast.LENGTH_LONG).show();
+              //      Toast.makeText(HalamanUtamaActivity.this, "Login Sebagai: " + user.getUid().toString() , Toast.LENGTH_LONG).show();
                 } else {
 //                    Log.d(TAG, "onAuthStateChanged: signed_out");
-//                    Toast.makeText(HalamanUtama.this, "Signed out", Toast.LENGTH_SHORT).show();
-//                    Intent intent = new Intent(HalamanUtama.this, LoginActivity.class);
+//                    Toast.makeText(HalamanUtamaActivity.this, "Signed out", Toast.LENGTH_SHORT).show();
+//                    Intent intent = new Intent(HalamanUtamaActivity.this, LoginActivity.class);
 //                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 //                    startActivity(intent);
                 }

@@ -1,8 +1,6 @@
-package ap.annisafitriani.ruangsedekah.Adapter;
+package ap.annisafitriani.ruangsedekah.Controller;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,17 +8,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.List;
-import java.util.Map;
 
-import ap.annisafitriani.ruangsedekah.Activity.HalamanUtama;
-import ap.annisafitriani.ruangsedekah.Fragment.Maps;
 import ap.annisafitriani.ruangsedekah.Model.Kegiatan;
 import ap.annisafitriani.ruangsedekah.R;
 
@@ -28,7 +22,7 @@ import ap.annisafitriani.ruangsedekah.R;
  * Created by Hp on 4/18/2018.
  */
 
-public class ListTimelineAdapter extends RecyclerView.Adapter<ListTimelineAdapter.CategoryViewHolder> implements Maps.DataPassListener {
+public class ListTimelineAdapter extends RecyclerView.Adapter<ListTimelineAdapter.CategoryViewHolder> implements MapFragment.DataPassListener {
     List<Kegiatan> listKegiatan;
     Context context;
 
@@ -61,7 +55,7 @@ public class ListTimelineAdapter extends RecyclerView.Adapter<ListTimelineAdapte
         holder.locLokasi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Intent intent = new Intent(context, HalamanUtama.class);
+//                Intent intent = new Intent(context, HalamanUtamaActivity.class);
 //
 //                context.startActivity(intent);
 //                ((Activity)context).finish();

@@ -1,15 +1,12 @@
-package ap.annisafitriani.ruangsedekah.Fragment;
+package ap.annisafitriani.ruangsedekah.Controller;
 
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.BitmapFactory;
 import android.location.Address;
-import android.location.Criteria;
 import android.location.Geocoder;
 import android.location.Location;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -22,9 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -41,9 +36,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -53,21 +46,16 @@ import com.google.firebase.database.ValueEventListener;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
-import ap.annisafitriani.ruangsedekah.Activity.CreateActivity;
-import ap.annisafitriani.ruangsedekah.Adapter.CustomInfoWindowAdapter;
 import ap.annisafitriani.ruangsedekah.Model.Kegiatan;
 import ap.annisafitriani.ruangsedekah.R;
 
-public class Maps extends Fragment implements OnMapReadyCallback, GoogleApiClient.OnConnectionFailedListener {
+public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleApiClient.OnConnectionFailedListener {
 
     private Kegiatan mKegiatan;
     private DatabaseReference mDatabase;
@@ -82,7 +70,7 @@ public class Maps extends Fragment implements OnMapReadyCallback, GoogleApiClien
 
     ImageView mylocation;
     ImageView createEvent;
-    private static final String TAG = "Maps";
+    private static final String TAG = "MapFragment";
 
     private static final String FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
     private static final String COURSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
@@ -154,7 +142,7 @@ public class Maps extends Fragment implements OnMapReadyCallback, GoogleApiClien
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle SavedInstanceState) {
-        mView = inflater.inflate(R.layout.fragment_maps, container, false);
+        mView = inflater.inflate(R.layout.fragment_map, container, false);
 
 
         mylocation = mView.findViewById(R.id.current_location);
@@ -183,7 +171,7 @@ public class Maps extends Fragment implements OnMapReadyCallback, GoogleApiClien
         FirebaseUser user = mAuth.getCurrentUser();
 
         if (user != null) {
-            // User is signed in
+            // Member is signed in
             Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
             //                  toastMessage("Successfully signed in with: " + user.getEmail());
         } else {
@@ -197,7 +185,7 @@ public class Maps extends Fragment implements OnMapReadyCallback, GoogleApiClien
             @Override
             public void onClick(View view) {
                 FirebaseUser user = mAuth.getCurrentUser();
-                Intent intent = new Intent(getContext(), CreateActivity.class);
+                Intent intent = new Intent(getContext(), BuatKegiatanActivity.class);
                 intent.putExtra("userId", user.getUid());
                 startActivity(intent);
             }

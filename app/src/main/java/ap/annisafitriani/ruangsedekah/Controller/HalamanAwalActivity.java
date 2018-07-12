@@ -1,4 +1,4 @@
-package ap.annisafitriani.ruangsedekah.Activity;
+package ap.annisafitriani.ruangsedekah.Controller;
 
 
 import android.content.Intent;
@@ -17,7 +17,7 @@ import ap.annisafitriani.ruangsedekah.R;
  * Created by Hp on 3/20/2018.
  */
 
-public class HalamanAwal extends AppCompatActivity {
+public class HalamanAwalActivity extends AppCompatActivity {
 
     private Button btnLogin;
     private Button btnRegis;
@@ -55,7 +55,7 @@ public class HalamanAwal extends AppCompatActivity {
         textSkipToHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent myIntent = new Intent(getApplicationContext(), HalamanUtama.class);
+                Intent myIntent = new Intent(getApplicationContext(), HalamanUtamaActivity.class);
                 startActivity(myIntent);
             }
         });
@@ -69,7 +69,7 @@ public class HalamanAwal extends AppCompatActivity {
         super.onStart();
         if (mFirebaseUser != null)
         {
-            Intent myIntent = new Intent(getApplicationContext(), HalamanUtama.class);
+            Intent myIntent = new Intent(getApplicationContext(), HalamanUtamaActivity.class);
             startActivity(myIntent);
             finish();
         }

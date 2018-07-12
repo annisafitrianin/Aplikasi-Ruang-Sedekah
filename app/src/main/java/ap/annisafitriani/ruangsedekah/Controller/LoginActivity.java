@@ -1,4 +1,4 @@
-package ap.annisafitriani.ruangsedekah.Activity;
+package ap.annisafitriani.ruangsedekah.Controller;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -42,7 +42,7 @@ public class LoginActivity extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
 
         if (auth.getCurrentUser() != null) {
-            Intent intent = new Intent(getApplicationContext(), HalamanUtama.class);
+            Intent intent = new Intent(getApplicationContext(), HalamanUtamaActivity.class);
             startActivity(intent);
             finish();
         }
@@ -100,7 +100,7 @@ public class LoginActivity extends AppCompatActivity {
                                     }
                                 } else {
 
-                                    Intent intent = new Intent(LoginActivity.this, HalamanUtama.class);
+                                    Intent intent = new Intent(LoginActivity.this, HalamanUtamaActivity.class);
                                     startActivity(intent);
                                     finish();
                                 }
@@ -115,7 +115,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onStart();
 //        if (auth.getCurrentUser() != null){
 //            finish();
-//            startActivity(new Intent(this, HalamanProfil.class));
+//            startActivity(new Intent(this, HalamanProfilActivity.class));
 //        }
         auth.addAuthStateListener(mAuthListener);
     }
