@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/colorAccent"
     android:orientation="vertical"
-    tools:context="ap.annisafitriani.ruangsedekah.Activity.CreateActivity">
+    tools:context="ap.annisafitriani.ruangsedekah.Controller.BuatKegiatanActivity">
 
     <LinearLayout
         android:id="@+id/login_form"

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorAccent"
-    tools:context="ap.annisafitriani.ruangsedekah.Activity.HalamanAwal">
+    tools:context="ap.annisafitriani.ruangsedekah.Controller.HalamanAwalActivity">
 
     <ImageView
         android:id="@+id/iv_logo"

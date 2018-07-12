@@ -8,21 +8,18 @@ import java.io.Serializable;
 
 public class Kegiatan implements Serializable {
 
-    public String nama, deskripsi, tanggal, waktu, id, lokasi, userId;
-    public Double lang, lat;
+    private String nama, deskripsi, tanggal, waktu, id, userId;
+    private Lokasi lokasi;
 
 
-    public Kegiatan(String nama, String tanggal, String waktu, String deskripsi, String id, String lokasi, String userId, Double lat, Double lang) {
+    public Kegiatan(String nama, String tanggal, String waktu, String deskripsi, String id, Lokasi lokasi, String userId) {
         this.nama = nama;
         this.deskripsi = deskripsi;
         this.tanggal = tanggal;
         this.waktu = waktu;
         this.id = id;
         this.lokasi = lokasi;
-        this.lat = lat;
-        this.lang = lang;
         this.userId = userId;
-
     }
 
     public Kegiatan() {
@@ -54,11 +51,11 @@ public class Kegiatan implements Serializable {
         this.waktu = waktu;
     }
 
-    public String getLokasi() {
+    public Lokasi getLokasi() {
         return lokasi;
     }
 
-    public void setLokasi(String lokasi) {
+    public void setLokasi(Lokasi lokasi) {
         this.lokasi = lokasi;
     }
 
@@ -78,21 +75,6 @@ public class Kegiatan implements Serializable {
         this.id = id;
     }
 
-    public Double getLat() {
-        return lat;
-    }
-
-    public void setLat(Double lat) {
-        this.lat =lat;
-    }
-
-    public Double getLang() {
-        return lang;
-    }
-
-    public void setLang(Double lang) {
-        this.lang = lang;
-    }
 
     public String getUserId() {
         return userId;
@@ -106,6 +88,6 @@ public class Kegiatan implements Serializable {
     public String toString() {
         return "Waktu: " + waktu + "\n" +
                 "Tanggal : " + tanggal + "\n" +
-                "Lokasi : " + lokasi + "|" + deskripsi;
+                "Lokasi : " + lokasi.getNamaTempat() + "|" + deskripsi;
     }
 }

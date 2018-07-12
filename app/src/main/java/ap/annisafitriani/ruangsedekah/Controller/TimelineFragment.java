@@ -1,15 +1,13 @@
-package ap.annisafitriani.ruangsedekah.Fragment;
+package ap.annisafitriani.ruangsedekah.Controller;
 
 
-import android.os.Build;
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,43 +22,37 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Locale;
-import java.util.Map;
-import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
-import ap.annisafitriani.ruangsedekah.Adapter.ListTimelineAdapter;
 import ap.annisafitriani.ruangsedekah.Model.Kegiatan;
+import ap.annisafitriani.ruangsedekah.Model.Lokasi;
 import ap.annisafitriani.ruangsedekah.R;
-
-import static com.google.android.gms.plus.PlusOneDummyView.TAG;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class TimelineFragment extends Fragment implements Maps.DataPassListener {
+public class TimelineFragment extends Fragment implements MapFragment.DataPassListener, ListTimelineAdapter.ChangeViewPagerItemListener {
 
     RecyclerView rvCategory;
     ListTimelineAdapter adapter;
     LinkedList<Kegiatan> kegiatanItem;
+    LinkedList<Lokasi> lokasi;
     DatabaseReference mRef;
     FirebaseDatabase mDatabase;
     SwipeRefreshLayout mySwipeRefreshLayout;
 
     double lat;
     double lang;
-    GoogleMap mMap;
 
     Spinner spinner;
     ArrayAdapter<String>dataAdapter;
@@ -76,7 +68,7 @@ public class TimelineFragment extends Fragment implements Maps.DataPassListener 
         mRef = mDatabase.getReference("Kegiatan");
 
         kegiatanItem = new LinkedList<>();
-
+        lokasi = new LinkedList<>();
         rvCategory = (RecyclerView) view.findViewById(R.id.rv_category);
         rvCategory.setHasFixedSize(true);
 
@@ -105,15 +97,32 @@ public class TimelineFragment extends Fragment implements Maps.DataPassListener 
                         mRef.addChildEventListener(new ChildEventListener() {
                             @Override
                             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                                // euclidean distance
-                                double distance = Math.sqrt(
-                                        Math.pow(dataSnapshot.getValue(Kegiatan.class).lang - lang, 2) +
-                                                Math.pow(dataSnapshot.getValue(Kegiatan.class).lat - lat, 2)
-                                );
+                                Calendar currentDate = Calendar.getInstance();
+                                SimpleDateFormat dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
+                                String dateString = dateFormatter.format(currentDate.getTime());
 
-                                if (distance < 0.050) {
-                                    kegiatanItem.addFirst(dataSnapshot.getValue(Kegiatan.class));
-                                    adapter.notifyDataSetChanged();
+                                try {
+                                    Date current = dateFormatter.parse(dateString);
+                                    Date eventDate = dateFormatter.parse(dataSnapshot.child("tanggal").getValue().toString());
+                                    long diff = eventDate.getTime() - current.getTime();
+                                    long days = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+
+                                    if (days >= 0) {
+                                        // euclidean distance
+                                        double distance = Math.sqrt(
+                                                Math.pow(dataSnapshot.getValue(Kegiatan.class).getLokasi().getLang() - lang, 2) +
+                                                        Math.pow(dataSnapshot.getValue(Kegiatan.class).getLokasi().getLat() - lat, 2)
+                                        );
+
+                                        if (distance < 0.050) {
+                                            final Kegiatan kegiatan = dataSnapshot.getValue(Kegiatan.class);
+                                            kegiatanItem.addFirst(kegiatan);
+                                            adapter.notifyDataSetChanged();
+                                        }
+                                    }
+
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
                                 }
                             }
 
@@ -153,7 +162,6 @@ public class TimelineFragment extends Fragment implements Maps.DataPassListener 
                         mRef.addChildEventListener(new ChildEventListener() {
                             @Override
                             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-
                                 Calendar currentDate = Calendar.getInstance();
                                 SimpleDateFormat dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
                                 String dateString = dateFormatter.format(currentDate.getTime());
@@ -164,8 +172,9 @@ public class TimelineFragment extends Fragment implements Maps.DataPassListener 
                                     long diff = eventDate.getTime() - current.getTime();
                                     long days = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
 
-                                    if (days <= 30) {
-                                        kegiatanItem.addFirst(dataSnapshot.getValue(Kegiatan.class));
+                                    if (days >=0 && days <= 30) {
+                                        final Kegiatan kegiatan = dataSnapshot.getValue(Kegiatan.class);
+                                        kegiatanItem.addFirst(kegiatan);
                                         adapter.notifyDataSetChanged();
                                     }
 
@@ -223,9 +232,26 @@ public class TimelineFragment extends Fragment implements Maps.DataPassListener 
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
-                    kegiatanItem.addFirst(dataSnapshot.getValue(Kegiatan.class));
-                    adapter.notifyDataSetChanged();
+                Calendar currentDate = Calendar.getInstance();
+                SimpleDateFormat dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
+                String dateString = dateFormatter.format(currentDate.getTime());
+
+                try {
+                    Date current = dateFormatter.parse(dateString);
+                    Date eventDate = dateFormatter.parse(dataSnapshot.child("tanggal").getValue().toString());
+                    long diff = eventDate.getTime() - current.getTime();
+                    long days = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+
+                    if (days >= 0) {
+                        final Kegiatan kegiatan = dataSnapshot.getValue(Kegiatan.class);
+                        kegiatanItem.addFirst(kegiatan);
+                        adapter.notifyDataSetChanged();
+                    }
+
+                } catch (ParseException e) {
+                    e.printStackTrace();
                 }
+            }
 
 
             @Override
@@ -275,10 +301,14 @@ public class TimelineFragment extends Fragment implements Maps.DataPassListener 
     }
 
     @Override
-    public void passData(double lat, double lang, GoogleMap mMap) {
+    public void passData(double lat, double lang, GoogleMap mMap, LinkedList markerList) {
         this.lat = lat;
         this.lang = lang;
-        this.mMap = mMap;
-        adapter.passData(lat, lang, mMap);
+        adapter.passData(lat, lang, mMap, markerList);
+    }
+
+    @Override
+    public void item(int x) {
+        ((HalamanUtamaActivity)getContext()).item(x);
     }
 }

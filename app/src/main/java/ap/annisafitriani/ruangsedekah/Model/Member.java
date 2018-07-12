@@ -6,11 +6,11 @@ import java.io.Serializable;
  * Created by Hp on 5/3/2018.
  */
 
-public class User{
+public class Member {
 
     public String username, email, nohp, password, userId;
 
-    public User(String email, String password, String username, String nohp, String userId) {
+    public Member(String email, String password, String username, String nohp, String userId) {
 
         this.email = email;
         this.password = password;
@@ -18,7 +18,7 @@ public class User{
         this.nohp = nohp;
         this.userId = userId;
     }
-    public User(){
+    public Member(){
 
     }
 

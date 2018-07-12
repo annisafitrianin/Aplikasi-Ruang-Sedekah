@@ -1,4 +1,4 @@
-package ap.annisafitriani.ruangsedekah.Activity;
+package ap.annisafitriani.ruangsedekah.Controller;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -23,16 +23,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
 
-import ap.annisafitriani.ruangsedekah.Adapter.ListBerandaAdapter;
 import ap.annisafitriani.ruangsedekah.Model.Kegiatan;
-import ap.annisafitriani.ruangsedekah.Model.User;
 import ap.annisafitriani.ruangsedekah.R;
 
-public class HalamanProfil extends AppCompatActivity {
+public class HalamanProfilActivity extends AppCompatActivity {
 
     private TextView tvEmail;
     private TextView tvNama;
@@ -50,7 +46,7 @@ public class HalamanProfil extends AppCompatActivity {
     FirebaseAuth.AuthStateListener mAuthListener;
     FirebaseUser user;
 
-    private static final String TAG = "HalamanProfil";
+    private static final String TAG = "HalamanProfilActivity";
     private EditText nama;
     private EditText tanggal;
     private EditText waktu;
@@ -128,7 +124,26 @@ public class HalamanProfil extends AppCompatActivity {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     for (DataSnapshot data : dataSnapshot.getChildren()){
-                        kegiatanItem.addFirst(data.getValue(Kegiatan.class));
+                        final Kegiatan kegiatan = data.getValue(Kegiatan.class);
+//                        Query query = FirebaseDatabase.getInstance().getReference("Lokasi")
+//                                .orderByChild("kegiatanId").equalTo(kegiatan.getId());
+//                        query.addValueEventListener(new ValueEventListener() {
+//                            @Override
+//                            public void onDataChange(DataSnapshot dataSnapshot) {
+//                                kegiatan.getLokasi().setKegiatanId(dataSnapshot.child("kegiatanId").getValue().toString());
+//                                kegiatan.getLokasi().setLang(Double.parseDouble(dataSnapshot.child("lang").getValue().toString()));
+//                                kegiatan.getLokasi().setLat(Double.parseDouble(dataSnapshot.child("lat").getValue().toString()));
+//                                kegiatan.getLokasi().setLokasiId(dataSnapshot.child("lokasiId").getValue().toString());
+//                                kegiatan.getLokasi().setNamaTempat(dataSnapshot.child("namaTempat").getValue().toString());
+//                            }
+//
+//                            @Override
+//                            public void onCancelled(DatabaseError databaseError) {
+//
+//                            }
+//                        });
+
+                        kegiatanItem.addFirst(kegiatan);
                         adapter.notifyDataSetChanged();
                     }
                 }
@@ -148,7 +163,26 @@ public class HalamanProfil extends AppCompatActivity {
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                Kegiatan kegiatan = dataSnapshot.getValue(Kegiatan.class);
+                final Kegiatan kegiatan = dataSnapshot.getValue(Kegiatan.class);
+
+//                Query query = FirebaseDatabase.getInstance().getReference("Lokasi")
+//                        .orderByChild("kegiatanId").equalTo(kegiatan.getId());
+//                query.addValueEventListener(new ValueEventListener() {
+//                    @Override
+//                    public void onDataChange(DataSnapshot dataSnapshot) {
+//                        kegiatan.getLokasi().setKegiatanId(dataSnapshot.child("kegiatanId").getValue().toString());
+//                        kegiatan.getLokasi().setLang(Double.parseDouble(dataSnapshot.child("lang").getValue().toString()));
+//                        kegiatan.getLokasi().setLat(Double.parseDouble(dataSnapshot.child("lat").getValue().toString()));
+//                        kegiatan.getLokasi().setLokasiId(dataSnapshot.child("lokasiId").getValue().toString());
+//                        kegiatan.getLokasi().setNamaTempat(dataSnapshot.child("namaTempat").getValue().toString());
+//                    }
+//
+//                    @Override
+//                    public void onCancelled(DatabaseError databaseError) {
+//
+//                    }
+//                });
+
                 int index = getItemIndex(kegiatan);
 
                 kegiatanItem.set(index, kegiatan);
@@ -180,7 +214,7 @@ public class HalamanProfil extends AppCompatActivity {
 
         int index = -1;
         for (int i = 0; i < kegiatanItem.size(); i++) {
-            if (kegiatanItem.get(i).id.equals(kegiatan.id)) {
+            if (kegiatanItem.get(i).getId().equals(kegiatan.getId())) {
                 index = i;
                 break;
             }
@@ -190,7 +224,7 @@ public class HalamanProfil extends AppCompatActivity {
     }
 
     private void hideSoftKeyboard() {
-        HalamanProfil.this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        HalamanProfilActivity.this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
     }
 
     @Override

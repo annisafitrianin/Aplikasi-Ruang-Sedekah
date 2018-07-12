@@ -1,15 +1,12 @@
-package ap.annisafitriani.ruangsedekah.Fragment;
+package ap.annisafitriani.ruangsedekah.Controller;
 
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.BitmapFactory;
 import android.location.Address;
-import android.location.Criteria;
 import android.location.Geocoder;
 import android.location.Location;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -22,9 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -41,48 +36,43 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.Objects;
 
-import ap.annisafitriani.ruangsedekah.Activity.CreateActivity;
-import ap.annisafitriani.ruangsedekah.Adapter.CustomInfoWindowAdapter;
 import ap.annisafitriani.ruangsedekah.Model.Kegiatan;
 import ap.annisafitriani.ruangsedekah.R;
 
-public class Maps extends Fragment implements OnMapReadyCallback, GoogleApiClient.OnConnectionFailedListener {
+public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleApiClient.OnConnectionFailedListener {
 
     private Kegiatan mKegiatan;
     private DatabaseReference mDatabase;
     private DatabaseReference refDatabase;
-
+    private Context mContext;
 
     private GoogleMap mMap;
     MapView mMapView;
     View mView;
-    private Context mContext;
+    private LinkedList<Marker> markerList;
     private SupportMapFragment supportMapFragment;
 
     ImageView mylocation;
     ImageView createEvent;
-    private static final String TAG = "Maps";
+    private static final String TAG = "MapFragment";
 
     private static final String FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
     private static final String COURSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
@@ -103,47 +93,25 @@ public class Maps extends Fragment implements OnMapReadyCallback, GoogleApiClien
     private FirebaseAuth.AuthStateListener mAuthListener;
     private DatabaseReference myRef;
 
-//    @Override
-//    public void onMapReady(GoogleMap googleMap) {
-//
-//        Log.d(TAG, "onMapReady: map is ready");
-//        mMap = googleMap;
-//
-//        if (mLocationPermissionsGranted) {
-//            getDeviceLocation();
-//
-//            if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION)
-//                    != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(),
-//                    Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-//                return;
-//            }
-//            mMap.setMyLocationEnabled(true);
-//            mMap.getUiSettings().setMyLocationButtonEnabled(false);
-//
-//        }
-//    }
-
     DataPassListener mCallback;
 
     private ArrayList<Kegiatan> mListKegiatan = new ArrayList<>();
 
     public interface DataPassListener{
-        public void passData(double lat, double lang, GoogleMap mMap);
+        public void passData(double lat, double lang, GoogleMap mMap, LinkedList markerList);
     }
 
     @Override
     public void onAttach(Context context)
     {
         super.onAttach(context);
-        // This makes sure that the host activity has implemented the callback interface
-        // If not, it throws an exception
         try
         {
             mCallback = (DataPassListener) context;
         }
         catch (ClassCastException e)
         {
-            throw new ClassCastException(context.toString()+ " must implement OnImageClickListener");
+            throw new ClassCastException(context.toString()+ " must implement DataPassListener");
         }
     }
 
@@ -154,7 +122,7 @@ public class Maps extends Fragment implements OnMapReadyCallback, GoogleApiClien
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle SavedInstanceState) {
-        mView = inflater.inflate(R.layout.fragment_maps, container, false);
+        mView = inflater.inflate(R.layout.fragment_map, container, false);
 
 
         mylocation = mView.findViewById(R.id.current_location);
@@ -183,7 +151,7 @@ public class Maps extends Fragment implements OnMapReadyCallback, GoogleApiClien
         FirebaseUser user = mAuth.getCurrentUser();
 
         if (user != null) {
-            // User is signed in
+            // Member is signed in
             Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
             //                  toastMessage("Successfully signed in with: " + user.getEmail());
         } else {
@@ -192,16 +160,17 @@ public class Maps extends Fragment implements OnMapReadyCallback, GoogleApiClien
 
         }
 
-
         createEvent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 FirebaseUser user = mAuth.getCurrentUser();
-                Intent intent = new Intent(getContext(), CreateActivity.class);
+                Intent intent = new Intent(getContext(), BuatKegiatanActivity.class);
                 intent.putExtra("userId", user.getUid());
                 startActivity(intent);
             }
         });
+
+        markerList = new LinkedList<Marker>();
 
         return mView;
     }
@@ -261,25 +230,10 @@ public class Maps extends Fragment implements OnMapReadyCallback, GoogleApiClien
                         if (location != null) {
                             locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
                             moveCamera(new LatLng(location.getLatitude(), location.getLongitude()), DEFAULT_ZOOM, "my Marker");
-                            mCallback.passData(location.getLatitude(), location.getLongitude(), mMap);
+                            mCallback.passData(location.getLatitude(), location.getLongitude(), mMap, markerList);
                         }
                     }
                 });
-
-
-//                final Task location = mFusedLocationProviderClient.getLastLocation();
-//                location.addOnCompleteListener(new OnCompleteListener() {
-//                    @Override
-//                    public void onComplete(@NonNull Task task) {
-//                        if (task.isSuccessful()) {
-//                            Log.d(TAG, "onComplete: found location!");
-//
-//                        } else {
-//                            Log.d(TAG, "onComplete: current location is null");
-//                            Toast.makeText(getContext(), "unable to get current location", Toast.LENGTH_SHORT).show();
-//                        }
-//                    }
-//                });
             }
         } catch (SecurityException e) {
             Log.e(TAG, "getDeviceLocation: SecurityException: " + e.getMessage());
@@ -348,7 +302,6 @@ public class Maps extends Fragment implements OnMapReadyCallback, GoogleApiClien
             MarkerOptions options = new MarkerOptions()
                     .position(latLng)
                     .title(title);
-         //   mMap.addMarker(options);
         }
 
         hideSoftKeyboard();
@@ -443,9 +396,25 @@ public class Maps extends Fragment implements OnMapReadyCallback, GoogleApiClien
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
 
                     mKegiatan = ds.getValue(Kegiatan.class);
+//                    Query query = FirebaseDatabase.getInstance().getReference("Lokasi")
+//                            .orderByChild("kegiatanId").equalTo(mKegiatan.getId());
+//                    query.addValueEventListener(new ValueEventListener() {
+//                        @Override
+//                        public void onDataChange(DataSnapshot dataSnapshot) {
+//                            mKegiatan.getLokasi().setKegiatanId(dataSnapshot.child("kegiatanId").getValue().toString());
+//                            mKegiatan.getLokasi().setLang(Double.parseDouble(dataSnapshot.child("lang").getValue().toString()));
+//                            mKegiatan.getLokasi().setLat(Double.parseDouble(dataSnapshot.child("lat").getValue().toString()));
+//                            mKegiatan.getLokasi().setLokasiId(dataSnapshot.child("lokasiId").getValue().toString());
+//                            mKegiatan.getLokasi().setNamaTempat(dataSnapshot.child("namaTempat").getValue().toString());
+//                        }
+//
+//                        @Override
+//                        public void onCancelled(DatabaseError databaseError) {
+//
+//                        }
+//                    });
+
                     if (mKegiatan != null) {
-                        Log.d("fetching", String.valueOf(mKegiatan.getLat()));
-                        Log.d("fetching_lat", String.valueOf(mKegiatan.lat));
                         mListKegiatan.add(mKegiatan);
                     }
                     addMarkerToMap(mListKegiatan,googleMap);
@@ -462,12 +431,10 @@ public class Maps extends Fragment implements OnMapReadyCallback, GoogleApiClien
     private void addMarkerToMap(ArrayList<Kegiatan> mListKegiatan, GoogleMap googleMap) {
         for (int i = 0; i < mListKegiatan.size(); i++) {
             final Kegiatan kgtn = mListKegiatan.get(i);
-            LatLng position = new LatLng(mListKegiatan.get(i).getLat(), mListKegiatan.get(i).getLang());
+            LatLng position = new LatLng(mListKegiatan.get(i).getLokasi().getLat(), mListKegiatan.get(i).getLokasi().getLang());
             Marker mMark = googleMap.addMarker(new MarkerOptions().position(position)
-                    .title(kgtn.nama)
+                    .title(kgtn.getNama())
                     .snippet(kgtn.toString()));
-
-
 
             googleMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
 
@@ -489,6 +456,8 @@ public class Maps extends Fragment implements OnMapReadyCallback, GoogleApiClien
                     final TextView decUi = ((TextView) view.findViewById(R.id.worldmap_infowindow_details));
                     if (strings[1] != null) decUi.setText(strings[1]);
                     else snippetUi.setText("-");
+
+                    markerList.add(marker);
 
                     return view;
                 }
