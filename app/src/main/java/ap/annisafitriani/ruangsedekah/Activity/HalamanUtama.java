@@ -219,9 +219,11 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.GoogleMap;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -230,10 +232,10 @@ import ap.annisafitriani.ruangsedekah.Fragment.TimelineFragment;
 import ap.annisafitriani.ruangsedekah.R;
 
 
-public class HalamanUtama extends AppCompatActivity implements View.OnClickListener {
+public class HalamanUtama extends AppCompatActivity implements View.OnClickListener, Maps.DataPassListener {
 
     private static final String TAG = "HalamanUtama";
-
+    TimelineFragment timelineFragment = new TimelineFragment();
     private Toolbar toolbar;
     private TabLayout tabLayout;
     private ViewPager viewPager;
@@ -246,7 +248,7 @@ public class HalamanUtama extends AppCompatActivity implements View.OnClickListe
     private android.app.Notification myNotification;
     private NotificationManager notificationManager;
 
-       private FirebaseAuth mAuth;
+    private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
 
     @Override
@@ -263,12 +265,11 @@ public class HalamanUtama extends AppCompatActivity implements View.OnClickListe
 
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
-        adapter = new ViewPagerAdapter(getSupportFragmentManager());
+//        adapter = new ViewPagerAdapter(getSupportFragmentManager());
         setupTabIcons();
         this.notificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
 
         mAuth = FirebaseAuth.getInstance();
-
 
 
 
@@ -291,12 +292,11 @@ public class HalamanUtama extends AppCompatActivity implements View.OnClickListe
         if (id == R.id.menu_profil) {
             Intent intent = new Intent(this, HalamanProfil.class);
             startActivity(intent);
-            finish();
         } else if (id == R.id.menu_logout) {
-            Toast.makeText(this, "menu_logout clicked", Toast.LENGTH_SHORT).show();
-            Log.d(TAG, "onClick: attempting to sign out the user.");
+            Toast.makeText(this, "Logout", Toast.LENGTH_SHORT).show();
+            //Log.d(TAG, "onClick: attempting to sign out the user.");
             FirebaseAuth.getInstance().signOut();
-            Intent intent = new Intent(this, LoginActivity.class);
+            Intent intent = new Intent(this, HalamanAwal.class);
             startActivity(intent);
             finish();
         } else if (id == R.id.home) {
@@ -312,9 +312,10 @@ public class HalamanUtama extends AppCompatActivity implements View.OnClickListe
     }
 
     private void setupViewPager(ViewPager viewPager) {
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        adapter = new ViewPagerAdapter(getSupportFragmentManager(), timelineFragment);
         adapter.addFragment(new Maps(), "MAPS");
-        adapter.addFragment(new TimelineFragment(), "TIMELINE");
+        adapter.addFragment(timelineFragment, "TIMELINE");
+
         viewPager.setAdapter(adapter);
     }
 
@@ -333,13 +334,22 @@ public class HalamanUtama extends AppCompatActivity implements View.OnClickListe
         this.notificationManager.notify(12, this.myNotification);
     }
 
+    @Override
+    public void passData(double lat, double lang, GoogleMap mMap) {
 
-    static class ViewPagerAdapter extends FragmentPagerAdapter {
+        adapter.passData(lat, lang, mMap);
+    }
+
+
+    static class ViewPagerAdapter extends FragmentPagerAdapter implements Maps.DataPassListener{
         private final List<Fragment> mFragmentList = new ArrayList<>();
         private final List<String> mFragmentTitleList = new ArrayList<>();
 
-        public ViewPagerAdapter(FragmentManager manager) {
+        public TimelineFragment timelineFragment;
+
+        public ViewPagerAdapter(FragmentManager manager, TimelineFragment timelineFragment) {
             super(manager);
+            this.timelineFragment = timelineFragment;
         }
 
         @Override
@@ -361,6 +371,12 @@ public class HalamanUtama extends AppCompatActivity implements View.OnClickListe
         public CharSequence getPageTitle(int position) {
             return mFragmentTitleList.get(position);
         }
+
+        @Override
+        public void passData(double lat, double lang, GoogleMap mMap) {
+            Log.d(TAG, "" + lang + lat);
+            ((TimelineFragment)mFragmentList.get(1)).passData(lat, lang, mMap);
+        }
     }
 
     private void setupFirebaseListener() {
@@ -370,8 +386,8 @@ public class HalamanUtama extends AppCompatActivity implements View.OnClickListe
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
-                    Log.d(TAG, "onAuthStateChanged: signed in: " + user.getUid());
-                    Toast.makeText(HalamanUtama.this, user.getUid().toString() , Toast.LENGTH_LONG).show();
+                    Log.d(TAG, "Login Sebagai" + user.getUid());
+              //      Toast.makeText(HalamanUtama.this, "Login Sebagai: " + user.getUid().toString() , Toast.LENGTH_LONG).show();
                 } else {
 //                    Log.d(TAG, "onAuthStateChanged: signed_out");
 //                    Toast.makeText(HalamanUtama.this, "Signed out", Toast.LENGTH_SHORT).show();

@@ -22,6 +22,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -121,7 +123,29 @@ public class Maps extends Fragment implements OnMapReadyCallback, GoogleApiClien
 //        }
 //    }
 
+    DataPassListener mCallback;
+
     private ArrayList<Kegiatan> mListKegiatan = new ArrayList<>();
+
+    public interface DataPassListener{
+        public void passData(double lat, double lang, GoogleMap mMap);
+    }
+
+    @Override
+    public void onAttach(Context context)
+    {
+        super.onAttach(context);
+        // This makes sure that the host activity has implemented the callback interface
+        // If not, it throws an exception
+        try
+        {
+            mCallback = (DataPassListener) context;
+        }
+        catch (ClassCastException e)
+        {
+            throw new ClassCastException(context.toString()+ " must implement OnImageClickListener");
+        }
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -237,6 +261,7 @@ public class Maps extends Fragment implements OnMapReadyCallback, GoogleApiClien
                         if (location != null) {
                             locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
                             moveCamera(new LatLng(location.getLatitude(), location.getLongitude()), DEFAULT_ZOOM, "my Marker");
+                            mCallback.passData(location.getLatitude(), location.getLongitude(), mMap);
                         }
                     }
                 });
@@ -323,7 +348,7 @@ public class Maps extends Fragment implements OnMapReadyCallback, GoogleApiClien
             MarkerOptions options = new MarkerOptions()
                     .position(latLng)
                     .title(title);
-            mMap.addMarker(options);
+         //   mMap.addMarker(options);
         }
 
         hideSoftKeyboard();
@@ -436,10 +461,49 @@ public class Maps extends Fragment implements OnMapReadyCallback, GoogleApiClien
 
     private void addMarkerToMap(ArrayList<Kegiatan> mListKegiatan, GoogleMap googleMap) {
         for (int i = 0; i < mListKegiatan.size(); i++) {
-            LatLng position = new LatLng(mListKegiatan.get(i).getLat(), mListKegiatan.get(i).getLng());
-            googleMap.addMarker(new MarkerOptions().position(position));
+            final Kegiatan kgtn = mListKegiatan.get(i);
+            LatLng position = new LatLng(mListKegiatan.get(i).getLat(), mListKegiatan.get(i).getLang());
+            Marker mMark = googleMap.addMarker(new MarkerOptions().position(position)
+                    .title(kgtn.nama)
+                    .snippet(kgtn.toString()));
 
-            Log.d("setMarkerMap", "all set-" + i);
+
+
+            googleMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
+
+                private View view = getLayoutInflater().inflate(R.layout.marker_view, null);
+
+                @Override
+                public View getInfoWindow(Marker marker) {
+                    final TextView titleUi = ((TextView) view.findViewById(R.id.worldmap_infowindow_username));
+                    String title = marker.getTitle();
+
+                    if (title != null) titleUi.setText(title);
+                    else titleUi.setText("-");
+                    String[] strings = marker.getSnippet().split("[|]");
+
+                    final TextView snippetUi = ((TextView) view.findViewById(R.id.worldmap_infowindow_name));
+                    if (strings[0] != null) snippetUi.setText(strings[0]);
+                    else snippetUi.setText("-");
+
+                    final TextView decUi = ((TextView) view.findViewById(R.id.worldmap_infowindow_details));
+                    if (strings[1] != null) decUi.setText(strings[1]);
+                    else snippetUi.setText("-");
+
+                    return view;
+                }
+
+                @Override
+                public View getInfoContents(Marker marker) {
+                    if (marker != null && marker.isInfoWindowShown()) {
+                        marker.hideInfoWindow();
+                        marker.showInfoWindow();
+                    }
+                    return null;
+                }
+            });
+
+
         }
     }
 }

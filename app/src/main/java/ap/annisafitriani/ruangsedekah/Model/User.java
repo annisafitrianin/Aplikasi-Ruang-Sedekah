@@ -1,10 +1,12 @@
 package ap.annisafitriani.ruangsedekah.Model;
 
+import java.io.Serializable;
+
 /**
  * Created by Hp on 5/3/2018.
  */
 
-public class User {
+public class User{
 
     public String username, email, nohp, password, userId;
 

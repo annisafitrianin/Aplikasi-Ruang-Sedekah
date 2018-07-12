@@ -7,7 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -25,10 +24,12 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import ap.annisafitriani.ruangsedekah.Adapter.ListBerandaAdapter;
 import ap.annisafitriani.ruangsedekah.Model.Kegiatan;
+import ap.annisafitriani.ruangsedekah.Model.User;
 import ap.annisafitriani.ruangsedekah.R;
 
 public class HalamanProfil extends AppCompatActivity {
@@ -41,7 +42,7 @@ public class HalamanProfil extends AppCompatActivity {
 
     RecyclerView rvCategory;
     ListBerandaAdapter adapter;
-    List<Kegiatan> kegiatanItem;
+    LinkedList<Kegiatan> kegiatanItem;
 
     DatabaseReference mRef;
     FirebaseDatabase mDatabase;
@@ -65,7 +66,7 @@ public class HalamanProfil extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance();
         mRef = mDatabase.getReference("Kegiatan");
 
-        kegiatanItem = new ArrayList<>();
+        kegiatanItem = new LinkedList<>();
         rvCategory = (RecyclerView) findViewById(R.id.rv_category);
         rvCategory.setHasFixedSize(true);
 
@@ -82,37 +83,21 @@ public class HalamanProfil extends AppCompatActivity {
         final FirebaseUser user = mAuth.getCurrentUser();
         userId = mAuth.getCurrentUser().getUid();
 
+
         profilUser();
         updateList();
         hideSoftKeyboard();
-
-
-
-//        mRef = FirebaseDatabase.getInstance().getReference();
-//        mRef.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                String username = dataSnapshot.child("Users").child(userId).child("username").getValue(String.class);
-//                tvNama.setText(username);
-//            }
-//
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//
-//            }
-//        });
 
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
-                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
-                    toastMessage("Successfully signed in with: " + user.getEmail());
+                    Log.d(TAG, "onAuthStateChanged:signed_i" + user.getUid());
+                    //toastMessage("Successfully signed in with: " + user.getEmail());
                 } else {
                     Log.d(TAG, "onAuthStateChanged:signed_out");
-                    toastMessage("Successfully signed out.");
+                    //toastMessage("Successfully signed out.");
                 }
             }
         };
@@ -121,47 +106,62 @@ public class HalamanProfil extends AppCompatActivity {
 
 
     private void profilUser(){
-
-        FirebaseUser user = mAuth.getCurrentUser();
-        if (user != null){
-            if (user.getEmail() != null){
-                tvEmail.setText(user.getEmail());
+        DatabaseReference userRef = mDatabase.getReference("Users");
+        Query query = userRef.child(userId);
+        query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                tvEmail.setText(dataSnapshot.child("email").getValue().toString());
+                tvNama.setText(dataSnapshot.child("username").getValue().toString());
             }
 
-        }
-        }
-    private void updateList() {
-//        Query query = mRef.child("Kegiatan").orderByChild("userId").equalTo(user.getUid());
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
 
-//        query.addValueEventListener(new ValueEventListener() {
+            }
+        });
+    }
+    private void updateList() {
+        final Query query = mRef.orderByChild("userId").equalTo(userId);
+        if(query != null) {
+            query.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    for (DataSnapshot data : dataSnapshot.getChildren()){
+                        kegiatanItem.addFirst(data.getValue(Kegiatan.class));
+                        adapter.notifyDataSetChanged();
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+        }
+
         mRef.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
-                kegiatanItem.add(dataSnapshot.getValue(Kegiatan.class));
-                adapter.notifyDataSetChanged();
             }
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
                 Kegiatan kegiatan = dataSnapshot.getValue(Kegiatan.class);
                 int index = getItemIndex(kegiatan);
 
                 kegiatanItem.set(index, kegiatan);
                 adapter.notifyItemChanged(index);
-
             }
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-
                 Kegiatan kegiatan = dataSnapshot.getValue(Kegiatan.class);
                 int index = getItemIndex(kegiatan);
 
                 kegiatanItem.remove(index);
                 adapter.notifyDataSetChanged();
-
             }
 
             @Override
@@ -174,53 +174,6 @@ public class HalamanProfil extends AppCompatActivity {
 
             }
         });
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                kegiatanItem.add(dataSnapshot.getValue(Kegiatan.class));
-//                adapter.notifyDataSetChanged();
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//
-//            }
-//        });
-//
-//        query.addChildEventListener(new ChildEventListener() {
-//            @Override
-//            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-//                kegiatanItem.add(dataSnapshot.getValue(Kegiatan.class));
-//                adapter.notifyDataSetChanged();
-//            }
-//
-//            @Override
-//            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-//                Kegiatan kegiatan = dataSnapshot.getValue(Kegiatan.class);
-//                int index = getItemIndex(kegiatan);
-//
-//                kegiatanItem.set(index, kegiatan);
-//                adapter.notifyItemChanged(index);
-//            }
-//
-//            @Override
-//            public void onChildRemoved(DataSnapshot dataSnapshot) {
-//                Kegiatan kegiatan = dataSnapshot.getValue(Kegiatan.class);
-//                int index = getItemIndex(kegiatan);
-//
-//                kegiatanItem.remove(index);
-//                adapter.notifyDataSetChanged();
-//            }
-//
-//            @Override
-//            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-//
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//
-//            }
-//        });
     }
 
     private int getItemIndex(Kegiatan kegiatan) {
@@ -258,4 +211,3 @@ public class HalamanProfil extends AppCompatActivity {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 }
-

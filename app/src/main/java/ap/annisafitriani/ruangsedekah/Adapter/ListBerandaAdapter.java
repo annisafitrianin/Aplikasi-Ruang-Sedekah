@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import ap.annisafitriani.ruangsedekah.Activity.CreateActivity;
@@ -28,7 +29,7 @@ import ap.annisafitriani.ruangsedekah.R;
  */
 
 public class ListBerandaAdapter extends RecyclerView.Adapter<ListBerandaAdapter.CategoryViewHolder> {
-    List<Kegiatan> listKegiatan;
+    LinkedList<Kegiatan> listKegiatan;
     private Activity activity;
     Context context;
     DatabaseReference mRef;
@@ -39,8 +40,8 @@ public class ListBerandaAdapter extends RecyclerView.Adapter<ListBerandaAdapter.
     EditText etDesc;
 
 
-    public ListBerandaAdapter(List<Kegiatan> listKegiatan, DatabaseReference mRef, EditText etNama,
-                              EditText etDateResult,EditText etWaktu, EditText etLokasi,EditText etDesc   ) {
+    public ListBerandaAdapter(LinkedList<Kegiatan> listKegiatan, DatabaseReference mRef, EditText etNama,
+                              EditText etDateResult, EditText etWaktu, EditText etLokasi, EditText etDesc) {
         this.listKegiatan = listKegiatan;
         this.mRef = mRef;
         this.etNama = etNama;
@@ -74,18 +75,19 @@ public class ListBerandaAdapter extends RecyclerView.Adapter<ListBerandaAdapter.
 
                 AlertDialog.Builder alert = new AlertDialog.Builder(context);
                 alert.setTitle("delete data");
-                alert.setMessage("Do you want to delete?");
-                alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                alert.setMessage("Apakah anda yakin akan menghapus informasi?");
+                alert.setPositiveButton("Ya", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         mRef.child(kegiatan.getId()).removeValue();
-                        Toast.makeText(context, "delete completed", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "Informasi Kegiatan Dihapus", Toast.LENGTH_SHORT).show();
+
                     }
                 });
-                alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                alert.setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        Toast.makeText(context, "eror delete", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "", Toast.LENGTH_SHORT).show();
                     }
                 });
                 alert.create().show();
@@ -100,6 +102,7 @@ public class ListBerandaAdapter extends RecyclerView.Adapter<ListBerandaAdapter.
                 Intent intent = new Intent(context, CreateActivity.class);
                 intent.putExtra("kegiatan", kegiatan);
                 context.startActivity(intent);
+                ((Activity) context).finish();
             }
         });
 
@@ -112,15 +115,11 @@ public class ListBerandaAdapter extends RecyclerView.Adapter<ListBerandaAdapter.
 //        });
 
 
-
-
-
 //        Glide.with(context)
 //                .load(kegiatan.getLokasi())
 //                .into(holder.locLokasi);
 
     }
-
 
 
     @Override
@@ -136,7 +135,6 @@ public class ListBerandaAdapter extends RecyclerView.Adapter<ListBerandaAdapter.
         TextView tvDesc;
         Button btnHapus;
         Button btnEdit;
-
 
 
         public CategoryViewHolder(View itemView) {

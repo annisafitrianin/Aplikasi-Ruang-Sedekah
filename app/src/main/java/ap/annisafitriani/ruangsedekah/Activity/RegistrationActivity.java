@@ -120,25 +120,25 @@ public class RegistrationActivity extends AppCompatActivity {
 
         //checking if email and passwords are empty
         if (TextUtils.isEmpty(email)) {
-            Toast.makeText(getApplicationContext(), "Enter email address!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Masukkan Email", Toast.LENGTH_SHORT).show();
             return;
         }
         if (TextUtils.isEmpty(nama)) {
-            Toast.makeText(getApplicationContext(), "Enter nama", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Masukkan Username", Toast.LENGTH_SHORT).show();
             return;
         }
         if (TextUtils.isEmpty(no_hp)) {
-            Toast.makeText(getApplicationContext(), "Enter email address!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Masukkan Nomor Hp", Toast.LENGTH_SHORT).show();
             return;
         }
 
         if (TextUtils.isEmpty(password)) {
-            Toast.makeText(getApplicationContext(), "Enter password!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Masukkan Password", Toast.LENGTH_SHORT).show();
             return;
         }
 
         if (password.length() < 6) {
-            Toast.makeText(getApplicationContext(), "Password too short, enter minimum 6 characters!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Password terlalu pendek, masukkan minimal 6 karakter", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -156,7 +156,7 @@ public class RegistrationActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         //checking if success
                         if (!email.equals("") && !password.equals("") && !nama.equals("") && !no_hp.equals("")) {
-                            Toast.makeText(RegistrationActivity.this, "Successfully registered", Toast.LENGTH_LONG).show();
+                            Toast.makeText(RegistrationActivity.this, "Pengguna Behasil ditambahkan", Toast.LENGTH_LONG).show();
                             inputEmail.setText("");
                             inputPassword.setText("");
                             inputNama.setText("");
@@ -169,7 +169,7 @@ public class RegistrationActivity extends AppCompatActivity {
                             startActivity(new Intent(RegistrationActivity.this, HalamanUtama.class));
                         } else {
                             //display some message here
-                            Toast.makeText(RegistrationActivity.this, "Registration Error", Toast.LENGTH_LONG).show();
+                            Toast.makeText(RegistrationActivity.this, "registrasi gagal", Toast.LENGTH_LONG).show();
                         }
 
                     }

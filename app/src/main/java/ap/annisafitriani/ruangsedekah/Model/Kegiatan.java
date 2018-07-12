@@ -8,26 +8,26 @@ import java.io.Serializable;
 
 public class Kegiatan implements Serializable {
 
-    public String nama, deskripsi, photo, tanggal, waktu, lokasi, id;
-    public double lat,lang;
+    public String nama, deskripsi, tanggal, waktu, id, lokasi, userId;
+    public Double lang, lat;
 
-
-    public Kegiatan() { }
 
     public Kegiatan(String nama, String tanggal, String waktu, String deskripsi, String id, String lokasi, String userId, Double lat, Double lang) {
-
         this.nama = nama;
         this.deskripsi = deskripsi;
-        this.photo = photo;
         this.tanggal = tanggal;
         this.waktu = waktu;
+        this.id = id;
         this.lokasi = lokasi;
         this.lat = lat;
         this.lang = lang;
-
+        this.userId = userId;
 
     }
 
+    public Kegiatan() {
+
+    }
 
     public String getNama() {
         return nama;
@@ -35,22 +35,6 @@ public class Kegiatan implements Serializable {
 
     public void setNama(String nama) {
         this.nama = nama;
-    }
-
-    public String getDeskripsi() {
-        return deskripsi;
-    }
-
-    public void setDeskripsi(String deskripsi) {
-        this.deskripsi = deskripsi;
-    }
-
-    public String getPhoto() {
-        return photo;
-    }
-
-    public void setPhoto(String photo) {
-        this.photo = photo;
     }
 
     public String getTanggal() {
@@ -66,6 +50,7 @@ public class Kegiatan implements Serializable {
     }
 
     public void setWaktu(String waktu) {
+
         this.waktu = waktu;
     }
 
@@ -77,6 +62,14 @@ public class Kegiatan implements Serializable {
         this.lokasi = lokasi;
     }
 
+    public String getDeskripsi() {
+        return deskripsi;
+    }
+
+    public void setDeskripsi(String deskripsi) {
+        this.deskripsi = deskripsi;
+    }
+
     public String getId() {
         return id;
     }
@@ -85,20 +78,34 @@ public class Kegiatan implements Serializable {
         this.id = id;
     }
 
-    public double getLat() {
+    public Double getLat() {
         return lat;
     }
 
-    public void setLat(double lat) {
-        this.lat = lat;
+    public void setLat(Double lat) {
+        this.lat =lat;
     }
 
-    public double getLng() {
+    public Double getLang() {
         return lang;
     }
 
-    public void setLng(double lng) {
-        this.lang = lng;
+    public void setLang(Double lang) {
+        this.lang = lang;
+    }
 
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    @Override
+    public String toString() {
+        return "Waktu: " + waktu + "\n" +
+                "Tanggal : " + tanggal + "\n" +
+                "Lokasi : " + lokasi + "|" + deskripsi;
     }
 }

@@ -1,5 +1,6 @@
 package ap.annisafitriani.ruangsedekah.Activity;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
@@ -49,11 +50,12 @@ public class CreateActivity extends AppCompatActivity {
     private TextView tvTimeResult;
     private Marker mMarker;
     private GoogleMap mMap;
-
-    private double lat,lang;
-//    private PlaceInfo mPlace;
     private String id;
     public static Kegiatan kegiatan;
+
+    private double lang, lat;
+
+//    private PlaceInfo mPlace;
 
     DatabaseReference mDatabase;
     int PLACE_PICKER_REQUEST = 1;
@@ -66,15 +68,16 @@ public class CreateActivity extends AppCompatActivity {
 
         dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
 
+
         etDateResult = (EditText) findViewById(R.id.et_DateResult);
         btnPickDate = (Button) findViewById(R.id.btn_pickdate);
         ibTime = (ImageButton) findViewById(R.id.ib_time);
+
         ibLoc = (ImageButton) findViewById(R.id.ib_loc);
         etNama = (EditText) findViewById(R.id.et_namaKegiatan);
         etDesc = (EditText) findViewById(R.id.et_desc);
         tvLocResult = (TextView) findViewById(R.id.tv_locResult);
         tvTimeResult = (TextView) findViewById(R.id.tv_timeResult);
-        btnSubmit = (Button) findViewById(R.id.btn_submit);
 
         btnPickDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,6 +85,7 @@ public class CreateActivity extends AppCompatActivity {
                 showDateDialog();
             }
         });
+        btnSubmit = (Button) findViewById(R.id.btn_submit);
 
         ibTime.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,10 +94,15 @@ public class CreateActivity extends AppCompatActivity {
             }
         });
 
+        mDatabase = FirebaseDatabase.getInstance().getReference("Kegiatan");
+
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (kegiatan != null) createKegiatan();
+                if (kegiatan != null)
+                    updateKegiatan();
+                else
+                    createKegiatan();
             }
         });
 
@@ -117,11 +126,10 @@ public class CreateActivity extends AppCompatActivity {
 
         });
 
-        mDatabase = FirebaseDatabase.getInstance().getReference("Kegiatan");
-
         kegiatan = (Kegiatan) getIntent().getSerializableExtra("kegiatan");
 
-        if (kegiatan != null) {
+        if (kegiatan != null)
+        {
             etDateResult.setText(kegiatan.tanggal);
             etNama.setText(kegiatan.nama);
             etDesc.setText(kegiatan.deskripsi);
@@ -131,33 +139,50 @@ public class CreateActivity extends AppCompatActivity {
         }
     }
 
-//    private void updateKegiatan() {
-//        //getting the values to save
-//        String date = etDateResult.getText().toString().trim();
-//        String nama = etNama.getText().toString().trim();
-//        String desc = etDesc.getText().toString().trim();
-//        String time = tvTimeResult.getText().toString().trim();
-//        String loc = tvLocResult.getText().toString().trim();
-//        String userId = kegiatan.userId;
-//        Double lat = kegiatan.lat;
-//        Double lang = kegiatan.lang;
-//
-//        if (!TextUtils.isEmpty(nama)) {
-//            Kegiatan kegiatan = new Kegiatan(nama, date, time, desc, id, loc, userId, lat, lang);
-//
-//            mDatabase.child(id).setValue(kegiatan);
-//
-//            etNama.setText("");
-//
-//            Toast.makeText(this, "Informasi Sedekah Berhasil Diperbarui", Toast.LENGTH_LONG).show();
-//            Intent intent = new Intent(CreateActivity.this, HalamanProfil.class);
-//            startActivity(intent);
-//        } else {
-//            Toast.makeText(this, "Masukkan Nama Kegiatan", Toast.LENGTH_LONG).show();
-//        }
-//    }
+    private  void updateKegiatan()
+    {
+        //getting the values to save
+        String date = etDateResult.getText().toString().trim();
+        String nama = etNama.getText().toString().trim();
+        String desc = etDesc.getText().toString().trim();
+        String time = tvTimeResult.getText().toString().trim();
+        String loc = tvLocResult.getText().toString().trim();
+        String userId = kegiatan.userId;
+        Double lat = kegiatan.lat;
+        Double lang = kegiatan.lang;
+
+
+        if (TextUtils.isEmpty(nama)) {
+            Toast.makeText(this, "Masukkan Nama Kegiatan", Toast.LENGTH_LONG).show();
+        } else if (TextUtils.isEmpty(date)) {
+            Toast.makeText(this, "Pilih Tanggal Kegiatan", Toast.LENGTH_LONG).show();
+        }else if (TextUtils.isEmpty(time)) {
+            Toast.makeText(this, "Pilih Waktu Kegiatan", Toast.LENGTH_LONG).show();
+        }else if (TextUtils.isEmpty(loc)) {
+            Toast.makeText(this, "Pilih Lokasi Kegiatan", Toast.LENGTH_LONG).show();
+        }else{
+
+            //creating an Artist Object
+            Kegiatan kegiatan = new Kegiatan(nama, date, time, desc, id, loc, userId, lat, lang);
+
+            //Saving the Artist
+
+            mDatabase.child(id).setValue(kegiatan);
+
+            //displaying a success toast
+            Toast.makeText(this, "Informasi berhasil diedit", Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(CreateActivity.this, HalamanUtama.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+        }
+
+
+//        String id = mDatabase.push().getKey();
+
+    }
 
     private void createKegiatan() {
+        //getting the values to save
         String date = etDateResult.getText().toString().trim();
         String nama = etNama.getText().toString().trim();
         String desc = etDesc.getText().toString().trim();
@@ -167,22 +192,33 @@ public class CreateActivity extends AppCompatActivity {
         double lat = this.lat;
         double lang = this.lang;
 
-        if (!TextUtils.isEmpty(nama)) {
 
+        if (TextUtils.isEmpty(nama)) {
+            Toast.makeText(this, "Masukkan Nama Kegiatan", Toast.LENGTH_LONG).show();
+            return;
+        } else if (TextUtils.isEmpty(date)) {
+            Toast.makeText(this, "Pilih Tanggal Kegiatan", Toast.LENGTH_LONG).show();
+            return;
+        }else if (TextUtils.isEmpty(time)) {
+            Toast.makeText(this, "Pilih Waktu Kegiatan", Toast.LENGTH_LONG).show();
+            return;
+        }else if (TextUtils.isEmpty(loc)) {
+            Toast.makeText(this, "Pilih Lokasi Kegiatan", Toast.LENGTH_LONG).show();
+            return;
+        }else{
             String id = mDatabase.push().getKey();
 
             //creating an Artist Object
             Kegiatan kegiatan = new Kegiatan(nama, date, time, desc, id, loc, userId, lat, lang);
 
+            //Saving the Artist
             mDatabase.child(id).setValue(kegiatan);
 
-            etNama.setText("");
-
-            Toast.makeText(this, "Informasi Sedekah Berhasil Ditambahkan", Toast.LENGTH_LONG).show();
+            //displaying a success toast
+            Toast.makeText(this, "Kegiatan Baru ditambahkan", Toast.LENGTH_LONG).show();
             Intent intent = new Intent(CreateActivity.this, HalamanUtama.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
-        } else {
-            Toast.makeText(this, "Masukkan Nama Kegiatan", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -190,7 +226,7 @@ public class CreateActivity extends AppCompatActivity {
     private void showDateDialog() {
         Calendar newCalendar = Calendar.getInstance();
 
-        datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+        datePickerDialog = new DatePickerDialog(this, AlertDialog.THEME_DEVICE_DEFAULT_DARK, new DatePickerDialog.OnDateSetListener() {
 
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
@@ -205,7 +241,7 @@ public class CreateActivity extends AppCompatActivity {
 
     private void showTimeDialog() {
         Calendar calendar = Calendar.getInstance();
-        timePickerDialog = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
+        timePickerDialog = new TimePickerDialog(this, AlertDialog.THEME_DEVICE_DEFAULT_DARK, new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                 Calendar newTime = Calendar.getInstance();
@@ -238,7 +274,8 @@ public class CreateActivity extends AppCompatActivity {
     }
 
 
-    private void hideSoftKeyboard() {
+
+    private void hideSoftKeyboard(){
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
     }
 }
