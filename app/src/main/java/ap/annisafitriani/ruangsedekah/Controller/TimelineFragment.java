@@ -1,6 +1,7 @@
 package ap.annisafitriani.ruangsedekah.Controller;
 
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -37,7 +38,7 @@ import ap.annisafitriani.ruangsedekah.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class TimelineFragment extends Fragment implements MapFragment.DataPassListener {
+public class TimelineFragment extends Fragment implements MapFragment.DataPassListener, ListTimelineAdapter.ChangeViewPagerItemListener {
 
     RecyclerView rvCategory;
     ListTimelineAdapter adapter;
@@ -48,7 +49,6 @@ public class TimelineFragment extends Fragment implements MapFragment.DataPassLi
 
     double lat;
     double lang;
-    GoogleMap mMap;
 
     Spinner spinner;
     ArrayAdapter<String>dataAdapter;
@@ -263,10 +263,14 @@ public class TimelineFragment extends Fragment implements MapFragment.DataPassLi
     }
 
     @Override
-    public void passData(double lat, double lang, GoogleMap mMap) {
+    public void passData(double lat, double lang, GoogleMap mMap, LinkedList markerList) {
         this.lat = lat;
         this.lang = lang;
-        this.mMap = mMap;
-        adapter.passData(lat, lang, mMap);
+        adapter.passData(lat, lang, mMap, markerList);
+    }
+
+    @Override
+    public void item(int x) {
+        ((HalamanUtamaActivity)getContext()).item(x);
     }
 }

@@ -220,15 +220,19 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import ap.annisafitriani.ruangsedekah.R;
 
 
-public class HalamanUtamaActivity extends AppCompatActivity implements View.OnClickListener, MapFragment.DataPassListener {
+public class HalamanUtamaActivity extends AppCompatActivity implements View.OnClickListener, MapFragment.DataPassListener, ListTimelineAdapter.ChangeViewPagerItemListener{
 
     private static final String TAG = "HalamanUtamaActivity";
     TimelineFragment timelineFragment = new TimelineFragment();
+
+    private int x;
+
     private Toolbar toolbar;
     private TabLayout tabLayout;
     private ViewPager viewPager;
@@ -328,9 +332,14 @@ public class HalamanUtamaActivity extends AppCompatActivity implements View.OnCl
     }
 
     @Override
-    public void passData(double lat, double lang, GoogleMap mMap) {
+    public void passData(double lat, double lang, GoogleMap mMap, LinkedList markerList) {
 
-        adapter.passData(lat, lang, mMap);
+        adapter.passData(lat, lang, mMap, markerList);
+    }
+
+    @Override
+    public void item(int x) {
+        viewPager.setCurrentItem(x,true);
     }
 
 
@@ -343,6 +352,7 @@ public class HalamanUtamaActivity extends AppCompatActivity implements View.OnCl
         public ViewPagerAdapter(FragmentManager manager, TimelineFragment timelineFragment) {
             super(manager);
             this.timelineFragment = timelineFragment;
+
         }
 
         @Override
@@ -366,9 +376,9 @@ public class HalamanUtamaActivity extends AppCompatActivity implements View.OnCl
         }
 
         @Override
-        public void passData(double lat, double lang, GoogleMap mMap) {
+        public void passData(double lat, double lang, GoogleMap mMap, LinkedList markerList) {
             Log.d(TAG, "" + lang + lat);
-            ((TimelineFragment)mFragmentList.get(1)).passData(lat, lang, mMap);
+            ((TimelineFragment)mFragmentList.get(1)).passData(lat, lang, mMap, markerList);
         }
     }
 

@@ -50,6 +50,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import ap.annisafitriani.ruangsedekah.Model.Kegiatan;
@@ -60,12 +61,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
     private Kegiatan mKegiatan;
     private DatabaseReference mDatabase;
     private DatabaseReference refDatabase;
-
+    private Context mContext;
 
     private GoogleMap mMap;
     MapView mMapView;
     View mView;
-    private Context mContext;
+    private LinkedList<Marker> markerList;
     private SupportMapFragment supportMapFragment;
 
     ImageView mylocation;
@@ -91,47 +92,25 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
     private FirebaseAuth.AuthStateListener mAuthListener;
     private DatabaseReference myRef;
 
-//    @Override
-//    public void onMapReady(GoogleMap googleMap) {
-//
-//        Log.d(TAG, "onMapReady: map is ready");
-//        mMap = googleMap;
-//
-//        if (mLocationPermissionsGranted) {
-//            getDeviceLocation();
-//
-//            if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION)
-//                    != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(),
-//                    Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-//                return;
-//            }
-//            mMap.setMyLocationEnabled(true);
-//            mMap.getUiSettings().setMyLocationButtonEnabled(false);
-//
-//        }
-//    }
-
     DataPassListener mCallback;
 
     private ArrayList<Kegiatan> mListKegiatan = new ArrayList<>();
 
     public interface DataPassListener{
-        public void passData(double lat, double lang, GoogleMap mMap);
+        public void passData(double lat, double lang, GoogleMap mMap, LinkedList markerList);
     }
 
     @Override
     public void onAttach(Context context)
     {
         super.onAttach(context);
-        // This makes sure that the host activity has implemented the callback interface
-        // If not, it throws an exception
         try
         {
             mCallback = (DataPassListener) context;
         }
         catch (ClassCastException e)
         {
-            throw new ClassCastException(context.toString()+ " must implement OnImageClickListener");
+            throw new ClassCastException(context.toString()+ " must implement DataPassListener");
         }
     }
 
@@ -180,7 +159,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
 
         }
 
-
         createEvent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -190,6 +168,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
                 startActivity(intent);
             }
         });
+
+        markerList = new LinkedList<Marker>();
 
         return mView;
     }
@@ -249,25 +229,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
                         if (location != null) {
                             locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
                             moveCamera(new LatLng(location.getLatitude(), location.getLongitude()), DEFAULT_ZOOM, "my Marker");
-                            mCallback.passData(location.getLatitude(), location.getLongitude(), mMap);
+                            mCallback.passData(location.getLatitude(), location.getLongitude(), mMap, markerList);
                         }
                     }
                 });
-
-
-//                final Task location = mFusedLocationProviderClient.getLastLocation();
-//                location.addOnCompleteListener(new OnCompleteListener() {
-//                    @Override
-//                    public void onComplete(@NonNull Task task) {
-//                        if (task.isSuccessful()) {
-//                            Log.d(TAG, "onComplete: found location!");
-//
-//                        } else {
-//                            Log.d(TAG, "onComplete: current location is null");
-//                            Toast.makeText(getContext(), "unable to get current location", Toast.LENGTH_SHORT).show();
-//                        }
-//                    }
-//                });
             }
         } catch (SecurityException e) {
             Log.e(TAG, "getDeviceLocation: SecurityException: " + e.getMessage());
@@ -336,7 +301,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
             MarkerOptions options = new MarkerOptions()
                     .position(latLng)
                     .title(title);
-         //   mMap.addMarker(options);
         }
 
         hideSoftKeyboard();
@@ -455,8 +419,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
                     .title(kgtn.nama)
                     .snippet(kgtn.toString()));
 
-
-
             googleMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
 
                 private View view = getLayoutInflater().inflate(R.layout.marker_view, null);
@@ -477,6 +439,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
                     final TextView decUi = ((TextView) view.findViewById(R.id.worldmap_infowindow_details));
                     if (strings[1] != null) decUi.setText(strings[1]);
                     else snippetUi.setText("-");
+
+                    markerList.add(marker);
 
                     return view;
                 }
