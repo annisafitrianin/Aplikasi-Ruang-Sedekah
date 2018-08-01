@@ -10,13 +10,11 @@ public class Lokasi implements Serializable {
 
     private String namaTempat;
     private String lokasiId;
-    private String kegiatanId;
     private Double lat, lang;
 
-    public Lokasi(String namaTempat, String lokasiId, String kegiatanId, Double lat, Double lang) {
+    public Lokasi(String namaTempat, String lokasiId, Double lat, Double lang) {
         this.namaTempat = namaTempat;
         this.lokasiId = lokasiId;
-        this.kegiatanId = kegiatanId;
         this.lat = lat;
         this.lang = lang;
     }
@@ -38,14 +36,6 @@ public class Lokasi implements Serializable {
 
     public void setLokasiId(String lokasiId) {
         this.lokasiId = lokasiId;
-    }
-
-    public String getKegiatanId() {
-        return kegiatanId;
-    }
-
-    public void setKegiatanId(String kegiatanId) {
-        this.kegiatanId = kegiatanId;
     }
 
     public Double getLat() {

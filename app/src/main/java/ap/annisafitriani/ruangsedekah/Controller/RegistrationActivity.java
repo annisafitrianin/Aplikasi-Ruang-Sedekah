@@ -164,7 +164,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
                             if (task.isSuccessful()) {
                                 Member user = new Member(email, password, nama, no_hp, mAuth.getCurrentUser().getUid());
-                                myRef.child("Users").child(mAuth.getCurrentUser().getUid()).setValue(user);
+                                myRef.child("Member").child(mAuth.getCurrentUser().getUid()).setValue(user);
                             }
                             startActivity(new Intent(RegistrationActivity.this, HalamanUtamaActivity.class));
                         } else {

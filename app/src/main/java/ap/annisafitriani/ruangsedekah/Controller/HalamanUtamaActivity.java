@@ -297,8 +297,8 @@ public class HalamanUtamaActivity extends AppCompatActivity implements View.OnCl
             Intent intent = new Intent(this, HalamanAwalActivity.class);
             startActivity(intent);
             finish();
-        } else if (id == R.id.home) {
-            onBackPressed();
+//        } else if (id == R.id.home) {
+//            onBackPressed();
         }
         return true;
 

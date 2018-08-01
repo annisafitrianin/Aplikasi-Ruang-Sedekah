@@ -155,7 +155,7 @@ public class BuatKegiatanActivity extends AppCompatActivity {
         lokasi.setLokasiId(kegiatan.getLokasi().getLokasiId());
         lokasi.setLang(lang);
         lokasi.setLat(lat);
-        lokasi.setKegiatanId(kegiatan.getId());
+//        lokasi.setKegiatanId(kegiatan.getId());
         lokasi.setNamaTempat(loc);
 
 
@@ -185,7 +185,7 @@ public class BuatKegiatanActivity extends AppCompatActivity {
     }
 
     private void createKegiatan() {
-        //getting the values to save
+
         String date = etDateResult.getText().toString().trim();
         String nama = etNama.getText().toString().trim();
         String desc = etDesc.getText().toString().trim();
@@ -198,6 +198,9 @@ public class BuatKegiatanActivity extends AppCompatActivity {
         lokasi.setLat(lat);
         lokasi.setLang(lang);
         lokasi.setNamaTempat(loc);
+
+
+
 
         if (TextUtils.isEmpty(nama)) {
             Toast.makeText(this, "Masukkan Nama Kegiatan", Toast.LENGTH_LONG).show();
@@ -214,7 +217,7 @@ public class BuatKegiatanActivity extends AppCompatActivity {
         }else{
             String id = mDatabase.push().getKey();
             String lokasiId = FirebaseDatabase.getInstance().getReference("Lokasi").push().getKey();
-            lokasi.setKegiatanId(id);
+//            lokasi.setKegiatanId(id);
             lokasi.setLokasiId(lokasiId);
 
             //creating an Artist Object

@@ -78,7 +78,7 @@ public class ListTimelineAdapter extends RecyclerView.Adapter<ListTimelineAdapte
                 }
 
                 LatLng location = new LatLng(kegiatan.getLokasi().getLat(), kegiatan.getLokasi().getLang());
-                CameraPosition INIT = new CameraPosition.Builder().target(location).zoom(15.5F).bearing(300F) // orientation
+                CameraPosition INIT = new CameraPosition.Builder().target(location).zoom(16.5F).bearing(300F) // orientation
                         .build();
 
                 mMap.moveCamera(CameraUpdateFactory.newCameraPosition(INIT));

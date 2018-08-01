@@ -102,7 +102,7 @@ public class HalamanProfilActivity extends AppCompatActivity {
 
 
     private void profilUser(){
-        DatabaseReference userRef = mDatabase.getReference("Users");
+        DatabaseReference userRef = mDatabase.getReference("Member");
         Query query = userRef.child(userId);
         query.addValueEventListener(new ValueEventListener() {
             @Override
